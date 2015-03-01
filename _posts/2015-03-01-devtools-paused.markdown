@@ -10,13 +10,16 @@ categories: js devtools
 The frontend receives a "Debugger.paused" method
 
 The method contains four params: callFrames, reason, data, hitBreakpoints, asyncStackTrace.  
+
 The callFrame has fields: callFrameId, functionName, location, scopeChain, this
 
 There are several reasons execution could stop:
+
 + XHR, DOM, EventListener, exception, assert, CSPViolation, debugCommand, promiseRejection, AsyncOperation, other
 + When you set a breakpoint in the source panel, the reason is other. At this point, the hitBreakpoints field will show the script, line number and column number of the hit breakpoint (e.g. http://localhost:3000/bundle.js:26641:0)
 
 A sample `callFrame` result looks something like this:
+
 + the `functionName` and `location` are useful for seeing where the execution stopped
 + the `scopeChain` will show the list of closures at that frame (local, closure..., global)
 + the `this` field shows the current context at that frame.

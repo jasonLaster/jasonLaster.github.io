@@ -1,5 +1,5 @@
 name: A developer in NYC
 markdown: redcarpet
-pygments: true
+highlighter: true
 description: 
 url: http://jasonlaster.github.io/ 

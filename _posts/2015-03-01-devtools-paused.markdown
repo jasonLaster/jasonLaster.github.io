@@ -77,6 +77,7 @@ A sample `callFrame` result looks something like this:
 Scenario: We click on the "this" field in the local scope section.
 
 1. The front-end makes a Runtime.getProperties request
+
 ```json
 {
     "id":28,
@@ -128,24 +129,29 @@ There's a lot here to unpack here, but first just skim the call stack. It's inte
 
 
 InspectorBackend.js
+
 + InspectorBackendClass.WebSocketConnection._onMessage
 + InspectorBackendClass.Connection.dispatch
 + InspectorBackendClass.AgentPrototype.dispatchResponse
 
 RemoteObject.js
+
 + remoteObjectBinder
 + ownPropertiesCallback
 + processCallback
 
 ObjectPropertiesSection.js
+
 + callback
 + WebInspector.ObjectPropertyTreeElement.populateWithProperties
 
 treeoutline.js
+
 + TreeElement.appendChild
 + TreeElement.insertChild
 
 ObjectPropertiesSection.js
+
 + WebInspector.ObjectPropertyTreeElement.onattach
 + WebInspector.ObjectPropertyTreeElement.update
 
@@ -231,18 +237,23 @@ the backend actually sends the message and associated data, trust me, this story
 Here's an overview, that we'll unpack below.
 
 InspectorDebuggerAgent.cpp
+
 + InspectorDebuggerAgent::didPause
 
 InspectorFrontend.cpp  
+
 + m_frontend->paused(currentCallFrames(), m_breakReason, m_breakAuxData, hitBreakpointIds, currentAsyncStackTrace());
 
 InspectorDebuggerAgent.cpp
+
 + PassRefPtr<Array<CallFrame> > InspectorDebuggerAgent::currentCallFrames
 
 InjectedScript.cpp
+
 + injectedScript.wrapCallFrames(m_currentCallStack, 0);
 
 InjectedScriptSource.js
+
 + ScriptFunctionCall function(injectedScriptObject(), "wrapCallFrames");
 + InjectedScript.CallFrameProxy(depth, callFrame, asyncOrdinal);
 + InjectedScript.wrapObject(callFrame.thisObject, "backtrace")
@@ -268,7 +279,7 @@ So, the first part of the answer is that backend sends the "Debugger.paused" mes
 
 Determining how the call frame data is constructed is a little bit of a rabbit hole, but it's super interesting. So lets get started.
 
-1. currentCallFrames
+.1. currentCallFrames
 
 CurrentCallFrames is a simple helper method for querying injected scripts.
 Note, we pass the call stack down to script to serialize the call frame data.
@@ -280,7 +291,7 @@ PassRefPtr<Array<CallFrame> > InspectorDebuggerAgent::currentCallFrames() {
 }  
 ```
 
-2. wrapCallFrames
+.2. wrapCallFrames
 
 The injected script manager does something crazy cool. Something so cool, that if you don't
 stop doing what you're doing and pause for 10 seconds, you've got no pulse. The script manager
@@ -300,7 +311,7 @@ PassRefPtr<Array<CallFrame> > InjectedScript::wrapCallFrames(const ScriptValue& 
 }
 ```
 
-3. wrapCallFrames (part 2)
+.3. wrapCallFrames (part 2)
 
 On the JS side of the isle, things become simple again.
 Here we create a couple CallFrameProxy objects. Why, because we like our data objects in devTools land.
@@ -319,7 +330,7 @@ function wrapCallFrames(callFrame, asyncOrdinal) {
 },
 ```
 
-4. CallFrameProxy
+.4. CallFrameProxy
 
 The call frame should have an id, location, scope chain, and context.
 + The scope chain will be our closures (local, ..., global).
@@ -350,7 +361,7 @@ InjectedScript.CallFrameProxy = function(ordinal, callFrame, asyncOrdinal) {
 }
 ```
 
-5. wrapObject
+.5. wrapObject
 
 Did you see all of the `_wrapX` calls above? Well this is what it basically looks like.
 Don't be afraid, RemoteObjects is actually a really fundamental piece of DevTools. Remember how we
@@ -362,7 +373,7 @@ _wrapObject = function(object, forceValueType, generatePreview) {
 },
 ```
 
-6. RemoteObject
+.6. RemoteObject
 
 RemoteObject takes an object and serializes. Almost every object shown in chrome devtools has
 been serialized by RemoteObject and all of it's data shipped up the inspector. When you look at

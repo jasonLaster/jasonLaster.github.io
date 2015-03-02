@@ -1,5 +1,8 @@
 name: The Daily Picayune
 markdown: redcarpet
-highlighter: true
+pygments: true
 description: Custom bike builders who do not call initialize
 url: http://jasonlaster.github.io/
+syntax-highlighting:
+  enabled : true
+  css: syntax.css

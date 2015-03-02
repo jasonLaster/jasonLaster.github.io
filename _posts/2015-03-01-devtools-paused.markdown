@@ -290,9 +290,10 @@ The fact that the paused method matches up to the "Debugger.paused" message is n
 When you investigate the frontend object, you discover it's type descends from InspectorFrontend, which is a special
 type of object defined by generated InspectorFrontend header and cpp files. These files are built by a **python** file called CodeGeneratorInspector.py, which reads the protocol json configuration file and builds the cpp files at build time!
 
-```cpp
+{% highlight cpp %}
 m_frontend->paused(currentCallFrames(), m_breakReason, m_breakAuxData, hitBreakpointIds, currentAsyncStackTrace());
-```
+{% endhighlight %}
+
 
 So, the first part of the answer is that backend sends the "Debugger.paused" message through a specially built class called InspectorFrontend.cpp. The second question, we want to answer is how was the data for the message constructed. This data has super interesting information about the location and reason of the pause, the call frames, and context.
 
@@ -304,12 +305,12 @@ Determining how the call frame data is constructed is a little bit of a rabbit h
 CurrentCallFrames is a simple helper method for querying injected scripts.
 Note, we pass the call stack down to script to serialize the call frame data.
 
-```cpp
+{% highlight cpp %}
 PassRefPtr<Array<CallFrame> > InspectorDebuggerAgent::currentCallFrames() {
   InjectedScript injectedScript = m_injectedScriptManager->injectedScriptFor(m_pausedScriptState.get());
   return injectedScript.wrapCallFrames(m_currentCallStack, 0);
 }  
-```
+{% endhighlight %}
 
 ---
 ##### 2. wrapCallFrames
@@ -337,7 +338,7 @@ PassRefPtr<Array<CallFrame> > InjectedScript::wrapCallFrames(const ScriptValue& 
 On the JS side of the isle, things become simple again.
 Here we create a couple CallFrameProxy objects. Why, because we like our data objects in devTools land.
 
-```js
+{% highlight js %}
 function wrapCallFrames(callFrame, asyncOrdinal) {
   var result = [];
   var depth = 0;
@@ -349,7 +350,7 @@ function wrapCallFrames(callFrame, asyncOrdinal) {
   
   return result;
 },
-```
+{% endhighlight %}
 
 ----
 ##### 4. CallFrameProxy
@@ -404,7 +405,7 @@ the constructor, you'll see a bunch of things you might expect (type, value, pre
 One feature, which is still experimental, but should be totally awesome is the custom previewer.
 The feature is still experimental, but hopefully someday it'll be easy to register custom formatter for your favorite application and framework objects. These previews will help make the objects prettier in the console and source panel.
 
-```js
+{% highlight javascript %}
 RemoteObject = function(object, forceValueType, generatePreview) {
   this.type = typeof object;
   
@@ -423,7 +424,7 @@ RemoteObject = function(object, forceValueType, generatePreview) {
   
   if (_customObjectFormatterEnabled) this.customPreview = this._customPreview(object);
 }
-```
+{% endhighlight %}
 ----
 ### Closing Thoughts
 

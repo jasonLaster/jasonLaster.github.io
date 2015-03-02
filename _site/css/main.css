@@ -63,6 +63,10 @@ ul.posts span {
   line-height: 1.5em;
 }
 
+.site .header {
+  margin-bottom: 2em;
+}
+
 .site .header a {
   font-weight: bold;
   text-decoration: none;
@@ -70,7 +74,7 @@ ul.posts span {
 
 .site .header h1.title {
   display: inline-block;
-  margin-bottom: 2em;
+  margin-bottom: 0;
 }
 
 .site .header h1.title a {
@@ -79,6 +83,11 @@ ul.posts span {
 
 .site .header h1.title a:hover {
   color: #000;
+}
+
+.site .header .description {
+  color: #666;
+  font-style: italic;
 }
 
 .site .header a.extra {

@@ -5,20 +5,24 @@ date:   2015-03-01
 categories: js devtools
 ---
 
+Over the past couple months, I've become increasingly curious about how chrome devtools works.
+In this post, I've tried to convert some of my notes into a question answer format.
+Some of this is probably glorified call stacks and grepping.
+Other parts, I've included simplified code-snippets to capture the gist.
+
+---
+
 ### What happens when a breakpoint is hit in DevTools
 
-The frontend receives a "Debugger.paused" method
+##### The frontend receives a "Debugger.paused" method
++ The method contains four params: callFrames, reason, data, hitBreakpoints, asyncStackTrace.  
++ The callFrame has fields: callFrameId, functionName, location, scopeChain, this
 
-The method contains four params: callFrames, reason, data, hitBreakpoints, asyncStackTrace.  
+##### There are several reasons execution could stop:
+  + XHR, DOM, EventListener, exception, assert, CSPViolation, debugCommand, promiseRejection, AsyncOperation, other
+  + When you set a breakpoint in the source panel, the reason is other. At this point, the hitBreakpoints field will show the script, line number and column number of the hit breakpoint (e.g. http://localhost:3000/bundle.js:26641:0)
 
-The callFrame has fields: callFrameId, functionName, location, scopeChain, this
-
-There are several reasons execution could stop:
-
-+ XHR, DOM, EventListener, exception, assert, CSPViolation, debugCommand, promiseRejection, AsyncOperation, other
-+ When you set a breakpoint in the source panel, the reason is other. At this point, the hitBreakpoints field will show the script, line number and column number of the hit breakpoint (e.g. http://localhost:3000/bundle.js:26641:0)
-
-A sample `callFrame` result looks something like this:
+##### A sample `callFrame` result looks something like this:
 
 + the `functionName` and `location` are useful for seeing where the execution stopped
 + the `scopeChain` will show the list of closures at that frame (local, closure..., global)
@@ -74,12 +78,13 @@ A sample `callFrame` result looks something like this:
 }
 ```
 
-
+----
 ### How does the "Scope Variables" field update?
 
-Scenario: We click on the "this" field in the local scope section.
 
-1. The front-end makes a Runtime.getProperties request
+I clicked on the "this" field in the local scope section and tracked what happened:
+
+##### 1. The front-end makes a Runtime.getProperties request
 
 ```json
 {
@@ -93,7 +98,7 @@ Scenario: We click on the "this" field in the local scope section.
 }
 ```
 
-2. The server replies with a result response with id that matches the request
+##### 2. The server replies with a result response with an `id` that matches the request
 
 ```json
 {
@@ -103,7 +108,8 @@ Scenario: We click on the "this" field in the local scope section.
   }
 }
 ```
-A typical property looks something like this:
+
+##### A typical property looks something like this:
 
 ```json
 {
@@ -122,48 +128,53 @@ A typical property looks something like this:
 ```
 
 Unpacking this a bit, the `name` field and value `description` are especially cool.
+
 Note that when we look at the variables in the scope variables section we're really looking
-at a tree with leaves that look like (name: value.description). The `writable`, `isOwn`, `enumerable` fields are also useful but are less interesting for the UI.
+at a tree with leaves that look like (name: value.description). The `writable`, `isOwn`, `enumerable`
+fields are also useful but are less interesting for the UI.
 
+----
 
-3. A sequence of actions occur and finally the new `this` properties are shown.
+##### 3. A sequence of actions occur and finally the new `this` properties are shown.
 
 There's a lot here to unpack here, but first just skim the call stack. It's interesting by itself.
 
 
-InspectorBackend.js
+**InspectorBackend.js**
 
-+ InspectorBackendClass.WebSocketConnection._onMessage
++ InspectorBackendClass.WebSocketConnection.onMessage
 + InspectorBackendClass.Connection.dispatch
 + InspectorBackendClass.AgentPrototype.dispatchResponse
 
-RemoteObject.js
+**RemoteObject.js**
 
 + remoteObjectBinder
 + ownPropertiesCallback
 + processCallback
 
-ObjectPropertiesSection.js
+**ObjectPropertiesSection.js**
 
 + callback
 + WebInspector.ObjectPropertyTreeElement.populateWithProperties
 
-treeoutline.js
+**treeoutline.js**
 
 + TreeElement.appendChild
 + TreeElement.insertChild
 
-ObjectPropertiesSection.js
+**ObjectPropertiesSection.js**
 
 + WebInspector.ObjectPropertyTreeElement.onattach
 + WebInspector.ObjectPropertyTreeElement.update
+----
 
+##### `this` is  a Remote Object.
 
-The first thing to note is that `this` is really a Remote Object.
 The remote object, requested its own properties and when the request came back, the object
 handles processing the response and converting it into reasonable data.
 
 Here's a simplified version of `RemoteObject.remoteObjectBinder`
+
 
 ```js
 function remoteObjectBinder(error, properties, internalProperties) {
@@ -184,6 +195,7 @@ function remoteObjectBinder(error, properties, internalProperties) {
   callback(result, internalPropertiesResult);
 }
 ```
+----
 
 Once the remote object knows about its properties and internal properties, it passes
 the data onto to the object property tree element `populateWithProperties`. You can guess,
@@ -209,8 +221,11 @@ function(treeNode, properties, internalProperties, skipProto, value, emptyPlaceh
 }
 ```
 
-We're now at the point, where we're ready to show all of `this`'s properties as child nodes of `this`.
-In this exampe, `this` has 9 properties:
+---
+
+##### We're ready to show all of `this`'s properties as child nodes of `this`.
+
+In this example, `this` has 9 properties:
 
 ```
 channel, _events, _listeningTo, routes, container, collection, options, active, __proto__
@@ -230,6 +245,7 @@ function update() {
 
 Voila, each property is now an element with a name and value and is shown below the `this` variable.
 
+---
 
 ### How did the DevTools backend send the "Debugger.paused" message to the Inspector?
 
@@ -239,29 +255,30 @@ the backend actually sends the message and associated data, trust me, this story
 
 Here's an overview, that we'll unpack below.
 
-InspectorDebuggerAgent.cpp
+**InspectorDebuggerAgent.cpp**
 
 + InspectorDebuggerAgent::didPause
 
-InspectorFrontend.cpp  
+**InspectorFrontend.cpp**
 
 + m_frontend->paused(currentCallFrames(), m_breakReason, m_breakAuxData, hitBreakpointIds, currentAsyncStackTrace());
 
-InspectorDebuggerAgent.cpp
+**InspectorDebuggerAgent.cpp**
 
 + PassRefPtr<Array<CallFrame> > InspectorDebuggerAgent::currentCallFrames
 
-InjectedScript.cpp
+**InjectedScript.cpp**
 
 + injectedScript.wrapCallFrames(m_currentCallStack, 0);
 
-InjectedScriptSource.js
+**InjectedScriptSource.js**
 
 + ScriptFunctionCall function(injectedScriptObject(), "wrapCallFrames");
 + InjectedScript.CallFrameProxy(depth, callFrame, asyncOrdinal);
 + InjectedScript.wrapObject(callFrame.thisObject, "backtrace")
 + new RemoteObject(callFrame.thisObject)
 
+----
 
 The Inspector Debugger Agent, is a good enough place for the story to start.
 One of the interesting devTools patterns is that when there's a data object that's shared
@@ -282,7 +299,7 @@ So, the first part of the answer is that backend sends the "Debugger.paused" mes
 
 Determining how the call frame data is constructed is a little bit of a rabbit hole, but it's super interesting. So lets get started.
 
-.1. currentCallFrames
+##### 1. currentCallFrames
 
 CurrentCallFrames is a simple helper method for querying injected scripts.
 Note, we pass the call stack down to script to serialize the call frame data.
@@ -294,7 +311,8 @@ PassRefPtr<Array<CallFrame> > InspectorDebuggerAgent::currentCallFrames() {
 }  
 ```
 
-.2. wrapCallFrames
+---
+##### 2. wrapCallFrames
 
 The injected script manager does something crazy cool. Something so cool, that if you don't
 stop doing what you're doing and pause for 10 seconds, you've got no pulse. The script manager
@@ -313,8 +331,8 @@ PassRefPtr<Array<CallFrame> > InjectedScript::wrapCallFrames(const ScriptValue& 
   return Array<CallFrame>::runtimeCast(callFramesValue);
 }
 ```
-
-.3. wrapCallFrames (part 2)
+----
+##### 3. wrapCallFrames (part 2)
 
 On the JS side of the isle, things become simple again.
 Here we create a couple CallFrameProxy objects. Why, because we like our data objects in devTools land.
@@ -333,7 +351,8 @@ function wrapCallFrames(callFrame, asyncOrdinal) {
 },
 ```
 
-.4. CallFrameProxy
+----
+##### 4. CallFrameProxy
 
 The call frame should have an id, location, scope chain, and context.
 + The scope chain will be our closures (local, ..., global).
@@ -363,8 +382,8 @@ InjectedScript.CallFrameProxy = function(ordinal, callFrame, asyncOrdinal) {
   }
 }
 ```
-
-.5. wrapObject
+---
+##### 5. wrapObject
 
 Did you see all of the `_wrapX` calls above? Well this is what it basically looks like.
 Don't be afraid, RemoteObjects is actually a really fundamental piece of DevTools. Remember how we
@@ -375,8 +394,8 @@ _wrapObject = function(object, forceValueType, generatePreview) {
   return new InjectedScript.RemoteObject(object, forceValueType, generatePreview);
 },
 ```
-
-.6. RemoteObject
+---
+##### 6. RemoteObject
 
 RemoteObject takes an object and serializes. Almost every object shown in chrome devtools has
 been serialized by RemoteObject and all of it's data shipped up the inspector. When you look at
@@ -405,7 +424,7 @@ RemoteObject = function(object, forceValueType, generatePreview) {
   if (_customObjectFormatterEnabled) this.customPreview = this._customPreview(object);
 }
 ```
-
+----
 ### Closing Thoughts
 
 I hope you enjoyed diving into chrome DevTools. The people who work on DevTools have

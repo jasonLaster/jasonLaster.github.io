@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>What happens when DevTools Pauses</title>
+        <meta name="viewport" content="width=device-width">
+
+        <link rel="stylesheet" href="/css/syntax.css">
+        <link rel="stylesheet" href="/css/main.css">
+    </head>
+    <body>
+
+        <div class="site">
+          <div class="header">
+            <h1 class="title"><a href="/">The Daily Picayune</a></h1>
+            <div class="description">Custom bike builders who do not call initialize</div>
+          </div>
+
+          <h2>What happens when DevTools Pauses</h2>
+<p class="meta">01 Mar 2015</p>
+
+<div class="post">
+<h3>What happens when a breakpoint is hit in DevTools</h3>
+
+<p>The frontend receives a &quot;Debugger.paused&quot; method</p>
+
+<p>The method contains four params: callFrames, reason, data, hitBreakpoints, asyncStackTrace.  </p>
+
+<p>The callFrame has fields: callFrameId, functionName, location, scopeChain, this</p>
+
+<p>There are several reasons execution could stop:</p>
+
+<ul>
+<li>XHR, DOM, EventListener, exception, assert, CSPViolation, debugCommand, promiseRejection, AsyncOperation, other</li>
+<li>When you set a breakpoint in the source panel, the reason is other. At this point, the hitBreakpoints field will show the script, line number and column number of the hit breakpoint (e.g. http://localhost:3000/bundle.js:26641:0)</li>
+</ul>
+
+<p>A sample <code>callFrame</code> result looks something like this:</p>
+
+<ul>
+<li>the <code>functionName</code> and <code>location</code> are useful for seeing where the execution stopped</li>
+<li>the <code>scopeChain</code> will show the list of closures at that frame (local, closure..., global)</li>
+<li>the <code>this</code> field shows the current context at that frame.</li>
+<li><code>callFrameId</code> is really cool. <code>ordinal</code> refers to the frame number or depth. I&#39;m not sure what <code>injectedScriptId</code> refers to.</li>
+<li>Don&#39;t forget, there&#39;s an array of callFrames</li>
+</ul>
+<div class="highlight"><pre><code class="language-json" data-lang="json">{
+  &quot;callFrameId&quot;: &quot;{\&quot;ordinal\&quot;:0,\&quot;injectedScriptId\&quot;:2}&quot;,
+  &quot;functionName&quot;: &quot;module.exports.Router.extend.index&quot;,
+  &quot;location&quot;: {
+    &quot;scriptId&quot;: &quot;34&quot;,
+    &quot;lineNumber&quot;: 26642,
+    &quot;columnNumber&quot;: 23
+  },
+  &quot;scopeChain&quot;: [
+    {
+      &quot;object&quot;: {
+        &quot;type&quot;: &quot;object&quot;,
+        &quot;objectId&quot;: &quot;{\&quot;injectedScriptId\&quot;:2,\&quot;id\&quot;:1}&quot;,
+        &quot;className&quot;: &quot;Object&quot;,
+        &quot;description&quot;: &quot;Object&quot;
+      },
+      &quot;type&quot;: &quot;local&quot;
+    },
+    {
+      &quot;object&quot;: {
+        &quot;type&quot;: &quot;object&quot;,
+        &quot;objectId&quot;: &quot;{\&quot;injectedScriptId\&quot;:2,\&quot;id\&quot;:2}&quot;,
+        &quot;className&quot;: &quot;Object&quot;,
+        &quot;description&quot;: &quot;Object&quot;
+      },
+      &quot;type&quot;: &quot;closure&quot;
+    },
+    {
+      &quot;object&quot;: {
+        &quot;type&quot;: &quot;object&quot;,
+        &quot;objectId&quot;: &quot;{\&quot;injectedScriptId\&quot;:2,\&quot;id\&quot;:3}&quot;,
+        &quot;className&quot;: &quot;Window&quot;,
+        &quot;description&quot;: &quot;Window&quot;
+      },
+      &quot;type&quot;: &quot;global&quot;
+    }
+  ],
+  &quot;this&quot;: {
+    &quot;type&quot;: &quot;object&quot;,
+    &quot;objectId&quot;: &quot;{\&quot;injectedScriptId\&quot;:2,\&quot;id\&quot;:4}&quot;,
+    &quot;className&quot;: &quot;child&quot;,
+    &quot;description&quot;: &quot;child&quot;
+  }
+}
+</code></pre></div>
+<h3>How does the &quot;Scope Variables&quot; field update?</h3>
+
+<p>Scenario: We click on the &quot;this&quot; field in the local scope section.</p>
+
+<ol>
+<li>The front-end makes a Runtime.getProperties request</li>
+</ol>
+<div class="highlight"><pre><code class="language-json" data-lang="json">{
+    &quot;id&quot;:28,
+    &quot;method&quot;:&quot;Runtime.getProperties&quot;,
+    &quot;params&quot;:{
+      &quot;objectId&quot;:&quot;{\&quot;injectedScriptId\&quot;:2,\&quot;id\&quot;:4}&quot;,
+      &quot;ownProperties&quot;:true,
+      &quot;accessorPropertiesOnly&quot;:false
+    }
+}
+</code></pre></div>
+<ol>
+<li>The server replies with a result response with id that matches the request</li>
+</ol>
+<div class="highlight"><pre><code class="language-json" data-lang="json">{
+  &quot;id&quot;: 28,
+  &quot;result&quot;: {
+    &quot;result&quot;: [&quot;properties...&quot;]
+  }
+}
+</code></pre></div>
+<p>A typical property looks something like this:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json">{
+  &quot;writable&quot;: true,
+  &quot;enumerable&quot;: true,
+  &quot;configurable&quot;: true,
+  &quot;name&quot;: &quot;channel&quot;,
+  &quot;isOwn&quot;: true,
+  &quot;value&quot;: {
+      &quot;type&quot;: &quot;object&quot;,
+      &quot;objectId&quot;: &quot;{\&quot;injectedScriptId\&quot;:2,\&quot;id\&quot;:63}&quot;,
+      &quot;className&quot;: &quot;Radio.Channel&quot;,
+      &quot;description&quot;: &quot;Radio.Channel&quot;
+  }
+}
+</code></pre></div>
+<p>Unpacking this a bit, the <code>name</code> field and value <code>description</code> are especially cool.
+Note that when we look at the variables in the scope variables section we&#39;re really looking
+at a tree with leaves that look like (name: value.description). The <code>writable</code>, <code>isOwn</code>, <code>enumerable</code> fields are also useful but are less interesting for the UI.</p>
+
+<ol>
+<li>A sequence of actions occur and finally the new <code>this</code> properties are shown.</li>
+</ol>
+
+<p>There&#39;s a lot here to unpack here, but first just skim the call stack. It&#39;s interesting by itself.</p>
+
+<p>InspectorBackend.js</p>
+
+<ul>
+<li>InspectorBackendClass.WebSocketConnection._onMessage</li>
+<li>InspectorBackendClass.Connection.dispatch</li>
+<li>InspectorBackendClass.AgentPrototype.dispatchResponse</li>
+</ul>
+
+<p>RemoteObject.js</p>
+
+<ul>
+<li>remoteObjectBinder</li>
+<li>ownPropertiesCallback</li>
+<li>processCallback</li>
+</ul>
+
+<p>ObjectPropertiesSection.js</p>
+
+<ul>
+<li>callback</li>
+<li>WebInspector.ObjectPropertyTreeElement.populateWithProperties</li>
+</ul>
+
+<p>treeoutline.js</p>
+
+<ul>
+<li>TreeElement.appendChild</li>
+<li>TreeElement.insertChild</li>
+</ul>
+
+<p>ObjectPropertiesSection.js</p>
+
+<ul>
+<li>WebInspector.ObjectPropertyTreeElement.onattach</li>
+<li>WebInspector.ObjectPropertyTreeElement.update</li>
+</ul>
+
+<p>The first thing to note is that <code>this</code> is really a Remote Object.
+The remote object, requested its own properties and when the request came back, the object
+handles processing the response and converting it into reasonable data.</p>
+
+<p>Here&#39;s a simplified version of <code>RemoteObject.remoteObjectBinder</code></p>
+<div class="highlight"><pre><code class="language-js" data-lang="js">function remoteObjectBinder(error, properties, internalProperties) {
+  var result = [];
+  for (var i = 0; properties &amp;&amp; i &lt; properties.length; ++i) {
+    var property = properties[i];
+    var propertyValue = createRemoteObject(property.value)
+    result.push(new RemoteObjectProperty(property.name, propertyValue));
+  }
+
+  var internalPropertiesResult = [];
+  for (var i = 0; i &lt; internalProperties.length; i++) {
+    var property = internalProperties[i];
+    var propertyValue = createRemoteObject(property.value);
+    internalPropertiesResult.push(new RemoteObjectProperty(property.name, propertyValue));
+  }
+
+  callback(result, internalPropertiesResult);
+}
+</code></pre></div>
+<p>Once the remote object knows about its properties and internal properties, it passes
+the data onto to the object property tree element <code>populateWithProperties</code>. You can guess,
+what this guy will do.</p>
+
+<p>The job of <code>populateWithProperties</code> is to create an object property tree element for each property.
+There are tons of cases here, but the simplified version looks something like this:</p>
+<div class="highlight"><pre><code class="language-js" data-lang="js">function(treeNode, properties, internalProperties, skipProto, value, emptyPlaceholder) {
+
+  for (var i = 0; i &lt; properties.length; ++i) {
+    var property = properties[i];
+
+    if (skipProto &amp;&amp; property.name === &quot;__proto__&quot;) continue;
+    treeNode.appendChild(new ObjectPropertyTreeElement(property));
+  }
+
+  for (var i = 0; i &lt; internalProperties.length; i++) {
+    treeNode.appendChild(new ObjectPropertyTreeElement(internalProperties[i]));
+  }
+}
+</code></pre></div>
+<p>We&#39;re now at the point, where we&#39;re ready to show all of <code>this</code>&#39;s properties as child nodes of <code>this</code>.
+In this exampe, <code>this</code> has 9 properties:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">channel, _events, _listeningTo, routes, container, collection, options, active, __proto__
+</code></pre></div>
+<p>If you remember from above, <code>populateWithProperties</code> creates one Tree Element for each property.
+When each element is created, it&#39;s <code>update</code> function is called and that&#39;s where the magic happens:</p>
+<div class="highlight"><pre><code class="language-js" data-lang="js">function update() {
+  this.nameElement = createNameElement(this.property.name);
+  this.valueElement = createValueElement(this.property.value, this.listItemElement);
+  var separatorElement = createElementWithClass(&quot;span&quot;, &quot;separator&quot;).textContent = &quot;: &quot;;
+  this.listItemElement.appendChildren(this.nameElement, separatorElement, this.valueElement);
+}
+</code></pre></div>
+<p>Voila, each property is now an element with a name and value and is shown below the <code>this</code> variable.</p>
+
+<h3>How did the DevTools backend send the &quot;Debugger.paused&quot; message to the Inspector?</h3>
+
+<p>This story begins with V8 and the running javascript VM which detects the pause.
+While, this is cool, for our purposes I&#39;m going to skip to the part of the story where
+the backend actually sends the message and associated data, trust me, this story is good enough!</p>
+
+<p>Here&#39;s an overview, that we&#39;ll unpack below.</p>
+
+<p>InspectorDebuggerAgent.cpp</p>
+
+<ul>
+<li>InspectorDebuggerAgent::didPause</li>
+</ul>
+
+<p>InspectorFrontend.cpp  </p>
+
+<ul>
+<li>m<em>frontend-&gt;paused(currentCallFrames(), m</em>breakReason, m_breakAuxData, hitBreakpointIds, currentAsyncStackTrace());</li>
+</ul>
+
+<p>InspectorDebuggerAgent.cpp</p>
+
+<ul>
+<li>PassRefPtr<Array<CallFrame> &gt; InspectorDebuggerAgent::currentCallFrames</li>
+</ul>
+
+<p>InjectedScript.cpp</p>
+
+<ul>
+<li>injectedScript.wrapCallFrames(m_currentCallStack, 0);</li>
+</ul>
+
+<p>InjectedScriptSource.js</p>
+
+<ul>
+<li>ScriptFunctionCall function(injectedScriptObject(), &quot;wrapCallFrames&quot;);</li>
+<li>InjectedScript.CallFrameProxy(depth, callFrame, asyncOrdinal);</li>
+<li>InjectedScript.wrapObject(callFrame.thisObject, &quot;backtrace&quot;)</li>
+<li>new RemoteObject(callFrame.thisObject)</li>
+</ul>
+
+<p>The Inspector Debugger Agent, is a good enough place for the story to start.
+One of the interesting devTools patterns is that when there&#39;s a data object that&#39;s shared
+between the frontend and backend, there&#39;s often a model on the frontend and agent on the backend.
+Think of it like the agent doing the work to populate the model.</p>
+
+<p>In this case, the InspectorDebuggerAgent reacts to the pause event and calls the frontend paused method.
+The fact that the paused method matches up to the &quot;Debugger.paused&quot; message is not a coincidence.
+When you investigate the frontend object, you discover it&#39;s type descends from InspectorFrontend, which is a special
+type of object defined by generated InspectorFrontend header and cpp files. These files are built by a <strong>python</strong> file called CodeGeneratorInspector.py, which reads the protocol json configuration file and builds the cpp files at build time!</p>
+<div class="highlight"><pre><code class="language-cpp" data-lang="cpp">m_frontend-&gt;paused(currentCallFrames(), m_breakReason, m_breakAuxData, hitBreakpointIds, currentAsyncStackTrace());
+</code></pre></div>
+<p>So, the first part of the answer is that backend sends the &quot;Debugger.paused&quot; message through a specially built class called InspectorFrontend.cpp. The second question, we want to answer is how was the data for the message constructed. This data has super interesting information about the location and reason of the pause, the call frames, and context.</p>
+
+<p>Determining how the call frame data is constructed is a little bit of a rabbit hole, but it&#39;s super interesting. So lets get started.</p>
+
+<p>.1. currentCallFrames</p>
+
+<p>CurrentCallFrames is a simple helper method for querying injected scripts.
+Note, we pass the call stack down to script to serialize the call frame data.</p>
+<div class="highlight"><pre><code class="language-cpp" data-lang="cpp">PassRefPtr&lt;Array&lt;CallFrame&gt; &gt; InspectorDebuggerAgent::currentCallFrames() {
+  InjectedScript injectedScript = m_injectedScriptManager-&gt;injectedScriptFor(m_pausedScriptState.get());
+  return injectedScript.wrapCallFrames(m_currentCallStack, 0);
+}  
+</code></pre></div>
+<p>.2. wrapCallFrames</p>
+
+<p>The injected script manager does something crazy cool. Something so cool, that if you don&#39;t
+stop doing what you&#39;re doing and pause for 10 seconds, you&#39;ve got no pulse. The script manager
+asks javascript to serialize the call frames! This happens here with the new scriptFunctionCall and
+<code>callFunctionWithEvalEnabled</code>. In hindsight, asking v8 to serialize it&#39;s own call frames is a brilliant
+strategy, what business does cpp have knowing all of javascript&#39;s dirty secrets?</p>
+<div class="highlight"><pre><code class="language-cpp" data-lang="cpp">PassRefPtr&lt;Array&lt;CallFrame&gt; &gt; InjectedScript::wrapCallFrames(const ScriptValue&amp; callFrames, int asyncOrdinal) {
+  ScriptFunctionCall function(injectedScriptObject(), &quot;wrapCallFrames&quot;);
+  function.appendArgument(callFrames);
+  function.appendArgument(asyncOrdinal);
+  ScriptValue callFramesValue = callFunctionWithEvalEnabled(function);
+
+  return Array&lt;CallFrame&gt;::runtimeCast(callFramesValue);
+}
+</code></pre></div>
+<p>.3. wrapCallFrames (part 2)</p>
+
+<p>On the JS side of the isle, things become simple again.
+Here we create a couple CallFrameProxy objects. Why, because we like our data objects in devTools land.</p>
+<div class="highlight"><pre><code class="language-js" data-lang="js">function wrapCallFrames(callFrame, asyncOrdinal) {
+  var result = [];
+  var depth = 0;
+  do {
+    result[depth] = new InjectedScript.CallFrameProxy(depth, callFrame, asyncOrdinal);
+    callFrame = callFrame.caller;
+    ++depth;
+  } while (callFrame);
+
+  return result;
+},
+</code></pre></div>
+<p>.4. CallFrameProxy</p>
+
+<p>The call frame should have an id, location, scope chain, and context.
++ The scope chain will be our closures (local, ..., global).
++ The context will be what shows up in <code>this</code> in the scope variables section
++ and if the pause is right after the return statement has been evaluated, <code>isAtReturn</code> will be true and we&#39;ll serialize the return value aswell.</p>
+<div class="highlight"><pre><code class="language-js" data-lang="js">InjectedScript.CallFrameProxy = function(ordinal, callFrame, asyncOrdinal) {
+  this.callFrameId = {
+    ordinal: ordinal,
+    injectedScriptId: injectedScriptId,
+    asyncOrdinal: asyncOrdinal
+  };
+
+  this.location = {
+    scriptId: callFrame.sourceID,
+    lineNumber: callFrame.line,
+    columnNumber: callFrame.column,
+  };
+
+  this.scopeChain = this._wrapScopeChain(callFrame);
+
+  this.this = injectedScript._wrapObject(callFrame.thisObject, &quot;backtrace&quot;);
+
+  if (callFrame.isAtReturn) {
+    this.returnValue = injectedScript._wrapObject(callFrame.returnValue, &quot;backtrace&quot;);
+  }
+}
+</code></pre></div>
+<p>.5. wrapObject</p>
+
+<p>Did you see all of the <code>_wrapX</code> calls above? Well this is what it basically looks like.
+Don&#39;t be afraid, RemoteObjects is actually a really fundamental piece of DevTools. Remember how we
+had RemoteObjects on the frontend side, it turns out that they have a 1:1 sibling on the backend as well.</p>
+<div class="highlight"><pre><code class="language-js" data-lang="js">_wrapObject = function(object, forceValueType, generatePreview) {
+  return new InjectedScript.RemoteObject(object, forceValueType, generatePreview);
+},
+</code></pre></div>
+<p>.6. RemoteObject</p>
+
+<p>RemoteObject takes an object and serializes. Almost every object shown in chrome devtools has
+been serialized by RemoteObject and all of it&#39;s data shipped up the inspector. When you look at
+the constructor, you&#39;ll see a bunch of things you might expect (type, value, preview).</p>
+
+<p>One feature, which is still experimental, but should be totally awesome is the custom previewer.
+The feature is still experimental, but hopefully someday it&#39;ll be easy to register custom formatter for your favorite application and framework objects. These previews will help make the objects prettier in the console and source panel.</p>
+<div class="highlight"><pre><code class="language-js" data-lang="js">RemoteObject = function(object, forceValueType, generatePreview) {
+  this.type = typeof object;
+
+  if (isPrimitiveValue(object) || forceValueType)
+  this.value = object;
+
+  var subtype = injectedScript._subtype(object);
+  if (subtype) this.subtype = subtype;
+
+  var className = internalConstructorName(object);
+  this.className = className;
+
+  this.description = _describe(object);
+
+  if (generatePreview) this.preview = this._generatePreview(object);
+
+  if (_customObjectFormatterEnabled) this.customPreview = this._customPreview(object);
+}
+</code></pre></div>
+<h3>Closing Thoughts</h3>
+
+<p>I hope you enjoyed diving into chrome DevTools. The people who work on DevTools have
+done a great job at making the project as accessible as possible. I&#39;ll try and put together a couple more
+deep dives going forward, I&#39;ve just begun exploring the project
+the past couple months, but already I&#39;ve learned so much.</p>
+
+</div>
+
+
+          <div class="footer">
+            <div class="contact">
+              <p>
+                Jason Laster<br />
+                Software Engineer at Etsy<br />
+              </p>
+            </div>
+            <div class="contact">
+              <p>
+                <a href="https://github.com/yourusername">github.com/jasonLaster</a><br />
+                <a href="https://twitter.com/yourusername">twitter.com/jasonlaster11</a><br />
+              </p>
+            </div>
+          </div>
+        </div>
+
+    </body>
+</html>

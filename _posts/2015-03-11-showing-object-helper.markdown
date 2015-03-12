@@ -5,11 +5,12 @@ date:   2015-03-11
 categories: js devtools
 ---
 
-The object helper is a great interaction the source pane that some people take advantage of and others ignore. The use case is that the popup is a summary of an object in the scope of the call frame.
 
-I like it because it's a useful overlay of dynamic (runtime) data on top of static code. It's an opportunity for your computer to tell you what's going on. It's one of many small ways we can help you understand what's going on.
+The Object Helper is a popup that shows a summary of an object in scope. It's cool because it's overlaying dynamic data on top of static code.
 
-![](http://f.cl.ly/items/3y181i063I1Q0j0l1L3m/Image%202015-03-11%20at%2010.58.10%20PM.png)
+It's an opportunity for your computer to tell you what's going on. It's one of many small ways we can help you understand what's going on.
+
+<img src="http://f.cl.ly/items/3y181i063I1Q0j0l1L3m/Image%202015-03-11%20at%2010.58.10%20PM.png" width="338px" />
 
 ---
 

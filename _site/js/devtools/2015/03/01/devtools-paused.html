@@ -13,30 +13,38 @@
 
         <div class="site">
           <div class="header">
-            <h1 class="title"><a href="/">The Daily Picayune</a></h1>
-            <div class="description">Custom bike builders who do not call initialize</div>
+            <h1 class="title"><a href="/">Jason Laster</a></h1>
+            <div class="description">A collection of thoughts / notes.</div>
           </div>
 
           <h2>What happens when DevTools Pauses</h2>
 <p class="meta">01 Mar 2015</p>
 
 <div class="post">
+<p>Over the past couple months, I&#39;ve become increasingly curious about how chrome devtools works.
+In this post, I&#39;ve tried to convert some of my notes into a question answer format.
+Some of this is probably glorified call stacks and grepping.
+Other parts, I&#39;ve included simplified code-snippets to capture the gist.</p>
+
+<hr>
+
 <h3>What happens when a breakpoint is hit in DevTools</h3>
 
-<p>The frontend receives a &quot;Debugger.paused&quot; method</p>
+<h5>The frontend receives a &quot;Debugger.paused&quot; method</h5>
 
-<p>The method contains four params: callFrames, reason, data, hitBreakpoints, asyncStackTrace.  </p>
+<ul>
+<li>The method contains four params: callFrames, reason, data, hitBreakpoints, asyncStackTrace.<br></li>
+<li>The callFrame has fields: callFrameId, functionName, location, scopeChain, this</li>
+</ul>
 
-<p>The callFrame has fields: callFrameId, functionName, location, scopeChain, this</p>
-
-<p>There are several reasons execution could stop:</p>
+<h5>There are several reasons execution could stop:</h5>
 
 <ul>
 <li>XHR, DOM, EventListener, exception, assert, CSPViolation, debugCommand, promiseRejection, AsyncOperation, other</li>
 <li>When you set a breakpoint in the source panel, the reason is other. At this point, the hitBreakpoints field will show the script, line number and column number of the hit breakpoint (e.g. http://localhost:3000/bundle.js:26641:0)</li>
 </ul>
 
-<p>A sample <code>callFrame</code> result looks something like this:</p>
+<h5>A sample <code>callFrame</code> result looks something like this:</h5>
 
 <ul>
 <li>the <code>functionName</code> and <code>location</code> are useful for seeing where the execution stopped</li>
@@ -45,112 +53,112 @@
 <li><code>callFrameId</code> is really cool. <code>ordinal</code> refers to the frame number or depth. I&#39;m not sure what <code>injectedScriptId</code> refers to.</li>
 <li>Don&#39;t forget, there&#39;s an array of callFrames</li>
 </ul>
-<div class="highlight"><pre><code class="language-json" data-lang="json">{
-  &quot;callFrameId&quot;: &quot;{\&quot;ordinal\&quot;:0,\&quot;injectedScriptId\&quot;:2}&quot;,
-  &quot;functionName&quot;: &quot;module.exports.Router.extend.index&quot;,
-  &quot;location&quot;: {
-    &quot;scriptId&quot;: &quot;34&quot;,
-    &quot;lineNumber&quot;: 26642,
-    &quot;columnNumber&quot;: 23
-  },
-  &quot;scopeChain&quot;: [
-    {
-      &quot;object&quot;: {
-        &quot;type&quot;: &quot;object&quot;,
-        &quot;objectId&quot;: &quot;{\&quot;injectedScriptId\&quot;:2,\&quot;id\&quot;:1}&quot;,
-        &quot;className&quot;: &quot;Object&quot;,
-        &quot;description&quot;: &quot;Object&quot;
-      },
-      &quot;type&quot;: &quot;local&quot;
-    },
-    {
-      &quot;object&quot;: {
-        &quot;type&quot;: &quot;object&quot;,
-        &quot;objectId&quot;: &quot;{\&quot;injectedScriptId\&quot;:2,\&quot;id\&quot;:2}&quot;,
-        &quot;className&quot;: &quot;Object&quot;,
-        &quot;description&quot;: &quot;Object&quot;
-      },
-      &quot;type&quot;: &quot;closure&quot;
-    },
-    {
-      &quot;object&quot;: {
-        &quot;type&quot;: &quot;object&quot;,
-        &quot;objectId&quot;: &quot;{\&quot;injectedScriptId\&quot;:2,\&quot;id\&quot;:3}&quot;,
-        &quot;className&quot;: &quot;Window&quot;,
-        &quot;description&quot;: &quot;Window&quot;
-      },
-      &quot;type&quot;: &quot;global&quot;
-    }
-  ],
-  &quot;this&quot;: {
-    &quot;type&quot;: &quot;object&quot;,
-    &quot;objectId&quot;: &quot;{\&quot;injectedScriptId\&quot;:2,\&quot;id\&quot;:4}&quot;,
-    &quot;className&quot;: &quot;child&quot;,
-    &quot;description&quot;: &quot;child&quot;
-  }
-}
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;callFrameId&quot;</span><span class="p">:</span> <span class="s2">&quot;{\&quot;ordinal\&quot;:0,\&quot;injectedScriptId\&quot;:2}&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;functionName&quot;</span><span class="p">:</span> <span class="s2">&quot;module.exports.Router.extend.index&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;location&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;scriptId&quot;</span><span class="p">:</span> <span class="s2">&quot;34&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;lineNumber&quot;</span><span class="p">:</span> <span class="mi">26642</span><span class="p">,</span>
+    <span class="nt">&quot;columnNumber&quot;</span><span class="p">:</span> <span class="mi">23</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;scopeChain&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;object&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;objectId&quot;</span><span class="p">:</span> <span class="s2">&quot;{\&quot;injectedScriptId\&quot;:2,\&quot;id\&quot;:1}&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;className&quot;</span><span class="p">:</span> <span class="s2">&quot;Object&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Object&quot;</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;local&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;object&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;objectId&quot;</span><span class="p">:</span> <span class="s2">&quot;{\&quot;injectedScriptId\&quot;:2,\&quot;id\&quot;:2}&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;className&quot;</span><span class="p">:</span> <span class="s2">&quot;Object&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Object&quot;</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;closure&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;object&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;objectId&quot;</span><span class="p">:</span> <span class="s2">&quot;{\&quot;injectedScriptId\&quot;:2,\&quot;id\&quot;:3}&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;className&quot;</span><span class="p">:</span> <span class="s2">&quot;Window&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Window&quot;</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;global&quot;</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&quot;this&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;objectId&quot;</span><span class="p">:</span> <span class="s2">&quot;{\&quot;injectedScriptId\&quot;:2,\&quot;id\&quot;:4}&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;className&quot;</span><span class="p">:</span> <span class="s2">&quot;child&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;child&quot;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
 </code></pre></div>
+<hr>
+
 <h3>How does the &quot;Scope Variables&quot; field update?</h3>
 
-<p>Scenario: We click on the &quot;this&quot; field in the local scope section.</p>
+<p>I clicked on the &quot;this&quot; field in the local scope section and tracked what happened:</p>
 
-<ol>
-<li>The front-end makes a Runtime.getProperties request</li>
-</ol>
-<div class="highlight"><pre><code class="language-json" data-lang="json">{
-    &quot;id&quot;:28,
-    &quot;method&quot;:&quot;Runtime.getProperties&quot;,
-    &quot;params&quot;:{
-      &quot;objectId&quot;:&quot;{\&quot;injectedScriptId\&quot;:2,\&quot;id\&quot;:4}&quot;,
-      &quot;ownProperties&quot;:true,
-      &quot;accessorPropertiesOnly&quot;:false
-    }
-}
+<h5>1. The front-end makes a Runtime.getProperties request</h5>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+    <span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="mi">28</span><span class="p">,</span>
+    <span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="s2">&quot;Runtime.getProperties&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;params&quot;</span><span class="p">:{</span>
+      <span class="nt">&quot;objectId&quot;</span><span class="p">:</span><span class="s2">&quot;{\&quot;injectedScriptId\&quot;:2,\&quot;id\&quot;:4}&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;ownProperties&quot;</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span>
+      <span class="nt">&quot;accessorPropertiesOnly&quot;</span><span class="p">:</span><span class="kc">false</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 </code></pre></div>
-<ol>
-<li>The server replies with a result response with id that matches the request</li>
-</ol>
-<div class="highlight"><pre><code class="language-json" data-lang="json">{
-  &quot;id&quot;: 28,
-  &quot;result&quot;: {
-    &quot;result&quot;: [&quot;properties...&quot;]
-  }
-}
+<h5>2. The server replies with a result response with an <code>id</code> that matches the request</h5>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">28</span><span class="p">,</span>
+  <span class="nt">&quot;result&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;result&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;properties...&quot;</span><span class="p">]</span>
+  <span class="p">}</span>
+<span class="p">}</span>
 </code></pre></div>
-<p>A typical property looks something like this:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json">{
-  &quot;writable&quot;: true,
-  &quot;enumerable&quot;: true,
-  &quot;configurable&quot;: true,
-  &quot;name&quot;: &quot;channel&quot;,
-  &quot;isOwn&quot;: true,
-  &quot;value&quot;: {
-      &quot;type&quot;: &quot;object&quot;,
-      &quot;objectId&quot;: &quot;{\&quot;injectedScriptId\&quot;:2,\&quot;id\&quot;:63}&quot;,
-      &quot;className&quot;: &quot;Radio.Channel&quot;,
-      &quot;description&quot;: &quot;Radio.Channel&quot;
-  }
-}
+<h5>A typical property looks something like this:</h5>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;writable&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="nt">&quot;enumerable&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="nt">&quot;configurable&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;channel&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;isOwn&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;objectId&quot;</span><span class="p">:</span> <span class="s2">&quot;{\&quot;injectedScriptId\&quot;:2,\&quot;id\&quot;:63}&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;className&quot;</span><span class="p">:</span> <span class="s2">&quot;Radio.Channel&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Radio.Channel&quot;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
 </code></pre></div>
-<p>Unpacking this a bit, the <code>name</code> field and value <code>description</code> are especially cool.
-Note that when we look at the variables in the scope variables section we&#39;re really looking
-at a tree with leaves that look like (name: value.description). The <code>writable</code>, <code>isOwn</code>, <code>enumerable</code> fields are also useful but are less interesting for the UI.</p>
+<p>Unpacking this a bit, the <code>name</code> field and value <code>description</code> are especially cool.</p>
 
-<ol>
-<li>A sequence of actions occur and finally the new <code>this</code> properties are shown.</li>
-</ol>
+<p>Note that when we look at the variables in the scope variables section we&#39;re really looking
+at a tree with leaves that look like (name: value.description). The <code>writable</code>, <code>isOwn</code>, <code>enumerable</code>
+fields are also useful but are less interesting for the UI.</p>
+
+<hr>
+
+<h5>3. A sequence of actions occur and finally the new <code>this</code> properties are shown.</h5>
 
 <p>There&#39;s a lot here to unpack here, but first just skim the call stack. It&#39;s interesting by itself.</p>
 
-<p>InspectorBackend.js</p>
+<p><strong>InspectorBackend.js</strong></p>
 
 <ul>
-<li>InspectorBackendClass.WebSocketConnection._onMessage</li>
+<li>InspectorBackendClass.WebSocketConnection.onMessage</li>
 <li>InspectorBackendClass.Connection.dispatch</li>
 <li>InspectorBackendClass.AgentPrototype.dispatchResponse</li>
 </ul>
 
-<p>RemoteObject.js</p>
+<p><strong>RemoteObject.js</strong></p>
 
 <ul>
 <li>remoteObjectBinder</li>
@@ -158,84 +166,93 @@ at a tree with leaves that look like (name: value.description). The <code>writab
 <li>processCallback</li>
 </ul>
 
-<p>ObjectPropertiesSection.js</p>
+<p><strong>ObjectPropertiesSection.js</strong></p>
 
 <ul>
 <li>callback</li>
 <li>WebInspector.ObjectPropertyTreeElement.populateWithProperties</li>
 </ul>
 
-<p>treeoutline.js</p>
+<p><strong>treeoutline.js</strong></p>
 
 <ul>
 <li>TreeElement.appendChild</li>
 <li>TreeElement.insertChild</li>
 </ul>
 
-<p>ObjectPropertiesSection.js</p>
+<p><strong>ObjectPropertiesSection.js</strong></p>
 
 <ul>
 <li>WebInspector.ObjectPropertyTreeElement.onattach</li>
-<li>WebInspector.ObjectPropertyTreeElement.update</li>
 </ul>
 
-<p>The first thing to note is that <code>this</code> is really a Remote Object.
-The remote object, requested its own properties and when the request came back, the object
+<h2>+ WebInspector.ObjectPropertyTreeElement.update</h2>
+
+<h5><code>this</code> is  a Remote Object.</h5>
+
+<p>The remote object, requested its own properties and when the request came back, the object
 handles processing the response and converting it into reasonable data.</p>
 
 <p>Here&#39;s a simplified version of <code>RemoteObject.remoteObjectBinder</code></p>
-<div class="highlight"><pre><code class="language-js" data-lang="js">function remoteObjectBinder(error, properties, internalProperties) {
-  var result = [];
-  for (var i = 0; properties &amp;&amp; i &lt; properties.length; ++i) {
-    var property = properties[i];
-    var propertyValue = createRemoteObject(property.value)
-    result.push(new RemoteObjectProperty(property.name, propertyValue));
-  }
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">function</span> <span class="nx">remoteObjectBinder</span><span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">properties</span><span class="p">,</span> <span class="nx">internalProperties</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">result</span> <span class="o">=</span> <span class="p">[];</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">properties</span> <span class="o">&amp;&amp;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">properties</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="o">++</span><span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">property</span> <span class="o">=</span> <span class="nx">properties</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+    <span class="kd">var</span> <span class="nx">propertyValue</span> <span class="o">=</span> <span class="nx">createRemoteObject</span><span class="p">(</span><span class="nx">property</span><span class="p">.</span><span class="nx">value</span><span class="p">)</span>
+    <span class="nx">result</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="k">new</span> <span class="nx">RemoteObjectProperty</span><span class="p">(</span><span class="nx">property</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span> <span class="nx">propertyValue</span><span class="p">));</span>
+  <span class="p">}</span>
 
-  var internalPropertiesResult = [];
-  for (var i = 0; i &lt; internalProperties.length; i++) {
-    var property = internalProperties[i];
-    var propertyValue = createRemoteObject(property.value);
-    internalPropertiesResult.push(new RemoteObjectProperty(property.name, propertyValue));
-  }
+  <span class="kd">var</span> <span class="nx">internalPropertiesResult</span> <span class="o">=</span> <span class="p">[];</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">internalProperties</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">property</span> <span class="o">=</span> <span class="nx">internalProperties</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+    <span class="kd">var</span> <span class="nx">propertyValue</span> <span class="o">=</span> <span class="nx">createRemoteObject</span><span class="p">(</span><span class="nx">property</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
+    <span class="nx">internalPropertiesResult</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="k">new</span> <span class="nx">RemoteObjectProperty</span><span class="p">(</span><span class="nx">property</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span> <span class="nx">propertyValue</span><span class="p">));</span>
+  <span class="p">}</span>
 
-  callback(result, internalPropertiesResult);
-}
+  <span class="nx">callback</span><span class="p">(</span><span class="nx">result</span><span class="p">,</span> <span class="nx">internalPropertiesResult</span><span class="p">);</span>
+<span class="p">}</span>
 </code></pre></div>
+<hr>
+
 <p>Once the remote object knows about its properties and internal properties, it passes
 the data onto to the object property tree element <code>populateWithProperties</code>. You can guess,
 what this guy will do.</p>
 
 <p>The job of <code>populateWithProperties</code> is to create an object property tree element for each property.
 There are tons of cases here, but the simplified version looks something like this:</p>
-<div class="highlight"><pre><code class="language-js" data-lang="js">function(treeNode, properties, internalProperties, skipProto, value, emptyPlaceholder) {
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">function</span><span class="p">(</span><span class="nx">treeNode</span><span class="p">,</span> <span class="nx">properties</span><span class="p">,</span> <span class="nx">internalProperties</span><span class="p">,</span> <span class="nx">skipProto</span><span class="p">,</span> <span class="nx">value</span><span class="p">,</span> <span class="nx">emptyPlaceholder</span><span class="p">)</span> <span class="p">{</span>
 
-  for (var i = 0; i &lt; properties.length; ++i) {
-    var property = properties[i];
+  <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">properties</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="o">++</span><span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">property</span> <span class="o">=</span> <span class="nx">properties</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
 
-    if (skipProto &amp;&amp; property.name === &quot;__proto__&quot;) continue;
-    treeNode.appendChild(new ObjectPropertyTreeElement(property));
-  }
+    <span class="k">if</span> <span class="p">(</span><span class="nx">skipProto</span> <span class="o">&amp;&amp;</span> <span class="nx">property</span><span class="p">.</span><span class="nx">name</span> <span class="o">===</span> <span class="s2">&quot;__proto__&quot;</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
+    <span class="nx">treeNode</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="k">new</span> <span class="nx">ObjectPropertyTreeElement</span><span class="p">(</span><span class="nx">property</span><span class="p">));</span>
+  <span class="p">}</span>
 
-  for (var i = 0; i &lt; internalProperties.length; i++) {
-    treeNode.appendChild(new ObjectPropertyTreeElement(internalProperties[i]));
-  }
-}
+  <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">internalProperties</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">treeNode</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="k">new</span> <span class="nx">ObjectPropertyTreeElement</span><span class="p">(</span><span class="nx">internalProperties</span><span class="p">[</span><span class="nx">i</span><span class="p">]));</span>
+  <span class="p">}</span>
+<span class="p">}</span>
 </code></pre></div>
-<p>We&#39;re now at the point, where we&#39;re ready to show all of <code>this</code>&#39;s properties as child nodes of <code>this</code>.
-In this exampe, <code>this</code> has 9 properties:</p>
+<hr>
+
+<h5>We&#39;re ready to show all of <code>this</code>&#39;s properties as child nodes of <code>this</code>.</h5>
+
+<p>In this example, <code>this</code> has 9 properties:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">channel, _events, _listeningTo, routes, container, collection, options, active, __proto__
 </code></pre></div>
 <p>If you remember from above, <code>populateWithProperties</code> creates one Tree Element for each property.
 When each element is created, it&#39;s <code>update</code> function is called and that&#39;s where the magic happens:</p>
-<div class="highlight"><pre><code class="language-js" data-lang="js">function update() {
-  this.nameElement = createNameElement(this.property.name);
-  this.valueElement = createValueElement(this.property.value, this.listItemElement);
-  var separatorElement = createElementWithClass(&quot;span&quot;, &quot;separator&quot;).textContent = &quot;: &quot;;
-  this.listItemElement.appendChildren(this.nameElement, separatorElement, this.valueElement);
-}
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">function</span> <span class="nx">update</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">nameElement</span> <span class="o">=</span> <span class="nx">createNameElement</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">property</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">valueElement</span> <span class="o">=</span> <span class="nx">createValueElement</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">property</span><span class="p">.</span><span class="nx">value</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">listItemElement</span><span class="p">);</span>
+  <span class="kd">var</span> <span class="nx">separatorElement</span> <span class="o">=</span> <span class="nx">createElementWithClass</span><span class="p">(</span><span class="s2">&quot;span&quot;</span><span class="p">,</span> <span class="s2">&quot;separator&quot;</span><span class="p">).</span><span class="nx">textContent</span> <span class="o">=</span> <span class="s2">&quot;: &quot;</span><span class="p">;</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">listItemElement</span><span class="p">.</span><span class="nx">appendChildren</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">nameElement</span><span class="p">,</span> <span class="nx">separatorElement</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">valueElement</span><span class="p">);</span>
+<span class="p">}</span>
 </code></pre></div>
 <p>Voila, each property is now an element with a name and value and is shown below the <code>this</code> variable.</p>
+
+<hr>
 
 <h3>How did the DevTools backend send the &quot;Debugger.paused&quot; message to the Inspector?</h3>
 
@@ -245,31 +262,31 @@ the backend actually sends the message and associated data, trust me, this story
 
 <p>Here&#39;s an overview, that we&#39;ll unpack below.</p>
 
-<p>InspectorDebuggerAgent.cpp</p>
+<p><strong>InspectorDebuggerAgent.cpp</strong></p>
 
 <ul>
 <li>InspectorDebuggerAgent::didPause</li>
 </ul>
 
-<p>InspectorFrontend.cpp  </p>
+<p><strong>InspectorFrontend.cpp</strong></p>
 
 <ul>
 <li>m<em>frontend-&gt;paused(currentCallFrames(), m</em>breakReason, m_breakAuxData, hitBreakpointIds, currentAsyncStackTrace());</li>
 </ul>
 
-<p>InspectorDebuggerAgent.cpp</p>
+<p><strong>InspectorDebuggerAgent.cpp</strong></p>
 
 <ul>
 <li>PassRefPtr<Array<CallFrame> &gt; InspectorDebuggerAgent::currentCallFrames</li>
 </ul>
 
-<p>InjectedScript.cpp</p>
+<p><strong>InjectedScript.cpp</strong></p>
 
 <ul>
 <li>injectedScript.wrapCallFrames(m_currentCallStack, 0);</li>
 </ul>
 
-<p>InjectedScriptSource.js</p>
+<p><strong>InjectedScriptSource.js</strong></p>
 
 <ul>
 <li>ScriptFunctionCall function(injectedScriptObject(), &quot;wrapCallFrames&quot;);</li>
@@ -277,6 +294,8 @@ the backend actually sends the message and associated data, trust me, this story
 <li>InjectedScript.wrapObject(callFrame.thisObject, &quot;backtrace&quot;)</li>
 <li>new RemoteObject(callFrame.thisObject)</li>
 </ul>
+
+<hr>
 
 <p>The Inspector Debugger Agent, is a good enough place for the story to start.
 One of the interesting devTools patterns is that when there&#39;s a data object that&#39;s shared
@@ -287,91 +306,104 @@ Think of it like the agent doing the work to populate the model.</p>
 The fact that the paused method matches up to the &quot;Debugger.paused&quot; message is not a coincidence.
 When you investigate the frontend object, you discover it&#39;s type descends from InspectorFrontend, which is a special
 type of object defined by generated InspectorFrontend header and cpp files. These files are built by a <strong>python</strong> file called CodeGeneratorInspector.py, which reads the protocol json configuration file and builds the cpp files at build time!</p>
-<div class="highlight"><pre><code class="language-cpp" data-lang="cpp">m_frontend-&gt;paused(currentCallFrames(), m_breakReason, m_breakAuxData, hitBreakpointIds, currentAsyncStackTrace());
-</code></pre></div>
+
+<div class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="n">m_frontend</span><span class="o">-&gt;</span><span class="n">paused</span><span class="p">(</span><span class="n">currentCallFrames</span><span class="p">(),</span> <span class="n">m_breakReason</span><span class="p">,</span> <span class="n">m_breakAuxData</span><span class="p">,</span> <span class="n">hitBreakpointIds</span><span class="p">,</span> <span class="n">currentAsyncStackTrace</span><span class="p">());</span></code></pre></div>
+
 <p>So, the first part of the answer is that backend sends the &quot;Debugger.paused&quot; message through a specially built class called InspectorFrontend.cpp. The second question, we want to answer is how was the data for the message constructed. This data has super interesting information about the location and reason of the pause, the call frames, and context.</p>
 
 <p>Determining how the call frame data is constructed is a little bit of a rabbit hole, but it&#39;s super interesting. So lets get started.</p>
 
-<p>.1. currentCallFrames</p>
+<h5>1. currentCallFrames</h5>
 
 <p>CurrentCallFrames is a simple helper method for querying injected scripts.
 Note, we pass the call stack down to script to serialize the call frame data.</p>
-<div class="highlight"><pre><code class="language-cpp" data-lang="cpp">PassRefPtr&lt;Array&lt;CallFrame&gt; &gt; InspectorDebuggerAgent::currentCallFrames() {
-  InjectedScript injectedScript = m_injectedScriptManager-&gt;injectedScriptFor(m_pausedScriptState.get());
-  return injectedScript.wrapCallFrames(m_currentCallStack, 0);
-}  
-</code></pre></div>
-<p>.2. wrapCallFrames</p>
+
+<div class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="n">PassRefPtr</span><span class="o">&lt;</span><span class="n">Array</span><span class="o">&lt;</span><span class="n">CallFrame</span><span class="o">&gt;</span> <span class="o">&gt;</span> <span class="n">InspectorDebuggerAgent</span><span class="o">::</span><span class="n">currentCallFrames</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">InjectedScript</span> <span class="n">injectedScript</span> <span class="o">=</span> <span class="n">m_injectedScriptManager</span><span class="o">-&gt;</span><span class="n">injectedScriptFor</span><span class="p">(</span><span class="n">m_pausedScriptState</span><span class="p">.</span><span class="n">get</span><span class="p">());</span>
+  <span class="k">return</span> <span class="n">injectedScript</span><span class="p">.</span><span class="n">wrapCallFrames</span><span class="p">(</span><span class="n">m_currentCallStack</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span></code></pre></div>
+
+<hr>
+
+<h5>2. wrapCallFrames</h5>
 
 <p>The injected script manager does something crazy cool. Something so cool, that if you don&#39;t
 stop doing what you&#39;re doing and pause for 10 seconds, you&#39;ve got no pulse. The script manager
 asks javascript to serialize the call frames! This happens here with the new scriptFunctionCall and
 <code>callFunctionWithEvalEnabled</code>. In hindsight, asking v8 to serialize it&#39;s own call frames is a brilliant
 strategy, what business does cpp have knowing all of javascript&#39;s dirty secrets?</p>
-<div class="highlight"><pre><code class="language-cpp" data-lang="cpp">PassRefPtr&lt;Array&lt;CallFrame&gt; &gt; InjectedScript::wrapCallFrames(const ScriptValue&amp; callFrames, int asyncOrdinal) {
-  ScriptFunctionCall function(injectedScriptObject(), &quot;wrapCallFrames&quot;);
-  function.appendArgument(callFrames);
-  function.appendArgument(asyncOrdinal);
-  ScriptValue callFramesValue = callFunctionWithEvalEnabled(function);
+<div class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="n">PassRefPtr</span><span class="o">&lt;</span><span class="n">Array</span><span class="o">&lt;</span><span class="n">CallFrame</span><span class="o">&gt;</span> <span class="o">&gt;</span> <span class="n">InjectedScript</span><span class="o">::</span><span class="n">wrapCallFrames</span><span class="p">(</span><span class="k">const</span> <span class="n">ScriptValue</span><span class="o">&amp;</span> <span class="n">callFrames</span><span class="p">,</span> <span class="kt">int</span> <span class="n">asyncOrdinal</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">ScriptFunctionCall</span> <span class="n">function</span><span class="p">(</span><span class="n">injectedScriptObject</span><span class="p">(),</span> <span class="s">&quot;wrapCallFrames&quot;</span><span class="p">);</span>
+  <span class="n">function</span><span class="p">.</span><span class="n">appendArgument</span><span class="p">(</span><span class="n">callFrames</span><span class="p">);</span>
+  <span class="n">function</span><span class="p">.</span><span class="n">appendArgument</span><span class="p">(</span><span class="n">asyncOrdinal</span><span class="p">);</span>
+  <span class="n">ScriptValue</span> <span class="n">callFramesValue</span> <span class="o">=</span> <span class="n">callFunctionWithEvalEnabled</span><span class="p">(</span><span class="n">function</span><span class="p">);</span>
 
-  return Array&lt;CallFrame&gt;::runtimeCast(callFramesValue);
-}
+  <span class="k">return</span> <span class="n">Array</span><span class="o">&lt;</span><span class="n">CallFrame</span><span class="o">&gt;::</span><span class="n">runtimeCast</span><span class="p">(</span><span class="n">callFramesValue</span><span class="p">);</span>
+<span class="p">}</span>
 </code></pre></div>
-<p>.3. wrapCallFrames (part 2)</p>
+<hr>
+
+<h5>3. wrapCallFrames (part 2)</h5>
 
 <p>On the JS side of the isle, things become simple again.
 Here we create a couple CallFrameProxy objects. Why, because we like our data objects in devTools land.</p>
-<div class="highlight"><pre><code class="language-js" data-lang="js">function wrapCallFrames(callFrame, asyncOrdinal) {
-  var result = [];
-  var depth = 0;
-  do {
-    result[depth] = new InjectedScript.CallFrameProxy(depth, callFrame, asyncOrdinal);
-    callFrame = callFrame.caller;
-    ++depth;
-  } while (callFrame);
 
-  return result;
-},
-</code></pre></div>
-<p>.4. CallFrameProxy</p>
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">function</span> <span class="nx">wrapCallFrames</span><span class="p">(</span><span class="nx">callFrame</span><span class="p">,</span> <span class="nx">asyncOrdinal</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">result</span> <span class="o">=</span> <span class="p">[];</span>
+  <span class="kd">var</span> <span class="nx">depth</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">do</span> <span class="p">{</span>
+    <span class="nx">result</span><span class="p">[</span><span class="nx">depth</span><span class="p">]</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">InjectedScript</span><span class="p">.</span><span class="nx">CallFrameProxy</span><span class="p">(</span><span class="nx">depth</span><span class="p">,</span> <span class="nx">callFrame</span><span class="p">,</span> <span class="nx">asyncOrdinal</span><span class="p">);</span>
+    <span class="nx">callFrame</span> <span class="o">=</span> <span class="nx">callFrame</span><span class="p">.</span><span class="nx">caller</span><span class="p">;</span>
+    <span class="o">++</span><span class="nx">depth</span><span class="p">;</span>
+  <span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="nx">callFrame</span><span class="p">);</span>
+  
+  <span class="k">return</span> <span class="nx">result</span><span class="p">;</span>
+<span class="p">},</span></code></pre></div>
+
+<hr>
+
+<h5>4. CallFrameProxy</h5>
 
 <p>The call frame should have an id, location, scope chain, and context.
 + The scope chain will be our closures (local, ..., global).
 + The context will be what shows up in <code>this</code> in the scope variables section
 + and if the pause is right after the return statement has been evaluated, <code>isAtReturn</code> will be true and we&#39;ll serialize the return value aswell.</p>
-<div class="highlight"><pre><code class="language-js" data-lang="js">InjectedScript.CallFrameProxy = function(ordinal, callFrame, asyncOrdinal) {
-  this.callFrameId = {
-    ordinal: ordinal,
-    injectedScriptId: injectedScriptId,
-    asyncOrdinal: asyncOrdinal
-  };
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">InjectedScript</span><span class="p">.</span><span class="nx">CallFrameProxy</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">ordinal</span><span class="p">,</span> <span class="nx">callFrame</span><span class="p">,</span> <span class="nx">asyncOrdinal</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">callFrameId</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">ordinal</span><span class="o">:</span> <span class="nx">ordinal</span><span class="p">,</span>
+    <span class="nx">injectedScriptId</span><span class="o">:</span> <span class="nx">injectedScriptId</span><span class="p">,</span>
+    <span class="nx">asyncOrdinal</span><span class="o">:</span> <span class="nx">asyncOrdinal</span>
+  <span class="p">};</span>
 
-  this.location = {
-    scriptId: callFrame.sourceID,
-    lineNumber: callFrame.line,
-    columnNumber: callFrame.column,
-  };
+  <span class="k">this</span><span class="p">.</span><span class="nx">location</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">scriptId</span><span class="o">:</span> <span class="nx">callFrame</span><span class="p">.</span><span class="nx">sourceID</span><span class="p">,</span>
+    <span class="nx">lineNumber</span><span class="o">:</span> <span class="nx">callFrame</span><span class="p">.</span><span class="nx">line</span><span class="p">,</span>
+    <span class="nx">columnNumber</span><span class="o">:</span> <span class="nx">callFrame</span><span class="p">.</span><span class="nx">column</span><span class="p">,</span>
+  <span class="p">};</span>
 
-  this.scopeChain = this._wrapScopeChain(callFrame);
+  <span class="k">this</span><span class="p">.</span><span class="nx">scopeChain</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">_wrapScopeChain</span><span class="p">(</span><span class="nx">callFrame</span><span class="p">);</span>
 
-  this.this = injectedScript._wrapObject(callFrame.thisObject, &quot;backtrace&quot;);
+  <span class="k">this</span><span class="p">.</span><span class="k">this</span> <span class="o">=</span> <span class="nx">injectedScript</span><span class="p">.</span><span class="nx">_wrapObject</span><span class="p">(</span><span class="nx">callFrame</span><span class="p">.</span><span class="nx">thisObject</span><span class="p">,</span> <span class="s2">&quot;backtrace&quot;</span><span class="p">);</span>
 
-  if (callFrame.isAtReturn) {
-    this.returnValue = injectedScript._wrapObject(callFrame.returnValue, &quot;backtrace&quot;);
-  }
-}
+  <span class="k">if</span> <span class="p">(</span><span class="nx">callFrame</span><span class="p">.</span><span class="nx">isAtReturn</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">returnValue</span> <span class="o">=</span> <span class="nx">injectedScript</span><span class="p">.</span><span class="nx">_wrapObject</span><span class="p">(</span><span class="nx">callFrame</span><span class="p">.</span><span class="nx">returnValue</span><span class="p">,</span> <span class="s2">&quot;backtrace&quot;</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
 </code></pre></div>
-<p>.5. wrapObject</p>
+<hr>
+
+<h5>5. wrapObject</h5>
 
 <p>Did you see all of the <code>_wrapX</code> calls above? Well this is what it basically looks like.
 Don&#39;t be afraid, RemoteObjects is actually a really fundamental piece of DevTools. Remember how we
 had RemoteObjects on the frontend side, it turns out that they have a 1:1 sibling on the backend as well.</p>
-<div class="highlight"><pre><code class="language-js" data-lang="js">_wrapObject = function(object, forceValueType, generatePreview) {
-  return new InjectedScript.RemoteObject(object, forceValueType, generatePreview);
-},
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">_wrapObject</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">object</span><span class="p">,</span> <span class="nx">forceValueType</span><span class="p">,</span> <span class="nx">generatePreview</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="k">new</span> <span class="nx">InjectedScript</span><span class="p">.</span><span class="nx">RemoteObject</span><span class="p">(</span><span class="nx">object</span><span class="p">,</span> <span class="nx">forceValueType</span><span class="p">,</span> <span class="nx">generatePreview</span><span class="p">);</span>
+<span class="p">},</span>
 </code></pre></div>
-<p>.6. RemoteObject</p>
+<hr>
+
+<h5>6. RemoteObject</h5>
 
 <p>RemoteObject takes an object and serializes. Almost every object shown in chrome devtools has
 been serialized by RemoteObject and all of it&#39;s data shipped up the inspector. When you look at
@@ -379,25 +411,28 @@ the constructor, you&#39;ll see a bunch of things you might expect (type, value,
 
 <p>One feature, which is still experimental, but should be totally awesome is the custom previewer.
 The feature is still experimental, but hopefully someday it&#39;ll be easy to register custom formatter for your favorite application and framework objects. These previews will help make the objects prettier in the console and source panel.</p>
-<div class="highlight"><pre><code class="language-js" data-lang="js">RemoteObject = function(object, forceValueType, generatePreview) {
-  this.type = typeof object;
 
-  if (isPrimitiveValue(object) || forceValueType)
-  this.value = object;
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">RemoteObject</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">object</span><span class="p">,</span> <span class="nx">forceValueType</span><span class="p">,</span> <span class="nx">generatePreview</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">type</span> <span class="o">=</span> <span class="k">typeof</span> <span class="nx">object</span><span class="p">;</span>
+  
+  <span class="k">if</span> <span class="p">(</span><span class="nx">isPrimitiveValue</span><span class="p">(</span><span class="nx">object</span><span class="p">)</span> <span class="o">||</span> <span class="nx">forceValueType</span><span class="p">)</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">object</span><span class="p">;</span>
+  
+  <span class="kd">var</span> <span class="nx">subtype</span> <span class="o">=</span> <span class="nx">injectedScript</span><span class="p">.</span><span class="nx">_subtype</span><span class="p">(</span><span class="nx">object</span><span class="p">);</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">subtype</span><span class="p">)</span> <span class="k">this</span><span class="p">.</span><span class="nx">subtype</span> <span class="o">=</span> <span class="nx">subtype</span><span class="p">;</span>
+  
+  <span class="kd">var</span> <span class="nx">className</span> <span class="o">=</span> <span class="nx">internalConstructorName</span><span class="p">(</span><span class="nx">object</span><span class="p">);</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">className</span> <span class="o">=</span> <span class="nx">className</span><span class="p">;</span>
+  
+  <span class="k">this</span><span class="p">.</span><span class="nx">description</span> <span class="o">=</span> <span class="nx">_describe</span><span class="p">(</span><span class="nx">object</span><span class="p">);</span>
+  
+  <span class="k">if</span> <span class="p">(</span><span class="nx">generatePreview</span><span class="p">)</span> <span class="k">this</span><span class="p">.</span><span class="nx">preview</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">_generatePreview</span><span class="p">(</span><span class="nx">object</span><span class="p">);</span>
+  
+  <span class="k">if</span> <span class="p">(</span><span class="nx">_customObjectFormatterEnabled</span><span class="p">)</span> <span class="k">this</span><span class="p">.</span><span class="nx">customPreview</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">_customPreview</span><span class="p">(</span><span class="nx">object</span><span class="p">);</span>
+<span class="p">}</span></code></pre></div>
 
-  var subtype = injectedScript._subtype(object);
-  if (subtype) this.subtype = subtype;
+<hr>
 
-  var className = internalConstructorName(object);
-  this.className = className;
-
-  this.description = _describe(object);
-
-  if (generatePreview) this.preview = this._generatePreview(object);
-
-  if (_customObjectFormatterEnabled) this.customPreview = this._customPreview(object);
-}
-</code></pre></div>
 <h3>Closing Thoughts</h3>
 
 <p>I hope you enjoyed diving into chrome DevTools. The people who work on DevTools have
@@ -417,8 +452,8 @@ the past couple months, but already I&#39;ve learned so much.</p>
             </div>
             <div class="contact">
               <p>
-                <a href="https://github.com/yourusername">github.com/jasonLaster</a><br />
-                <a href="https://twitter.com/yourusername">twitter.com/jasonlaster11</a><br />
+                <a href="https://github.com/jasonLaster">github.com/jasonLaster</a><br />
+                <a href="https://twitter.com/jasonlaster11">twitter.com/jasonlaster11</a><br />
               </p>
             </div>
           </div>

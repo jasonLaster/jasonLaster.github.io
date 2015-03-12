@@ -1,7 +1,7 @@
-name: The Daily Picayune
+name: Jason Laster
 markdown: redcarpet
 pygments: true
-description: Custom bike builders who do not call initialize
+description: A collection of thoughts / notes.
 url: http://jasonlaster.github.io/
 syntax-highlighting:
   enabled : true

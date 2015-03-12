@@ -61,7 +61,7 @@ h1, h2, h3, h4, h5, h6 {
   .site {
     font-size: 115%;
     text-align: justify;
-    width: 42em;
+    width: 50em;
     margin: 3em auto 2em;
     line-height: 1.5em;
   }
@@ -134,7 +134,6 @@ h1, h2, h3, h4, h5, h6 {
   /*****************************************************************************/
 
   .post {
-    width: 60em;
     color: #666;
     font-size: 1rem;
     line-height: 1.5rem;

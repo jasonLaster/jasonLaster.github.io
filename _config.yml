@@ -1,7 +1,7 @@
 name: Jason Laster
 markdown: redcarpet
 pygments: true
-description: A collection of thoughts / notes.
+description:
 url: http://jasonlaster.github.io/
 syntax-highlighting:
   enabled : true

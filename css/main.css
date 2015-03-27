@@ -15,9 +15,9 @@ html, body {
 }
 
 body {
-  background-color: #FFFBEE;
-  font: 13.34px Helvetica, Arial, sans-serif;
-  font-size: small;
+  /*background-color: #FFFBEE;*/
+  font: 18px Helvetica, Arial, sans-serif;
+  font-weight: 200;
   text-align: center;
 }
 
@@ -59,7 +59,7 @@ h1, h2, h3, h4, h5, h6 {
   /*****************************************************************************/
 
   .site {
-    font-size: 115%;
+    font-size: 1;
     text-align: justify;
     width: 50em;
     margin: 3em auto 2em;
@@ -101,7 +101,7 @@ h1, h2, h3, h4, h5, h6 {
   }
 
   .site .footer {
-    font-size: 80%;
+    font-size: .8em;
     color: #666;
     border-top: 4px solid #eee;
     margin-top: 2em;
@@ -135,11 +135,10 @@ h1, h2, h3, h4, h5, h6 {
 
   .post {
     color: #666;
-    font-size: 1rem;
-    line-height: 1.5rem;
+    font-size: 1em;
+    line-height: 1.5em;
+    text-align: left;
   }
-
-
 
   .post h4, .post h5, .post h3 {
     margin: 1em 0;
@@ -156,8 +155,6 @@ h1, h2, h3, h4, h5, h6 {
 
   /* standard */
   .post pre {
-    border: 1px solid #ddd;
-    background-color: #eef;
     padding: 0 .4em;
   }
 
@@ -166,8 +163,6 @@ h1, h2, h3, h4, h5, h6 {
   }
 
   .post code {
-    border: 1px solid #ddd;
-    background-color: #eef;
     padding: 0 .2em;
   }
 
@@ -187,7 +182,8 @@ h1, h2, h3, h4, h5, h6 {
   }
 
   .post .highlight {
-    width: 700px;
-    overflow-x: scroll;
-    background: #EEF;
+    width: 800px;
+    margin: 2em 0;
+    border-left: 4px solid rgba(255, 220, 128, 0.53);
+    padding-left: 10px;
   }

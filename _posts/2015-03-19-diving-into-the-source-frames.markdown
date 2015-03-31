@@ -32,6 +32,7 @@ jumpToSearchResult: function(index) {
 #### Shortcuts
 
 All of the shortcuts are defined in an object `WebInspector.ShortcutsScreen.SourcesPanelShortcuts`. Here's a dump of them for fun:
+
 + SelectNextOccurrence
 + SoftUndo
 + GotoMatchingBracket

@@ -42,4 +42,4 @@ function focusable(element){
 
 ---
 
-<img src="http://f.cl.ly/items/0O301f040V0q26163b0m/Image%202015-03-17%20at%203.43.51%20PM.png" css="width:700px"/>
+<img src="http://f.cl.ly/items/0O301f040V0q26163b0m/Image%202015-03-17%20at%203.43.51%20PM.png" style="width:700px;" />

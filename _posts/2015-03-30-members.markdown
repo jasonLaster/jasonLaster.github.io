@@ -12,7 +12,7 @@ style="width:400px"/>
 #### Member List / Symbol List / Function List
 
 When `cmd+shift+o` or `cmd+shift+p` is pressed the callback
-`SourcesView.\_showOutlineDialog` is fired.
+`SourcesView._showOutlineDialog` is fired.
 
 
 ```js

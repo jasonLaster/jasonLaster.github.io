@@ -2,7 +2,7 @@
 layout: post
 title:  "How does DevTools show the functions popup?"
 date:   2015-03-19
-categories: js
+categories: js devtools
 ---
 
 
@@ -65,7 +65,7 @@ WebInspector.JavaScriptOutlineDialog = function(uiSourceCode, selectItemCallback
 
 ----
 
-#### script_formatter_worker
+#### script\_formatter\_worker
 
 The worker is setup here `script_formatter_worker` and will respond to messages with a method `javaScriptOutline`. When the worker is done it'll call the dialog's `_didBuildOutlineChunk` callback.
 

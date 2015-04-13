@@ -184,14 +184,14 @@ function remoteObjectBinder(error, properties, internalProperties) {
     var propertyValue = createRemoteObject(property.value)
     result.push(new RemoteObjectProperty(property.name, propertyValue));
   }
-  
+
   var internalPropertiesResult = [];
   for (var i = 0; i < internalProperties.length; i++) {
     var property = internalProperties[i];
     var propertyValue = createRemoteObject(property.value);
     internalPropertiesResult.push(new RemoteObjectProperty(property.name, propertyValue));
   }
-  
+
   callback(result, internalPropertiesResult);
 }
 ```
@@ -207,14 +207,14 @@ There are tons of cases here, but the simplified version looks something like th
 
 ```js
 function(treeNode, properties, internalProperties, skipProto, value, emptyPlaceholder) {
-  
+
   for (var i = 0; i < properties.length; ++i) {
     var property = properties[i];
-    
+
     if (skipProto && property.name === "__proto__") continue;
     treeNode.appendChild(new ObjectPropertyTreeElement(property));
   }
-  
+
   for (var i = 0; i < internalProperties.length; i++) {
     treeNode.appendChild(new ObjectPropertyTreeElement(internalProperties[i]));
   }
@@ -328,7 +328,7 @@ PassRefPtr<Array<CallFrame> > InjectedScript::wrapCallFrames(const ScriptValue& 
   function.appendArgument(callFrames);
   function.appendArgument(asyncOrdinal);
   ScriptValue callFramesValue = callFunctionWithEvalEnabled(function);
-  
+
   return Array<CallFrame>::runtimeCast(callFramesValue);
 }
 ```
@@ -347,7 +347,7 @@ function wrapCallFrames(callFrame, asyncOrdinal) {
     callFrame = callFrame.caller;
     ++depth;
   } while (callFrame);
-  
+
   return result;
 },
 {% endhighlight %}
@@ -367,17 +367,17 @@ InjectedScript.CallFrameProxy = function(ordinal, callFrame, asyncOrdinal) {
     injectedScriptId: injectedScriptId,
     asyncOrdinal: asyncOrdinal
   };
-  
+
   this.location = {
     scriptId: callFrame.sourceID,
     lineNumber: callFrame.line,
     columnNumber: callFrame.column,
   };
-  
+
   this.scopeChain = this._wrapScopeChain(callFrame);
-  
+
   this.this = injectedScript._wrapObject(callFrame.thisObject, "backtrace");
-  
+
   if (callFrame.isAtReturn) {
     this.returnValue = injectedScript._wrapObject(callFrame.returnValue, "backtrace");
   }
@@ -408,20 +408,20 @@ The feature is still experimental, but hopefully someday it'll be easy to regist
 {% highlight javascript %}
 RemoteObject = function(object, forceValueType, generatePreview) {
   this.type = typeof object;
-  
+
   if (isPrimitiveValue(object) || forceValueType)
   this.value = object;
-  
+
   var subtype = injectedScript._subtype(object);
   if (subtype) this.subtype = subtype;
-  
+
   var className = internalConstructorName(object);
   this.className = className;
-  
+
   this.description = _describe(object);
-  
+
   if (generatePreview) this.preview = this._generatePreview(object);
-  
+
   if (_customObjectFormatterEnabled) this.customPreview = this._customPreview(object);
 }
 {% endhighlight %}

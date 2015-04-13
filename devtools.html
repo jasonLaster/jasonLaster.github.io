@@ -1,0 +1,32 @@
+---
+layout: default
+title: Jason Laster
+---
+
+<div id="home">
+
+  <h2>Chrome DevTools</h2>
+  <img src="https://developer.chrome.com/devtools/images/js-debugging.png"/>
+  <div>
+    <p>
+      Chrome DevTools is a ubiquitous web developer tool.
+      It is easy to use it every day and take it for granted.
+    </p>
+    <p>
+      In this series, I explore some of DevTool's inner-workings.
+
+      The format I chose, is a simple question and answer one.
+      I wanted to know how one aspect worked, and I recorded my findings as I went.
+    </p>
+    <p>
+      I hope some of these questions encourage you to jump in aswell.
+    </p>
+  </div>
+
+  <h2>Articles:</h2>
+  <ul class="posts">
+    {% for post in site.categories['devtools'] %}
+        <li><a href="{{ post.url }}">{{ post.title }}</a></li>
+    {% endfor %}
+  </ul>
+</div>

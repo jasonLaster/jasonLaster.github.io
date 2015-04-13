@@ -2,7 +2,7 @@
 layout: post
 title:  "Diving into the source frames"
 date:   2015-03-19
-categories: js
+categories: js devtools
 ---
 
 

@@ -13,6 +13,19 @@ function calls and shared state, so it's a safe assumption that one function cou
 
 <img src="https://www.dropbox.com/s/p05cxyhcheswvmv/Screenshot%202015-07-17%2019.06.22.jpg?dl=1" style="width:800px" />
 
+### List of things that are parsed
+
++ Pattern ArrayPattern, PropertyPattern, ObjectPattern, PatternWithDefault, ArrayInitialiser, PropertyFunction, PropertyMethodFunction, ObjectPropertyKey, ObjectProperty, ObjectInitialiser, TemplateElement, TemplateLiteral, GroupExpression, PrimaryExpression, Arguments, NonComputedProperty, NonComputedMember, ComputedMember, tryMethodDefinition
+
++ NewExpression, LeftHandSideExpressionAllowCall, LeftHandSideExpression, PostfixExpression, UnaryExpression, binaryPrecedence, BinaryExpression, ConditionalExpression, ConciseBody, reinterpretAsCoverFormalsList, ArrowFunctionExpression, YieldExpression, AssignmentExpression, Expression, StatementListItem, StatementList, Block
+
++ VariableIdentifier, VariableDeclaration, VariableDeclarationList, VariableStatement, LexicalBinding, BindingList, LexicalDeclaration, RestElement, EmptyStatement, ExpressionStatement, IfStatement, DoWhileStatement, WhileStatement, ForStatement, ContinueStatement, BreakStatement, ReturnStatement, WithStatement, SwitchCase, SwitchStatement, ThrowStatement, CatchClause, TryStatement, DebuggerStatement, Statement, FunctionSourceElements, Param, Params, FunctionDeclaration, FunctionExpression, ScriptBody, Program, ClassBody, ClassDeclaration, ClassExpression
+
++ ModuleSpecifier, ExportSpecifier, ExportNamedDeclaration, ExportDefaultDeclaration, ExportAllDeclaration, ExportDeclaration, ImportSpecifier, NamedImports, ImportDefaultSpecifier, ImportNamespaceSpecifier ImportDeclaration
+
+---
+
+## Functions
 
 ### Utilities
 + assert

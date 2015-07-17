@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Complete List of Esprima functions"
+title:  "Esprima from 30,000 feet"
 date:   2015-07-17
 categories: js esprima
 ---
@@ -8,8 +8,8 @@ categories: js esprima
 Here's a complete list of functions inside of Esprima. I'm not going to try to document
 Esprima, but just organize the list in a quick pass so that we can see how Esprima looks from a 30,000 foot perspective.
 
-> NOTE: Esprima is organized quite beautifully as a iife with flat
-function calls and shared state, so it's a safe assumption that one function could perhaps call another
+    NOTE: Esprima is organized quite beautifully as an iife with flat
+    function calls and shared state, so it's a safe assumption that one function could perhaps call another
 
 <img src="https://www.dropbox.com/s/p05cxyhcheswvmv/Screenshot%202015-07-17%2019.06.22.jpg?dl=1" style="width:800px" />
 

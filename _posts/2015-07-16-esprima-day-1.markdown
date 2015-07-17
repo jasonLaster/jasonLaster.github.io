@@ -51,6 +51,7 @@ Lets look at two things:
 Here's a simplified version of the binary expression parser.
 
 Order of operations:
+
   1. get left value (1)
   2. get operator (+)
   3. get right value (2)
@@ -118,17 +119,19 @@ inheritCoverGrammar(parseUnaryExpression);
 ```
 
 Here's Esprima's call stack as it searches for the left value's value.
-```
-9. **finishLiteral**
-8. **parsePrimaryExpression** (esprima.js:3155)
-7. inheritCoverGrammar (esprima.js:2610)
-6. **parseLeftHandSideExpressionAllowCall** (esprima.js:3324)
-5. inheritCoverGrammar (esprima.js:2610)
-4. **parsePostfixExpression** (esprima.js:3398)
-3. **parseUnaryExpression** (esprima.js:3427)
-2. inheritCoverGrammar (esprima.js:2610)
-1. **parseBinaryExpression** (esprima.js:3547)
-```
+
+
+.9. **finishLiteral**  
+.8. **parsePrimaryExpression** (esprima.js:3155)  
+.7. inheritCoverGrammar (esprima.js:2610)  
+.6. **parseLeftHandSideExpressionAllowCall**
+(esprima.js:3324)  
+.5. inheritCoverGrammar (esprima.js:2610)  
+.4. **parsePostfixExpression** (esprima.js:3398)  
+.3. **parseUnaryExpression** (esprima.js:3427)  
+.2. inheritCoverGrammar (esprima.js:2610)  
+.1. **parseBinaryExpression** (esprima.js:3547)  
+
 
 Here's how Esprima narrow's the search:
 
@@ -141,6 +144,7 @@ Here's how Esprima narrow's the search:
 `parsePrimaryExpression` finally figures out that our left value is a literal value.
 
 The way it does it is really neat. There's a specific order it checks things:
+
 1. parenthesis, bracket, or curly
 2. identifiers
 3. literals
@@ -194,12 +198,11 @@ Here's the call stack leading up to `parseBinaryExpression`
 The first three steps setup the state for parsing statements.
 Statements and expressions are two of the main guys, so that's where it gets fun.
 
-```
+
 1. parse
 2. parseProgram
 3. parseScriptBody
 4. parseStatementListItem
-```
 
 `parseStatementListItem` basically says, if the statement begins with a keyword, parse it,
 otherwise parse a plain vanilla statement.
@@ -223,6 +226,7 @@ function parseStatementListItem() {
 and `parseStatement` is where the really good stuff happens
 
 Order of operations
+
 1. look for punctuation
 2. look for keywords
 3. treat it as an expression

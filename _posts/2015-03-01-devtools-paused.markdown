@@ -15,7 +15,7 @@ Other parts, I've included simplified code-snippets to capture the gist.
 ### What happens when a breakpoint is hit in DevTools
 
 ##### The frontend receives a "Debugger.paused" method
-+ The method contains four params: callFrames, reason, data, hitBreakpoints, asyncStackTrace.  
++ The method contains four params: callFrames, reason, data, hitBreakpoints, asyncStackTrace.
 + The callFrame has fields: callFrameId, functionName, location, scopeChain, this
 
 ##### There are several reasons execution could stop:
@@ -261,7 +261,7 @@ Here's an overview, that we'll unpack below.
 
 **InspectorFrontend.cpp**
 
-+ m_frontend->paused(currentCallFrames(), m_breakReason, m_breakAuxData, hitBreakpointIds, currentAsyncStackTrace());
++ m\_frontend->paused(currentCallFrames(), m\_breakReason, m\_breakAuxData, hitBreakpointIds, currentAsyncStackTrace());
 
 **InspectorDebuggerAgent.cpp**
 
@@ -309,7 +309,7 @@ Note, we pass the call stack down to script to serialize the call frame data.
 PassRefPtr<Array<CallFrame> > InspectorDebuggerAgent::currentCallFrames() {
   InjectedScript injectedScript = m_injectedScriptManager->injectedScriptFor(m_pausedScriptState.get());
   return injectedScript.wrapCallFrames(m_currentCallStack, 0);
-}  
+}
 {% endhighlight %}
 
 ---

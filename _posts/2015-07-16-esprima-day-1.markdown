@@ -326,3 +326,9 @@ There are also plenty of interesting meta questions we can ask about how Esprima
 
 Ofcourse, we can also just ask esprima to parse something slightly more complicated like
 (`var a = 2+2` or `function sum(a,b) {return a + b;}`).
+
+
+    NOTE: All of the credit goes to the Esprima team
+    for writing readable code. Also, please forgive me
+    for simplifying the code examples and perhaps butchering
+    some of the explanations.

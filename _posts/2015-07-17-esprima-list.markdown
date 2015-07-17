@@ -11,6 +11,9 @@ Esprima, but just organize the list in a quick pass so that we can see how Espri
 > NOTE: Esprima is organized quite beautifully as a iife with flat
 function calls and shared state, so it's a safe assumption that one function could perhaps call another
 
+![](https://www.dropbox.com/s/p05cxyhcheswvmv/Screenshot%202015-07-17%2019.06.22.jpg?dl=1)
+
+
 ### Utilities
 + assert
 + isDecimalDigit

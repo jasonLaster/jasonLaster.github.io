@@ -5,8 +5,8 @@ date:   2015-07-17
 categories: js esprima
 ---
 
-Yesterday, we looked at how esprima parses "2+2". Today,
-we're going to go one step further and see how Esprima parses
+Yesterday, we looked at how Esprima parses `2+2`. Today,
+we're going to go one step further and see how Esprima parses `sum`.
 
 ```js
 function sum(a,b) {
@@ -14,8 +14,10 @@ function sum(a,b) {
 }
 ```
 
-Lets think of this as the natural evolution of arithmetic. You know,
-the general expression if you will :)
+Like yesterday, this post is just a polished version of my notes.
+The transitions will be a bit rough and there are probably some
+incomplete thoughts, but hopefully you'll be able to see how
+Esprima goes about the work of parsing a function.
 
 ### How do you add two numbers?
 
@@ -25,14 +27,6 @@ So lets start from the beginning.
 esprima.parse("function sum(a,b) {return a + b;}")
 ```
 When you parse the `sum` function you get an output like this:
-
-Note:
-
-+ `FunctionDeclaration` - declarations take the form `function foo() {}`
-+ `type.name` is set to `sum`
-+ `params` are an array of identifiers (a, b)
-+ `body` is a `ReturnStatement` with an argument `BinaryExpression`. We learned about binary expressions yesterday.
-
 
 ```json
 {
@@ -82,19 +76,29 @@ Note:
 }
 ```
 
+
+**Notes:**
+
++ `FunctionDeclaration` - declarations take the form `function foo() {}`
++ `type.name` is set to `sum`
++ `params` are an array of identifiers `(a, b)`
++ `body` is a `ReturnStatement` with an argument `BinaryExpression`.
+
+----
+
+##### Call Stack
+
 Alright, now that we see the output, lets take a look at how it was generated.
+In this case, if we set a breakpoint at `parseFunctionDeclaration`
+the call stack is pretty simple.
 
-In this case, the call stack is pretty simple.
-The first function declaration is just a statement item found by `parseStatementListItem`.
+    5. parseFunctionDeclaration
+    4. parseStatementListItem
+    3. parseScriptBody
+    2. parseProgram
+    1. parse
 
-+ **parseFunctionDeclaration** (esprima.js:4821)
-+ **parseStatementListItem** (esprima.js:3882)
-+ parseScriptBody (esprima.js:5319)
-+ parseProgram (esprima.js:5335)
-+ parse (esprima.js:5520)
-
-
-`parseStatementListItem` looks like this. It's not surprising that it finds the function declaration.
+This shows us that, the function declaration is just a `StatementItem` found by `parseStatementListItem`.
 
 ```js
 function parseStatementListItem() {
@@ -112,10 +116,14 @@ function parseStatementListItem() {
 }
 ```
 
+Looking at `parseStatementListItem`,
+all it's doing is comparing the lookahead's value to different types.
+It's not surprising that it finds the function declaration.
+
+
 ### How is a function parsed?
 
 Here's a simplified version of `parseFunctionDeclaration`
-
 We'll look at how four things are handled: (names, params, strict mode, body).
 
 
@@ -162,17 +170,14 @@ Parse params order of operations is as follows:
 2. check for the second ')' if it finds it return early
 3. parse params
 
+
 ```js
 function parseParams() {
-
     options = { params: [] };
-
     expect('(');
-    if (match(')')) return options;
 
-    while (true) {
-        if (!parseParam(options)) break;
-    }
+    if (match(')')) return options;
+    while (parseParam(options));
 
     return options;
 }
@@ -181,7 +186,7 @@ function parseParams() {
 Are you surprised that `parseParams` delegates responsiblity to `parseParam`?
 You shouldn't be, parsers will always break the problem into the smallest possible unit!
 
-Findings:
+**Findings:**
 
 + Params are just variable identifiers. Remember function names? Same thing!
 + `options` is a variable that is shared between `parseParams` and `parseParam`. Interesting choice sir...
@@ -201,11 +206,24 @@ function parseParam(param) {
 #### What's going on with strict modes?
 
 When `parseFunctionDeclaration` parses the body it first saves the current strict mode.
+It then, parses the function body and resets the strict mode.
 
 ```js
-var previousStrict = strict;
-var body = parseFunctionSourceElements();
-strict = previousStrict;
+function parseFunctionDeclaration(node) {
+
+    if (!match('(')) {
+        token = lookahead;
+        var id = parseVariableIdentifier();
+    }
+
+    var params = parseParams();
+
+    var previousStrict = strict;
+    var body = parseFunctionSourceElements();
+    strict = previousStrict;
+
+    return node.finishFunctionDeclaration(id, params, body);
+}
 ```
 
 The reason for this is pretty cool. Remember that each function block can define it's own strict mode
@@ -213,18 +231,16 @@ preference, well, by keeping a reference to the wrapping
 block's strict mode preference we can make sure it doesn't get clobbered.
 
 ```js
-function() {
-    'use strict'
-}
+function() { 'use strict' }
 ```
 
 
 #### How is the function body parsed?
 
-parseFunctionSourceElements will do a couple things to set specific function
+`parseFunctionSourceElements` will do a couple things to set specific function
 body fields, but the gist of it is parsing statements, which is a lot like parsing a JS script body.
 
-Order of operations:
+**Order of operations:**
 
 + check for a left curly `{`
 + start parsing statements and checking for the right curly `}`
@@ -248,21 +264,18 @@ function parseFunctionSourceElements() {
 You might expect us to jump into how Esprima parses a statement, but
 I promise you that if we do that then this will be the blog post that never ends.
 In the spirit of the parser, if you're curious, I point you to yesterday's post
-on how "2+2" is parsed. If you've seen one statement parsed, you've seen them all :)
+on how `2+2` is parsed. If you've seen one statement parsed, you've seen them all :)
 Not really, but ya know we got to save something for tomorrow.
 
 
 ### Overview
 
-Alright, so that finishes today's journey into how a simple function
-`function sum(a,b) {return a + b;}` is parsed.
+Alright, so that finishes today's journey into how `sum` is parsed.
+
+ ```js
+ function sum(a,b) {return a + b;}
+ ```
 
 We looked at how sum's name, params, and body were parsed. Along the way,
 we saw the importance of breaking a big problem down into small pieces and
 the value of always checking for small grammatical hints ("(", ")", ",", "{", "}").
-
-
-    NOTE: All of the credit goes to the Esprima team
-    for writing readable code. Also, please forgive me
-    for simplifying the code examples and perhaps butchering
-    some of the explanations.

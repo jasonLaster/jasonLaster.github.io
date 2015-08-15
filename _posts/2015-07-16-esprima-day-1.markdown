@@ -182,6 +182,7 @@ Let's see how Esprima figured out 2+2 was in fact a binary expression.
 Here's the call stack leading up to `parseBinaryExpression`
 
 ```
+
 11. parseBinaryExpression (esprima.js:3593)
 10. inheritCoverGrammar (esprima.js:2610)
 9. parseConditionalExpression (esprima.js:3604)
@@ -193,6 +194,7 @@ Here's the call stack leading up to `parseBinaryExpression`
 3. parseScriptBody (esprima.js:5319)
 2. parseProgram (esprima.js:5335)
 1. parse (esprima.js:5520)
+
 ```
 
 The first three steps setup the state for parsing statements.

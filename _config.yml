@@ -1,7 +1,7 @@
 name: Jason Laster
 markdown: redcarpet
 pygments: true
-description: A home for my technical thoughts.
+description: This blog is a home for my technical thoughts.
 url: http://jasonlaster.github.io/
 syntax-highlighting:
   enabled : true

@@ -16,11 +16,11 @@ In the meantime, we can do a little hacking and build a half decent substitute.
 
 #### Original
 
-![](http://f.cl.ly/items/070s0S1b1p3g2b3r0q0L/Screen%20Shot%202016-03-05%20at%2012.13.26%20PM.png)
+<img src="http://f.cl.ly/items/070s0S1b1p3g2b3r0q0L/Screen%20Shot%202016-03-05%20at%2012.13.26%20PM.png" width="670px">
 
 #### New View
 
-![](http://f.cl.ly/items/1b0N1f1l3d0j2G1u3O41/Screen%20Shot%202016-03-05%20at%2012.13.19%20PM.png)
+<img src="http://f.cl.ly/items/1b0N1f1l3d0j2G1u3O41/Screen%20Shot%202016-03-05%20at%2012.13.19%20PM.png" width="670px">
 
 
 What you need to do is to open a second DevTools (DT) to inspect the original. You can do this when DT is undocked and you hit <cmd> shift I. At this point, you can create a new snippet in the sources tab and add the code below. Or if you're feeling lazy drop the whole thing into the console.

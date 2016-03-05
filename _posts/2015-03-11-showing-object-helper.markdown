@@ -19,6 +19,7 @@ It's an opportunity for your computer to tell you what's going on. It's one of m
 The object helper is setup and managed by the Javascript source frame. This is probably not a surprise, the source frame object seems to manage the text editor and a ton of other big associated pieces (compiler, breakpoints, shortcuts,...).
 
 The popover helper gets the text editor element and callbacks for the:
+
 + anchor (probably where the popover should be positioned)
 + resolving the object
 + on hiding the popover

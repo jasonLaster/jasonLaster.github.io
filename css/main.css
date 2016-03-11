@@ -66,6 +66,7 @@ ul.posts {
 }
 ul.posts li {
     line-height: 1.75em;
+    margin-bottom: .5em;
 }
 ul.posts span {
     color: #aaa;
@@ -102,6 +103,24 @@ ul.posts span {
     /* font-weight: bold; */
     text-decoration: none;
 }
+
+.site .header img {
+  width: 64px;
+  display: block;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  border-radius: 50%;
+  float: left;
+}
+
+.site .header .sub-header {
+  float:left;
+  margin-left:20px;
+  clear: right;
+}
+
 .site .header h1.title {
     display: inline-block;
 }
@@ -150,6 +169,18 @@ ul.posts span {
     margin: 0 0 2em 0;
 }
 
+.site #home h2 {
+  text-align: left;
+}
+
+.site #home ul {
+  padding-left: 0;
+}
+
+.site #home ul a {
+  color: #444;
+}
+
 /*****************************************************************************/
 
 
@@ -185,6 +216,10 @@ ul.posts span {
 }
 .post h5 {
     color: #444;
+}
+
+.post img {
+  width: 640px;
 }
 
 /* standard */

@@ -1,6 +1,6 @@
 name: Jason Laster
 markdown: redcarpet
-pygments: true
+highlighter: rouge
 description: This blog is a home for my technical thoughts.
 url: http://jasonlaster.github.io/
 syntax-highlighting:

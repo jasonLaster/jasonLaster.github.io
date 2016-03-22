@@ -51,5 +51,5 @@ var framesData = frameData.map(frame =>  {
     return {id, method,params , result}
 });
 
-console.table(framesData)
+console.table(framesData);
 ```

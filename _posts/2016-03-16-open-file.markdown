@@ -1,0 +1,136 @@
+---
+layout: post
+title:  "Firefox DevTools - Showing a File"
+date:   2016-03-16
+categories: DevTools JS
+---
+
+## How are sources shown in the debugger?
+
+![](../images/screenshots/show-file.png)
+
+In this post, we're going to trace the steps for showing a source file
+in the debugger.
+
+To do this, we should first look at two components of the debugger:
+the Editor and the Sources pane.
+
+The Editor is the component responsible
+for showing a source's file. In the case of Firefox, it's a CodeMirror editor.
+Chrome DevTools and many other popular tools use CodeMirror.
+
+The Sources component is in the left sidebar and shows a
+file list or tree of all the sources.
+
+----
+
+### The Beginning: Setting up the Sources Component
+
+The Sources component is a widget that's setup and managed by the `SourcesView`.
+
+```js
+this.widget = new SideMenuWidget(document.getElementById("sources"), {
+  contextMenu: document.getElementById("debuggerSourcesContextMenu"),
+  showArrows: true
+});
+```
+
+The `click` handler for selecting a source file is bound to the widget in
+the `SourcesView` initialization logic.
+
+```js
+this.widget.addEventListener("select", this._onSourceSelect, false);
+```
+
+### The Click: What happens when I select a source?
+
+
+When a source is selected in the sidebar pane the `_onSourceSelect` handler is called
+with a `sourceItem` parameter. The debugger follow Redux patterns, so our handler
+can be very simple: essentially invoke the select source action!
+
+```js
+_onSourceSelect: function({ detail: sourceItem }) {
+  this.actions.selectSource(sourceItem.attachment);
+},
+```
+
+The `sourceItem.attachment` property is a serializable representation of our source.
+It's important that it has an `actor` id and other useful data about being blackboxed,
+pretty printed, etc.
+
+```json
+{
+  "label": "/source/src/books/index/route.js",
+  "group": "",
+  "checkboxState": true,
+  "checkboxTooltip": "Toggle black boxing",
+  "source": {
+    "actor": "server1.conn2.child1/60",
+    "generatedUrl": "http://www.marionettewires.com/bundle.js",
+    "url": "/source/src/books/index/route.js",
+    "isBlackBoxed": false,
+    "isPrettyPrinted": false,
+    "isSourceMapped": true,
+    "introductionUrl": null,
+    "introductionType": "scriptElement"
+  }
+}
+```
+
+### Action Time: Lets do something real
+
+The `selectSource` action does two things for us, it starts
+loading the source text and it does the UI work of showing the selected source.
+
+When the debugger is showing a source file for the first time, the process looks
+something like this. Start fetching the source, and while we're waiting show a loading message.
+When we get the source back from the backend, go ahead and show it. There two corresponding events
+here: "source-selected" and "source-text-loaded". We'll get to these events in a minute.
+
+```js
+function selectSource(source, opts) {
+  return (dispatch, getState) => {
+    source = getSource(getState(), source.actor);
+    dispatch(loadSourceText(source));
+    dispatch(selectSource(source));
+  };
+}
+```
+
+### The Debugger View does the heavy lifting
+
+The `DebuggerView` handles both of events ("source-selected" and "source-text-loaded").
+They're setup in this `onReducerEvents`, which is some Redux boilerplate.
+
+```js
+onReducerEvents(this.controller, {
+  "source-text-loaded": this.renderSourceText,
+  "source-selected": this.renderSourceText
+}, this);
+```
+
+If you're wondering what the DebuggerView is responsible for, the answer is a lot.
+
+
+```
+Panes
+Editor
+Toolbar
+Options
+Filtering
+StackFrames
+Workers
+Sources
+WatchExpressions
+EventListeners
+GlobalSearch
+VariablesView
+```
+
+
+
+
+### Topics
+1. CodeMirror - editor.js
+2. SourcesView

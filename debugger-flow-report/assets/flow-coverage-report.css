@@ -1,0 +1,8 @@
+.ui .CodeMirror {
+  border: 1px solid rgba(34,36,38,.15);
+  height: auto;
+}
+
+.ui.grid.container {
+  padding-top: 4px;
+}

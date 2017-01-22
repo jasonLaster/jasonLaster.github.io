@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"/><link rel="stylesheet" href="../../../assets/semantic.min.css"/><link rel="stylesheet" href="../../../assets/codemirror.css"/><link rel="stylesheet" href="../../../assets/flow-highlight-source.css"/><link rel="stylesheet" href="../../../assets/flow-coverage-report.css"/><link rel="stylesheet" href="../../../assets/codemirror-simplescrollbars-addon.css"/><script src="../../../assets/jquery-3.1.0.min.js"></script><script src="../../../assets/semantic.min.js"></script><script src="../../../assets/semantic-tablesort.js"></script><script src="../../../assets/codemirror.js"></script><script src="../../../assets/codemirror-javascript-mode.js"></script><script src="../../../assets/codemirror-annotatescrollbar-addon.js"></script><script src="../../../assets/codemirror-simplescrollbars-addon.js"></script><script src="../../../assets/flow-highlight-source.js"></script><script src="../../../assets/index.js"></script></head><body><div class="ui grid container"><div class="row"><h1 class="twelve wide column">Flow Coverage Report - src/reducers/pause.js</h1><div class="four wide column" style="height:32px;"><a href="../../../index.html" id="link-to-summary">Go back to all files summary.</a></div></div><div class="row"><table class="ui small celled unstackable table"><thead><tr><th class="sorted ascending">Filename</th><th>Percent</th><th>Total</th><th>Covered</th><th>Uncovered</th></tr></thead><tbody><tr class="positive"><td class="">src/reducers/pause.js</td><td><span>80 %</span></td><td> 231 </td><td> 185 </td><td> 46 </td></tr></tbody></table></div><div class="row green" style="padding:0;height:12px;"></div><div class="row ui one column centered grid"><div class="column" style="text-align:left;"><div class="row"><div class="ui form"><div class="fields"><div class="sixteen wide inline field"><select class="ui search dropdown uncovered-locations"><option value="">Uncovered Locations</option><option value="9">Start: 9,9 - End: 9,13</option><option value="9">Start: 9,19 - End: 9,43</option><option value="34">Start: 34,28 - End: 34,32</option><option value="34">Start: 34,28 - End: 34,50</option><option value="35">Start: 35,33 - End: 35,37</option><option value="35">Start: 35,33 - End: 35,60</option><option value="47">Start: 47,16 - End: 47,32</option><option value="64">Start: 64,13 - End: 64,17</option><option value="64">Start: 64,21 - End: 64,38</option><option value="65">Start: 65,13 - End: 65,17</option><option value="66">Start: 66,11 - End: 66,55</option><option value="66">Start: 66,19 - End: 66,23</option><option value="66">Start: 66,19 - End: 66,55</option><option value="66">Start: 66,38 - End: 66,54</option><option value="69">Start: 69,30 - End: 69,34</option><option value="85">Start: 85,15 - End: 85,27</option><option value="85">Start: 85,31 - End: 85,56</option><option value="86">Start: 86,15 - End: 86,23</option><option value="86">Start: 86,27 - End: 86,48</option><option value="89">Start: 89,30 - End: 89,42</option><option value="89">Start: 89,45 - End: 89,53</option><option value="99">Start: 99,7 - End: 99,11</option><option value="100">Start: 100,7 - End: 100,11</option><option value="123">Start: 123,10 - End: 123,33</option><option value="127">Start: 127,10 - End: 127,41</option><option value="131">Start: 131,10 - End: 131,44</option><option value="135">Start: 135,10 - End: 135,51</option><option value="139">Start: 139,10 - End: 139,56</option><option value="143">Start: 143,10 - End: 143,34</option><option value="147">Start: 147,9 - End: 147,23</option><option value="147">Start: 147,27 - End: 147,60</option><option value="148">Start: 148,9 - End: 148,14</option><option value="148">Start: 148,18 - End: 148,42</option><option value="149">Start: 149,10 - End: 149,15</option><option value="149">Start: 149,10 - End: 149,68</option><option value="149">Start: 149,20 - End: 149,25</option><option value="149">Start: 149,20 - End: 149,68</option><option value="149">Start: 149,32 - End: 149,36</option><option value="149">Start: 149,41 - End: 149,45</option><option value="149">Start: 149,41 - End: 149,48</option><option value="149">Start: 149,53 - End: 149,67</option><option value="154">Start: 154,9 - End: 154,13</option><option value="154">Start: 154,17 - End: 154,39</option><option value="155">Start: 155,10 - End: 155,14</option><option value="155">Start: 155,18 - End: 155,22</option><option value="155">Start: 155,18 - End: 155,33</option></select></div><div class="four wide inline field"><select class="ui search dropdown syntax-highlighting"><option value="es">ES6/ES7</option><option value="js">JavaScript</option><option value="no">None</option></select></div></div></div></div><textarea id="file-content" readonly="">// @flow
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+const constants = require(&quot;../constants&quot;);
+const fromJS = require(&quot;../utils/fromJS&quot;);
+const makeRecord = require(&quot;../utils/makeRecord&quot;);
+const { prefs } = require(&quot;../utils/prefs&quot;);
+const I = require(&quot;immutable&quot;);
+
+import type { Frame, Pause,
+  Expression } from &quot;devtools-client-adapters/src/types&quot;;
+import type { Action } from &quot;../actions/types&quot;;
+import type { Record } from &quot;../utils/makeRecord&quot;;
+
+type PauseState = {
+  pause: ?Pause,
+  isWaitingOnBreak: boolean,
+  frames: ?Frame[],
+  selectedFrameId: ?string,
+  loadedObjects: Object,
+  shouldPauseOnExceptions: boolean,
+  shouldIgnoreCaughtExceptions: boolean,
+  expressions: I.List&lt;Expression&gt;
+}
+
+const State = makeRecord(({
+  pause: undefined,
+  isWaitingOnBreak: false,
+  frames: undefined,
+  selectedFrameId: undefined,
+  loadedObjects: I.Map(),
+  shouldPauseOnExceptions: prefs.pauseOnExceptions,
+  shouldIgnoreCaughtExceptions: prefs.ignoreCaughtExceptions,
+  expressions: I.List()
+} : PauseState));
+
+function update(state = State(), action: Action): Record&lt;PauseState&gt; {
+  switch (action.type) {
+    case constants.PAUSED: {
+      const { selectedFrameId, frames, pauseInfo } = action;
+      pauseInfo.isInterrupted = pauseInfo.why.type === &quot;interrupted&quot;;
+
+      return state.merge({
+        isWaitingOnBreak: false,
+        pause: fromJS(pauseInfo),
+        selectedFrameId,
+        frames
+      });
+    }
+
+    case constants.RESUME:
+      return state.merge({
+        pause: null,
+        frames: null,
+        selectedFrameId: null,
+        loadedObjects: {}
+      });
+
+    case constants.TOGGLE_PRETTY_PRINT:
+      if (action.status == &quot;done&quot;) {
+        const frames = action.value.frames;
+        let pause = state.get(&quot;pause&quot;);
+        if (pause) {
+          pause = pause.set(&quot;frame&quot;, fromJS(frames[0]));
+        }
+
+        return state.merge({ pause, frames });
+      }
+
+      break;
+    case constants.BREAK_ON_NEXT:
+      return state.set(&quot;isWaitingOnBreak&quot;, true);
+
+    case constants.SELECT_FRAME:
+      return state.set(&quot;selectedFrameId&quot;, action.frame.id);
+
+    case constants.LOAD_OBJECT_PROPERTIES:
+      if (action.status === &quot;done&quot;) {
+        if (!action.value) {
+          return state;
+        }
+
+        const ownProperties = action.value.ownProperties;
+        const prototype = action.value.prototype;
+
+        return state.setIn([&quot;loadedObjects&quot;, action.objectId],
+                           { ownProperties, prototype });
+      }
+      break;
+
+    case constants.NAVIGATE:
+      return State();
+
+    case constants.PAUSE_ON_EXCEPTIONS:
+      const { shouldPauseOnExceptions, shouldIgnoreCaughtExceptions } = action;
+
+      prefs.pauseOnExceptions = shouldPauseOnExceptions;
+      prefs.ignoreCaughtExceptions = shouldIgnoreCaughtExceptions;
+
+      return state.merge({
+        shouldPauseOnExceptions,
+        shouldIgnoreCaughtExceptions
+      });
+  }
+
+  return state;
+}
+
+// Selectors
+
+// Unfortunately, it&#x27;s really hard to make these functions accept just
+// the state that we care about and still type it with Flow. The
+// problem is that we want to re-export all selectors from a single
+// module for the UI, and all of those selectors should take the
+// top-level app state, so we&#x27;d have to &quot;wrap&quot; them to automatically
+// pick off the piece of state we&#x27;re interested in. It&#x27;s impossible
+// (right now) to type those wrapped functions.
+type OuterState = { pause: Record&lt;PauseState&gt; };
+
+function getPause(state: OuterState) {
+  return state.pause.get(&quot;pause&quot;);
+}
+
+function getLoadedObjects(state: OuterState) {
+  return state.pause.get(&quot;loadedObjects&quot;);
+}
+
+function getIsWaitingOnBreak(state: OuterState) {
+  return state.pause.get(&quot;isWaitingOnBreak&quot;);
+}
+
+function getShouldPauseOnExceptions(state: OuterState) {
+  return state.pause.get(&quot;shouldPauseOnExceptions&quot;);
+}
+
+function getShouldIgnoreCaughtExceptions(state: OuterState) {
+  return state.pause.get(&quot;shouldIgnoreCaughtExceptions&quot;);
+}
+
+function getFrames(state: OuterState) {
+  return state.pause.get(&quot;frames&quot;);
+}
+
+function getSelectedFrame(state: OuterState) {
+  const selectedFrameId = state.pause.get(&quot;selectedFrameId&quot;);
+  const frames = state.pause.get(&quot;frames&quot;);
+  return frames &amp;&amp; frames.find(frame =&gt; frame.id == selectedFrameId);
+}
+
+// NOTE: currently only used for chrome
+function getChromeScopes(state: OuterState) {
+  const frame = getSelectedFrame(state);
+  return frame ? frame.scopeChain : undefined;
+}
+
+module.exports = {
+  State,
+  update,
+  getPause,
+  getChromeScopes,
+  getLoadedObjects,
+  getIsWaitingOnBreak,
+  getShouldPauseOnExceptions,
+  getShouldIgnoreCaughtExceptions,
+  getFrames,
+  getSelectedFrame
+};
+</textarea></div></div><div class="row centered"><footer>Flow Coverage Report generated by<a href="https://flowtype.org"> flow </a>and<a href="https://github.com/rpl/flow-coverage-report"> flow-coverage-report </a>at Sun Jan 22 2017 10:17:28 GMT-0500 (EST)</footer></div></div><pre id="file-coverage-data" style="display:none;">{&quot;expressions&quot;:{&quot;covered_count&quot;:185,&quot;uncovered_count&quot;:46,&quot;uncovered_locs&quot;:[{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:9,&quot;column&quot;:9,&quot;offset&quot;:360},&quot;end&quot;:{&quot;line&quot;:9,&quot;column&quot;:13,&quot;offset&quot;:365}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:9,&quot;column&quot;:19,&quot;offset&quot;:370},&quot;end&quot;:{&quot;line&quot;:9,&quot;column&quot;:43,&quot;offset&quot;:395}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:34,&quot;column&quot;:28,&quot;offset&quot;:1048},&quot;end&quot;:{&quot;line&quot;:34,&quot;column&quot;:32,&quot;offset&quot;:1053}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:34,&quot;column&quot;:28,&quot;offset&quot;:1048},&quot;end&quot;:{&quot;line&quot;:34,&quot;column&quot;:50,&quot;offset&quot;:1071}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:35,&quot;column&quot;:33,&quot;offset&quot;:1105},&quot;end&quot;:{&quot;line&quot;:35,&quot;column&quot;:37,&quot;offset&quot;:1110}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:35,&quot;column&quot;:33,&quot;offset&quot;:1105},&quot;end&quot;:{&quot;line&quot;:35,&quot;column&quot;:60,&quot;offset&quot;:1133}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:47,&quot;column&quot;:16,&quot;offset&quot;:1510},&quot;end&quot;:{&quot;line&quot;:47,&quot;column&quot;:32,&quot;offset&quot;:1527}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:64,&quot;column&quot;:13,&quot;offset&quot;:1884},&quot;end&quot;:{&quot;line&quot;:64,&quot;column&quot;:17,&quot;offset&quot;:1889}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:64,&quot;column&quot;:21,&quot;offset&quot;:1892},&quot;end&quot;:{&quot;line&quot;:64,&quot;column&quot;:38,&quot;offset&quot;:1910}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:65,&quot;column&quot;:13,&quot;offset&quot;:1924},&quot;end&quot;:{&quot;line&quot;:65,&quot;column&quot;:17,&quot;offset&quot;:1929}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:66,&quot;column&quot;:11,&quot;offset&quot;:1943},&quot;end&quot;:{&quot;line&quot;:66,&quot;column&quot;:55,&quot;offset&quot;:1988}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:66,&quot;column&quot;:19,&quot;offset&quot;:1951},&quot;end&quot;:{&quot;line&quot;:66,&quot;column&quot;:23,&quot;offset&quot;:1956}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:66,&quot;column&quot;:19,&quot;offset&quot;:1951},&quot;end&quot;:{&quot;line&quot;:66,&quot;column&quot;:55,&quot;offset&quot;:1988}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:66,&quot;column&quot;:38,&quot;offset&quot;:1970},&quot;end&quot;:{&quot;line&quot;:66,&quot;column&quot;:54,&quot;offset&quot;:1987}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:69,&quot;column&quot;:30,&quot;offset&quot;:2030},&quot;end&quot;:{&quot;line&quot;:69,&quot;column&quot;:34,&quot;offset&quot;:2035}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:85,&quot;column&quot;:15,&quot;offset&quot;:2408},&quot;end&quot;:{&quot;line&quot;:85,&quot;column&quot;:27,&quot;offset&quot;:2421}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:85,&quot;column&quot;:31,&quot;offset&quot;:2424},&quot;end&quot;:{&quot;line&quot;:85,&quot;column&quot;:56,&quot;offset&quot;:2450}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:86,&quot;column&quot;:15,&quot;offset&quot;:2466},&quot;end&quot;:{&quot;line&quot;:86,&quot;column&quot;:23,&quot;offset&quot;:2475}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:86,&quot;column&quot;:27,&quot;offset&quot;:2478},&quot;end&quot;:{&quot;line&quot;:86,&quot;column&quot;:48,&quot;offset&quot;:2500}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:89,&quot;column&quot;:30,&quot;offset&quot;:2595},&quot;end&quot;:{&quot;line&quot;:89,&quot;column&quot;:42,&quot;offset&quot;:2608}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:89,&quot;column&quot;:45,&quot;offset&quot;:2610},&quot;end&quot;:{&quot;line&quot;:89,&quot;column&quot;:53,&quot;offset&quot;:2619}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:99,&quot;column&quot;:7,&quot;offset&quot;:2825},&quot;end&quot;:{&quot;line&quot;:99,&quot;column&quot;:11,&quot;offset&quot;:2830}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:100,&quot;column&quot;:7,&quot;offset&quot;:2882},&quot;end&quot;:{&quot;line&quot;:100,&quot;column&quot;:11,&quot;offset&quot;:2887}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:123,&quot;column&quot;:10,&quot;offset&quot;:3641},&quot;end&quot;:{&quot;line&quot;:123,&quot;column&quot;:33,&quot;offset&quot;:3665}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:127,&quot;column&quot;:10,&quot;offset&quot;:3726},&quot;end&quot;:{&quot;line&quot;:127,&quot;column&quot;:41,&quot;offset&quot;:3758}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:131,&quot;column&quot;:10,&quot;offset&quot;:3822},&quot;end&quot;:{&quot;line&quot;:131,&quot;column&quot;:44,&quot;offset&quot;:3857}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:135,&quot;column&quot;:10,&quot;offset&quot;:3928},&quot;end&quot;:{&quot;line&quot;:135,&quot;column&quot;:51,&quot;offset&quot;:3970}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:139,&quot;column&quot;:10,&quot;offset&quot;:4046},&quot;end&quot;:{&quot;line&quot;:139,&quot;column&quot;:56,&quot;offset&quot;:4093}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:143,&quot;column&quot;:10,&quot;offset&quot;:4147},&quot;end&quot;:{&quot;line&quot;:143,&quot;column&quot;:34,&quot;offset&quot;:4172}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:147,&quot;column&quot;:9,&quot;offset&quot;:4232},&quot;end&quot;:{&quot;line&quot;:147,&quot;column&quot;:23,&quot;offset&quot;:4247}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:147,&quot;column&quot;:27,&quot;offset&quot;:4250},&quot;end&quot;:{&quot;line&quot;:147,&quot;column&quot;:60,&quot;offset&quot;:4284}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:148,&quot;column&quot;:9,&quot;offset&quot;:4294},&quot;end&quot;:{&quot;line&quot;:148,&quot;column&quot;:14,&quot;offset&quot;:4300}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:148,&quot;column&quot;:18,&quot;offset&quot;:4303},&quot;end&quot;:{&quot;line&quot;:148,&quot;column&quot;:42,&quot;offset&quot;:4328}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:149,&quot;column&quot;:10,&quot;offset&quot;:4339},&quot;end&quot;:{&quot;line&quot;:149,&quot;column&quot;:15,&quot;offset&quot;:4345}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:149,&quot;column&quot;:10,&quot;offset&quot;:4339},&quot;end&quot;:{&quot;line&quot;:149,&quot;column&quot;:68,&quot;offset&quot;:4398}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:149,&quot;column&quot;:20,&quot;offset&quot;:4349},&quot;end&quot;:{&quot;line&quot;:149,&quot;column&quot;:25,&quot;offset&quot;:4355}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:149,&quot;column&quot;:20,&quot;offset&quot;:4349},&quot;end&quot;:{&quot;line&quot;:149,&quot;column&quot;:68,&quot;offset&quot;:4398}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:149,&quot;column&quot;:32,&quot;offset&quot;:4361},&quot;end&quot;:{&quot;line&quot;:149,&quot;column&quot;:36,&quot;offset&quot;:4366}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:149,&quot;column&quot;:41,&quot;offset&quot;:4370},&quot;end&quot;:{&quot;line&quot;:149,&quot;column&quot;:45,&quot;offset&quot;:4375}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:149,&quot;column&quot;:41,&quot;offset&quot;:4370},&quot;end&quot;:{&quot;line&quot;:149,&quot;column&quot;:48,&quot;offset&quot;:4378}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:149,&quot;column&quot;:53,&quot;offset&quot;:4382},&quot;end&quot;:{&quot;line&quot;:149,&quot;column&quot;:67,&quot;offset&quot;:4397}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:154,&quot;column&quot;:9,&quot;offset&quot;:4497},&quot;end&quot;:{&quot;line&quot;:154,&quot;column&quot;:13,&quot;offset&quot;:4502}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:154,&quot;column&quot;:17,&quot;offset&quot;:4505},&quot;end&quot;:{&quot;line&quot;:154,&quot;column&quot;:39,&quot;offset&quot;:4528}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:155,&quot;column&quot;:10,&quot;offset&quot;:4539},&quot;end&quot;:{&quot;line&quot;:155,&quot;column&quot;:14,&quot;offset&quot;:4544}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:155,&quot;column&quot;:18,&quot;offset&quot;:4547},&quot;end&quot;:{&quot;line&quot;:155,&quot;column&quot;:22,&quot;offset&quot;:4552}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:155,&quot;column&quot;:18,&quot;offset&quot;:4547},&quot;end&quot;:{&quot;line&quot;:155,&quot;column&quot;:33,&quot;offset&quot;:4563}}]},&quot;percent&quot;:80}</pre></body></html>

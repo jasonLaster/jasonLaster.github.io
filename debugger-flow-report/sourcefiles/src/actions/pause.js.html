@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"/><link rel="stylesheet" href="../../../assets/semantic.min.css"/><link rel="stylesheet" href="../../../assets/codemirror.css"/><link rel="stylesheet" href="../../../assets/flow-highlight-source.css"/><link rel="stylesheet" href="../../../assets/flow-coverage-report.css"/><link rel="stylesheet" href="../../../assets/codemirror-simplescrollbars-addon.css"/><script src="../../../assets/jquery-3.1.0.min.js"></script><script src="../../../assets/semantic.min.js"></script><script src="../../../assets/semantic-tablesort.js"></script><script src="../../../assets/codemirror.js"></script><script src="../../../assets/codemirror-javascript-mode.js"></script><script src="../../../assets/codemirror-annotatescrollbar-addon.js"></script><script src="../../../assets/codemirror-simplescrollbars-addon.js"></script><script src="../../../assets/flow-highlight-source.js"></script><script src="../../../assets/index.js"></script></head><body><div class="ui grid container"><div class="row"><h1 class="twelve wide column">Flow Coverage Report - src/actions/pause.js</h1><div class="four wide column" style="height:32px;"><a href="../../../index.html" id="link-to-summary">Go back to all files summary.</a></div></div><div class="row"><table class="ui small celled unstackable table"><thead><tr><th class="sorted ascending">Filename</th><th>Percent</th><th>Total</th><th>Covered</th><th>Uncovered</th></tr></thead><tbody><tr class="positive"><td class="">src/actions/pause.js</td><td><span>88 %</span></td><td> 230 </td><td> 203 </td><td> 27 </td></tr></tbody></table></div><div class="row green" style="padding:0;height:12px;"></div><div class="row ui one column centered grid"><div class="column" style="text-align:left;"><div class="row"><div class="ui form"><div class="fields"><div class="sixteen wide inline field"><select class="ui search dropdown uncovered-locations"><option value="">Uncovered Locations</option><option value="4">Start: 4,9 - End: 4,15</option><option value="4">Start: 4,21 - End: 4,64</option><option value="27">Start: 27,23 - End: 27,28</option><option value="45">Start: 45,37 - End: 45,44</option><option value="45">Start: 45,47 - End: 45,52</option><option value="71">Start: 71,23 - End: 71,28</option><option value="76">Start: 76,8 - End: 76,14</option><option value="76">Start: 76,18 - End: 76,23</option><option value="76">Start: 76,18 - End: 79,7</option><option value="92">Start: 92,23 - End: 92,28</option><option value="94">Start: 94,5 - End: 94,10</option><option value="94">Start: 94,5 - End: 94,18</option><option value="111">Start: 111,9 - End: 111,28</option><option value="111">Start: 111,18 - End: 111,27</option><option value="125">Start: 125,9 - End: 125,28</option><option value="125">Start: 125,18 - End: 125,27</option><option value="139">Start: 139,9 - End: 139,28</option><option value="139">Start: 139,18 - End: 139,27</option><option value="153">Start: 153,9 - End: 153,28</option><option value="153">Start: 153,18 - End: 153,27</option><option value="168">Start: 168,23 - End: 168,28</option><option value="169">Start: 169,5 - End: 169,10</option><option value="169">Start: 169,5 - End: 169,24</option><option value="207">Start: 207,23 - End: 207,28</option><option value="211">Start: 211,8 - End: 211,14</option><option value="211">Start: 211,18 - End: 211,23</option><option value="211">Start: 211,18 - End: 211,43</option></select></div><div class="four wide inline field"><select class="ui search dropdown syntax-highlighting"><option value="es">ES6/ES7</option><option value="js">JavaScript</option><option value="no">None</option></select></div></div></div></div><textarea id="file-content" readonly="">// @flow
+const constants = require(&quot;../constants&quot;);
+const { selectSource } = require(&quot;./sources&quot;);
+const { PROMISE } = require(&quot;../utils/redux/middleware/promise&quot;);
+
+const { getPause } = require(&quot;../selectors&quot;);
+const { updateFrameLocations } = require(&quot;../utils/pause&quot;);
+const { evaluateExpressions } = require(&quot;./expressions&quot;);
+
+import type { Pause, Frame, Grip } from &quot;devtools-client-adapters/src/types&quot;;
+import type { ThunkArgs } from &quot;./types&quot;;
+
+type CommandType = { type: string };
+
+/**
+ * Redux actions for the pause state
+ * @module actions/pause
+ */
+
+/**
+ * Debugger has just resumed
+ *
+ * @memberof actions/pause
+ * @static
+ */
+function resumed() {
+  return ({ dispatch, client }: ThunkArgs) =&gt; {
+    dispatch(evaluateExpressions(null));
+
+    return dispatch({
+      type: constants.RESUME,
+      value: undefined
+    });
+  };
+}
+
+/**
+ * Debugger has just paused
+ *
+ * @param {object} pauseInfo
+ * @memberof actions/pause
+ * @static
+ */
+function paused(pauseInfo: Pause) {
+  return async function({ dispatch, getState, client }: ThunkArgs) {
+    let { frames, why } = pauseInfo;
+    frames = await updateFrameLocations(frames);
+    const frame = frames[0];
+
+    dispatch({
+      type: constants.PAUSED,
+      pauseInfo: { why, frame },
+      frames: frames,
+      selectedFrameId: frame.id
+    });
+
+    dispatch(evaluateExpressions(frame.id));
+
+    dispatch(selectSource(frame.location.sourceId,
+                          { line: frame.location.line }));
+  };
+}
+
+/**
+ *
+ * @memberof actions/pause
+ * @static
+ */
+function pauseOnExceptions(
+  shouldPauseOnExceptions: boolean, shouldIgnoreCaughtExceptions: boolean) {
+  return ({ dispatch, client }: ThunkArgs) =&gt; {
+    dispatch({
+      type: constants.PAUSE_ON_EXCEPTIONS,
+      shouldPauseOnExceptions,
+      shouldIgnoreCaughtExceptions,
+      [PROMISE]: client.pauseOnExceptions(
+        shouldPauseOnExceptions,
+        shouldIgnoreCaughtExceptions
+      )
+    });
+  };
+}
+
+/**
+ * Debugger commands like stepOver, stepIn, stepUp
+ *
+ * @param string $0.type
+ * @memberof actions/pause
+ * @static
+ */
+function command({ type }: CommandType) {
+  return ({ dispatch, client }: ThunkArgs) =&gt; {
+    // execute debugger thread command e.g. stepIn, stepOver
+    client[type]();
+
+    return dispatch({
+      type: constants.COMMAND,
+      value: undefined
+    });
+  };
+}
+
+/**
+ * StepIn
+ * @memberof actions/pause
+ * @static
+ * @returns {Function} {@link command}
+ */
+function stepIn() {
+  return ({ dispatch, getState }: ThunkArgs) =&gt; {
+    if (getPause(getState())) {
+      return dispatch(command({ type: &quot;stepIn&quot; }));
+    }
+  };
+}
+
+/**
+ * stepOver
+ * @memberof actions/pause
+ * @static
+ * @returns {Function} {@link command}
+ */
+function stepOver() {
+  return ({ dispatch, getState }: ThunkArgs) =&gt; {
+    if (getPause(getState())) {
+      return dispatch(command({ type: &quot;stepOver&quot; }));
+    }
+  };
+}
+
+/**
+ * stepOut
+ * @memberof actions/pause
+ * @static
+ * @returns {Function} {@link command}
+ */
+function stepOut() {
+  return ({ dispatch, getState }: ThunkArgs) =&gt; {
+    if (getPause(getState())) {
+      return dispatch(command({ type: &quot;stepOut&quot; }));
+    }
+  };
+}
+
+/**
+ * resume
+ * @memberof actions/pause
+ * @static
+ * @returns {Function} {@link command}
+ */
+function resume() {
+  return ({ dispatch, getState }: ThunkArgs) =&gt; {
+    if (getPause(getState())) {
+      return dispatch(command({ type: &quot;resume&quot; }));
+    }
+  };
+}
+
+/**
+ * Debugger breakOnNext command.
+ * It&#x27;s different from the comand action because we also want to
+ * highlight the pause icon.
+ *
+ * @memberof actions/pause
+ * @static
+ */
+function breakOnNext() {
+  return ({ dispatch, client }: ThunkArgs) =&gt; {
+    client.breakOnNext();
+
+    return dispatch({
+      type: constants.BREAK_ON_NEXT,
+      value: true
+    });
+  };
+}
+
+/**
+ * Select a frame
+ *
+ * @param frame
+ * @memberof actions/pause
+ * @static
+ */
+function selectFrame(frame: Frame) {
+  return ({ dispatch }: ThunkArgs) =&gt; {
+    dispatch(evaluateExpressions(frame.id));
+    dispatch(selectSource(frame.location.sourceId,
+                          { line: frame.location.line }));
+    dispatch({
+      type: constants.SELECT_FRAME,
+      frame
+    });
+  };
+}
+
+/**
+ * Load an object.
+ *
+ * @param grip
+ * TODO: Right now this if Firefox specific and is not implemented
+ * for Chrome, which is why it takes a grip.
+ * @memberof actions/pause
+ * @static
+ */
+function loadObjectProperties(grip: Grip) {
+  return ({ dispatch, client }: ThunkArgs) =&gt; {
+    dispatch({
+      type: constants.LOAD_OBJECT_PROPERTIES,
+      objectId: grip.actor,
+      [PROMISE]: client.getProperties(grip)
+    });
+  };
+}
+
+module.exports = {
+  resumed,
+  paused,
+  pauseOnExceptions,
+  command,
+  stepIn,
+  stepOut,
+  stepOver,
+  resume,
+  breakOnNext,
+  selectFrame,
+  loadObjectProperties
+};
+</textarea></div></div><div class="row centered"><footer>Flow Coverage Report generated by<a href="https://flowtype.org"> flow </a>and<a href="https://github.com/rpl/flow-coverage-report"> flow-coverage-report </a>at Sun Jan 22 2017 10:17:28 GMT-0500 (EST)</footer></div></div><pre id="file-coverage-data" style="display:none;">{&quot;expressions&quot;:{&quot;covered_count&quot;:203,&quot;uncovered_count&quot;:27,&quot;uncovered_locs&quot;:[{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:4,&quot;column&quot;:9,&quot;offset&quot;:107},&quot;end&quot;:{&quot;line&quot;:4,&quot;column&quot;:15,&quot;offset&quot;:114}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:4,&quot;column&quot;:21,&quot;offset&quot;:119},&quot;end&quot;:{&quot;line&quot;:4,&quot;column&quot;:64,&quot;offset&quot;:163}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:27,&quot;column&quot;:23,&quot;offset&quot;:682},&quot;end&quot;:{&quot;line&quot;:27,&quot;column&quot;:28,&quot;offset&quot;:688}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:45,&quot;column&quot;:37,&quot;offset&quot;:1019},&quot;end&quot;:{&quot;line&quot;:45,&quot;column&quot;:44,&quot;offset&quot;:1027}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:45,&quot;column&quot;:47,&quot;offset&quot;:1029},&quot;end&quot;:{&quot;line&quot;:45,&quot;column&quot;:52,&quot;offset&quot;:1035}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:71,&quot;column&quot;:23,&quot;offset&quot;:1649},&quot;end&quot;:{&quot;line&quot;:71,&quot;column&quot;:28,&quot;offset&quot;:1655}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:76,&quot;column&quot;:8,&quot;offset&quot;:1807},&quot;end&quot;:{&quot;line&quot;:76,&quot;column&quot;:14,&quot;offset&quot;:1814}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:76,&quot;column&quot;:18,&quot;offset&quot;:1817},&quot;end&quot;:{&quot;line&quot;:76,&quot;column&quot;:23,&quot;offset&quot;:1823}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:76,&quot;column&quot;:18,&quot;offset&quot;:1817},&quot;end&quot;:{&quot;line&quot;:79,&quot;column&quot;:7,&quot;offset&quot;:1920}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:92,&quot;column&quot;:23,&quot;offset&quot;:2126},&quot;end&quot;:{&quot;line&quot;:92,&quot;column&quot;:28,&quot;offset&quot;:2132}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:94,&quot;column&quot;:5,&quot;offset&quot;:2217},&quot;end&quot;:{&quot;line&quot;:94,&quot;column&quot;:10,&quot;offset&quot;:2223}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:94,&quot;column&quot;:5,&quot;offset&quot;:2217},&quot;end&quot;:{&quot;line&quot;:94,&quot;column&quot;:18,&quot;offset&quot;:2231}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:111,&quot;column&quot;:9,&quot;offset&quot;:2499},&quot;end&quot;:{&quot;line&quot;:111,&quot;column&quot;:28,&quot;offset&quot;:2519}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:111,&quot;column&quot;:18,&quot;offset&quot;:2508},&quot;end&quot;:{&quot;line&quot;:111,&quot;column&quot;:27,&quot;offset&quot;:2518}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:125,&quot;column&quot;:9,&quot;offset&quot;:2766},&quot;end&quot;:{&quot;line&quot;:125,&quot;column&quot;:28,&quot;offset&quot;:2786}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:125,&quot;column&quot;:18,&quot;offset&quot;:2775},&quot;end&quot;:{&quot;line&quot;:125,&quot;column&quot;:27,&quot;offset&quot;:2785}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:139,&quot;column&quot;:9,&quot;offset&quot;:3033},&quot;end&quot;:{&quot;line&quot;:139,&quot;column&quot;:28,&quot;offset&quot;:3053}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:139,&quot;column&quot;:18,&quot;offset&quot;:3042},&quot;end&quot;:{&quot;line&quot;:139,&quot;column&quot;:27,&quot;offset&quot;:3052}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:153,&quot;column&quot;:9,&quot;offset&quot;:3297},&quot;end&quot;:{&quot;line&quot;:153,&quot;column&quot;:28,&quot;offset&quot;:3317}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:153,&quot;column&quot;:18,&quot;offset&quot;:3306},&quot;end&quot;:{&quot;line&quot;:153,&quot;column&quot;:27,&quot;offset&quot;:3316}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:168,&quot;column&quot;:23,&quot;offset&quot;:3610},&quot;end&quot;:{&quot;line&quot;:168,&quot;column&quot;:28,&quot;offset&quot;:3616}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:169,&quot;column&quot;:5,&quot;offset&quot;:3640},&quot;end&quot;:{&quot;line&quot;:169,&quot;column&quot;:10,&quot;offset&quot;:3646}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:169,&quot;column&quot;:5,&quot;offset&quot;:3640},&quot;end&quot;:{&quot;line&quot;:169,&quot;column&quot;:24,&quot;offset&quot;:3660}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:207,&quot;column&quot;:23,&quot;offset&quot;:4411},&quot;end&quot;:{&quot;line&quot;:207,&quot;column&quot;:28,&quot;offset&quot;:4417}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:211,&quot;column&quot;:8,&quot;offset&quot;:4533},&quot;end&quot;:{&quot;line&quot;:211,&quot;column&quot;:14,&quot;offset&quot;:4540}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:211,&quot;column&quot;:18,&quot;offset&quot;:4543},&quot;end&quot;:{&quot;line&quot;:211,&quot;column&quot;:23,&quot;offset&quot;:4549}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:211,&quot;column&quot;:18,&quot;offset&quot;:4543},&quot;end&quot;:{&quot;line&quot;:211,&quot;column&quot;:43,&quot;offset&quot;:4569}}]},&quot;percent&quot;:88}</pre></body></html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html><head><meta charset="utf-8"/><link rel="stylesheet" href="../../../../assets/semantic.min.css"/><link rel="stylesheet" href="../../../../assets/codemirror.css"/><link rel="stylesheet" href="../../../../assets/flow-highlight-source.css"/><link rel="stylesheet" href="../../../../assets/flow-coverage-report.css"/><link rel="stylesheet" href="../../../../assets/codemirror-simplescrollbars-addon.css"/><script src="../../../../assets/jquery-3.1.0.min.js"></script><script src="../../../../assets/semantic.min.js"></script><script src="../../../../assets/semantic-tablesort.js"></script><script src="../../../../assets/codemirror.js"></script><script src="../../../../assets/codemirror-javascript-mode.js"></script><script src="../../../../assets/codemirror-annotatescrollbar-addon.js"></script><script src="../../../../assets/codemirror-simplescrollbars-addon.js"></script><script src="../../../../assets/flow-highlight-source.js"></script></head><body><div class="ui grid container"><div class="row"><div class="twelve wide column"><h2 class="ui header"><a href="../../../../index.html" id="link-to-summary">Flow Coverage Report</a></h2></div></div><div class="row"><table class="ui small celled unstackable table"><thead><tr><th class="sorted ascending">Filename</th><th>Percent</th><th>Total</th><th>Covered</th><th>Uncovered</th></tr></thead><tbody><tr class="positive"><td class="">public/js/reducers/breakpoints.js</td><td> 99 %</td><td> 331 </td><td> 329 </td><td> 2 </td></tr></tbody></table></div><div class="row ui one column centered grid"><div class="column" style="text-align:left;"><div class="row"><div class="ui form"><div class="fields"><div class="sixteen wide inline field"><select class="ui search dropdown uncovered-locations"><option value="">Uncovered Locations</option><option value="78">Start: 78,30 - End: 78,54</option><option value="167">Start: 167,10 - End: 167,53</option></select></div><div class="four wide inline field"><select class="ui search dropdown syntax-highlighting"><option value="es">ES6/ES7</option><option value="js">JavaScript</option><option value="no">None</option></select></div></div></div></div><textarea id="file-content" readonly="">// @flow
+<html><head><meta charset="utf-8"/><link rel="stylesheet" href="../../../assets/semantic.min.css"/><link rel="stylesheet" href="../../../assets/codemirror.css"/><link rel="stylesheet" href="../../../assets/flow-highlight-source.css"/><link rel="stylesheet" href="../../../assets/flow-coverage-report.css"/><link rel="stylesheet" href="../../../assets/codemirror-simplescrollbars-addon.css"/><script src="../../../assets/jquery-3.1.0.min.js"></script><script src="../../../assets/semantic.min.js"></script><script src="../../../assets/semantic-tablesort.js"></script><script src="../../../assets/codemirror.js"></script><script src="../../../assets/codemirror-javascript-mode.js"></script><script src="../../../assets/codemirror-annotatescrollbar-addon.js"></script><script src="../../../assets/codemirror-simplescrollbars-addon.js"></script><script src="../../../assets/flow-highlight-source.js"></script><script src="../../../assets/index.js"></script></head><body><div class="ui grid container"><div class="row"><h1 class="twelve wide column">Flow Coverage Report - src/reducers/breakpoints.js</h1><div class="four wide column" style="height:32px;"><a href="../../../index.html" id="link-to-summary">Go back to all files summary.</a></div></div><div class="row"><table class="ui small celled unstackable table"><thead><tr><th class="sorted ascending">Filename</th><th>Percent</th><th>Total</th><th>Covered</th><th>Uncovered</th></tr></thead><tbody><tr class="positive"><td class="">src/reducers/breakpoints.js</td><td><span>99 %</span></td><td> 354 </td><td> 352 </td><td> 2 </td></tr></tbody></table></div><div class="row green" style="padding:0;height:12px;"></div><div class="row ui one column centered grid"><div class="column" style="text-align:left;"><div class="row"><div class="ui form"><div class="fields"><div class="sixteen wide inline field"><select class="ui search dropdown uncovered-locations"><option value="">Uncovered Locations</option><option value="83">Start: 83,30 - End: 83,54</option><option value="180">Start: 180,10 - End: 180,53</option></select></div><div class="four wide inline field"><select class="ui search dropdown syntax-highlighting"><option value="es">ES6/ES7</option><option value="js">JavaScript</option><option value="no">None</option></select></div></div></div></div><textarea id="file-content" readonly="">// @flow
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
@@ -14,7 +14,7 @@ const { updateObj } = require(&quot;../utils/utils&quot;);
 const I = require(&quot;immutable&quot;);
 const makeRecord = require(&quot;../utils/makeRecord&quot;);
 
-import type { Breakpoint, Location } from &quot;../types&quot;;
+import type { Breakpoint, Location } from &quot;devtools-client-adapters/src/types&quot;;
 import type { Action } from &quot;../actions/types&quot;;
 import type { Record } from &quot;../utils/makeRecord&quot;;
 
@@ -46,7 +46,11 @@ function locationMoved(location, newLocation) {
 }
 
 function makeLocationId(location: Location) {
-  return location.sourceId + &quot;:&quot; + location.line.toString();
+  return `${location.sourceId}:${location.line}`;
+}
+
+function allBreakpointsDisabled(state) {
+  return state.breakpoints.every(x =&gt; x.disabled);
 }
 
 function update(state = State(), action: Action) {
@@ -64,7 +68,8 @@ function update(state = State(), action: Action) {
           // empty strings to be truthy, i.e. an empty string is a valid
           // condition.
           condition: firstString(action.condition, bp.condition)
-        }));
+        }))
+        .set(&quot;breakpointsDisabled&quot;, false);
       } else if (action.status === &quot;done&quot;) {
         const { id: breakpointId, text } = action.value;
         let location = action.breakpoint.location;
@@ -103,12 +108,20 @@ function update(state = State(), action: Action) {
 
         if (action.disabled) {
           const bp = state.breakpoints.get(id);
-          return state.setIn([&quot;breakpoints&quot;, id], updateObj(bp, {
+          const updatedState = state.setIn([&quot;breakpoints&quot;, id], updateObj(bp, {
             loading: false, disabled: true
           }));
+
+          return updatedState.set(
+            &quot;breakpointsDisabled&quot;, allBreakpointsDisabled(updatedState)
+          );
         }
 
-        return state.deleteIn([&quot;breakpoints&quot;, id]);
+        const updatedState = state.deleteIn([&quot;breakpoints&quot;, id]);
+
+        return updatedState.set(
+          &quot;breakpointsDisabled&quot;, allBreakpointsDisabled(updatedState)
+        );
       }
       break;
     }
@@ -187,4 +200,4 @@ module.exports = {
   getBreakpointsDisabled,
   getBreakpointsLoading
 };
-</textarea></div></div><div class="row centered"><footer>Flow Coverage Report generated by<a href="https://flowtype.org"> flow </a>and<a href="https://github.com/rpl/flow-coverage-report"> flow-coverage-report </a>at Sun Nov 06 2016 11:49:40 GMT-0500 (EST)</footer></div></div><pre id="file-coverage-data" style="display:none;">{&quot;expressions&quot;:{&quot;covered_count&quot;:329,&quot;uncovered_count&quot;:2,&quot;uncovered_locs&quot;:[{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/public/js/reducers/breakpoints.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:78,&quot;column&quot;:30,&quot;offset&quot;:2473},&quot;end&quot;:{&quot;line&quot;:78,&quot;column&quot;:54,&quot;offset&quot;:2498}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/public/js/reducers/breakpoints.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:167,&quot;column&quot;:10,&quot;offset&quot;:5020},&quot;end&quot;:{&quot;line&quot;:167,&quot;column&quot;:53,&quot;offset&quot;:5064}}]},&quot;percent&quot;:99}</pre></body></html>
+</textarea></div></div><div class="row centered"><footer>Flow Coverage Report generated by<a href="https://flowtype.org"> flow </a>and<a href="https://github.com/rpl/flow-coverage-report"> flow-coverage-report </a>at Sun Jan 22 2017 10:17:28 GMT-0500 (EST)</footer></div></div><pre id="file-coverage-data" style="display:none;">{&quot;expressions&quot;:{&quot;covered_count&quot;:352,&quot;uncovered_count&quot;:2,&quot;uncovered_locs&quot;:[{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/breakpoints.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:83,&quot;column&quot;:30,&quot;offset&quot;:2626},&quot;end&quot;:{&quot;line&quot;:83,&quot;column&quot;:54,&quot;offset&quot;:2651}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/breakpoints.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:180,&quot;column&quot;:10,&quot;offset&quot;:5437},&quot;end&quot;:{&quot;line&quot;:180,&quot;column&quot;:53,&quot;offset&quot;:5481}}]},&quot;percent&quot;:99}</pre></body></html>

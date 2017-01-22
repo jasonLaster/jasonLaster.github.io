@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"/><link rel="stylesheet" href="../../../assets/semantic.min.css"/><link rel="stylesheet" href="../../../assets/codemirror.css"/><link rel="stylesheet" href="../../../assets/flow-highlight-source.css"/><link rel="stylesheet" href="../../../assets/flow-coverage-report.css"/><link rel="stylesheet" href="../../../assets/codemirror-simplescrollbars-addon.css"/><script src="../../../assets/jquery-3.1.0.min.js"></script><script src="../../../assets/semantic.min.js"></script><script src="../../../assets/semantic-tablesort.js"></script><script src="../../../assets/codemirror.js"></script><script src="../../../assets/codemirror-javascript-mode.js"></script><script src="../../../assets/codemirror-annotatescrollbar-addon.js"></script><script src="../../../assets/codemirror-simplescrollbars-addon.js"></script><script src="../../../assets/flow-highlight-source.js"></script><script src="../../../assets/index.js"></script></head><body><div class="ui grid container"><div class="row"><h1 class="twelve wide column">Flow Coverage Report - src/utils/pause.js</h1><div class="four wide column" style="height:32px;"><a href="../../../index.html" id="link-to-summary">Go back to all files summary.</a></div></div><div class="row"><table class="ui small celled unstackable table"><thead><tr><th class="sorted ascending">Filename</th><th>Percent</th><th>Total</th><th>Covered</th><th>Uncovered</th></tr></thead><tbody><tr class="negative"><td class="">src/utils/pause.js</td><td><span>78 %</span></td><td> 69 </td><td> 54 </td><td> 15 </td></tr></tbody></table></div><div class="row red" style="padding:0;height:12px;"></div><div class="row ui one column centered grid"><div class="column" style="text-align:left;"><div class="row"><div class="ui form"><div class="fields"><div class="sixteen wide inline field"><select class="ui search dropdown uncovered-locations"><option value="">Uncovered Locations</option><option value="2">Start: 2,9 - End: 2,13</option><option value="2">Start: 2,19 - End: 2,43</option><option value="10">Start: 10,28 - End: 10,33</option><option value="14">Start: 14,55 - End: 14,57</option><option value="15">Start: 15,16 - End: 15,20</option><option value="15">Start: 15,16 - End: 17,10</option><option value="16">Start: 16,31 - End: 16,33</option><option value="50">Start: 50,7 - End: 50,16</option><option value="50">Start: 50,20 - End: 50,43</option><option value="50">Start: 50,20 - End: 50,55</option><option value="51">Start: 51,8 - End: 51,26</option><option value="51">Start: 51,16 - End: 51,25</option><option value="52">Start: 52,54 - End: 52,63</option><option value="54">Start: 54,10 - End: 54,28</option><option value="54">Start: 54,18 - End: 54,27</option></select></div><div class="four wide inline field"><select class="ui search dropdown syntax-highlighting"><option value="es">ES6/ES7</option><option value="js">JavaScript</option><option value="no">None</option></select></div></div></div></div><textarea id="file-content" readonly="">// @flow
+const { Frame } = require(&quot;../tcomb-types&quot;);
+const { getOriginalLocation } = require(&quot;./source-map&quot;);
+
+import type { Pause,
+  Frame as FrameType } from &quot;devtools-client-adapters/src/types&quot;;
+
+function updateFrameLocations(frames: FrameType[]): Promise&lt;FrameType[]&gt; {
+  if (!frames) {
+    return Promise.resolve(frames);
+  }
+  return Promise.all(
+    frames.map(frame =&gt; {
+      return getOriginalLocation(frame.location).then(loc =&gt; {
+        return Frame.update(frame, {
+          $merge: { location: loc }
+        });
+      });
+    })
+  );
+}
+
+// Map protocol pause &quot;why&quot; reason to a valid L10N key
+// These are the known unhandled reasons:
+// &quot;breakpointConditionThrown&quot;, &quot;clientEvaluated&quot;
+// &quot;interrupted&quot;, &quot;attached&quot;
+const reasons = {
+  &quot;debuggerStatement&quot;: &quot;whyPaused.debuggerStatement&quot;,
+  &quot;breakpoint&quot;: &quot;whyPaused.breakpoint&quot;,
+  &quot;exception&quot;: &quot;whyPaused.exception&quot;,
+  &quot;resumeLimit&quot;: &quot;whyPaused.resumeLimit&quot;,
+  &quot;pauseOnDOMEvents&quot;: &quot;whyPaused.pauseOnDOMEvents&quot;,
+  &quot;breakpointConditionThrown&quot;: &quot;whyPaused.breakpointConditionThrown&quot;,
+
+  // V8
+  &quot;DOM&quot;: &quot;whyPaused.breakpoint&quot;,
+  &quot;EventListener&quot;: &quot;whyPaused.pauseOnDOMEvents&quot;,
+  &quot;XHR&quot;: &quot;whyPaused.xhr&quot;,
+  &quot;promiseRejection&quot;: &quot;whyPaused.promiseRejection&quot;,
+  &quot;assert&quot;: &quot;whyPaused.assert&quot;,
+  &quot;debugCommand&quot;: &quot;whyPaused.debugCommand&quot;,
+  &quot;other&quot;: &quot;whyPaused.other&quot;
+};
+
+function getPauseReason(pauseInfo: Pause): string | null {
+  if (!pauseInfo) {
+    return null;
+  }
+
+  let reasonType = pauseInfo.getIn([&quot;why&quot;]).get(&quot;type&quot;);
+  if (!reasons[reasonType]) {
+    console.log(&quot;Please file an issue: reasonType=&quot;, reasonType);
+  }
+  return reasons[reasonType];
+}
+
+module.exports = {
+  updateFrameLocations,
+  getPauseReason
+};
+</textarea></div></div><div class="row centered"><footer>Flow Coverage Report generated by<a href="https://flowtype.org"> flow </a>and<a href="https://github.com/rpl/flow-coverage-report"> flow-coverage-report </a>at Sun Jan 22 2017 10:17:28 GMT-0500 (EST)</footer></div></div><pre id="file-coverage-data" style="display:none;">{&quot;expressions&quot;:{&quot;covered_count&quot;:54,&quot;uncovered_count&quot;:15,&quot;uncovered_locs&quot;:[{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:2,&quot;column&quot;:9,&quot;offset&quot;:17},&quot;end&quot;:{&quot;line&quot;:2,&quot;column&quot;:13,&quot;offset&quot;:22}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:2,&quot;column&quot;:19,&quot;offset&quot;:27},&quot;end&quot;:{&quot;line&quot;:2,&quot;column&quot;:43,&quot;offset&quot;:52}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:10,&quot;column&quot;:28,&quot;offset&quot;:319},&quot;end&quot;:{&quot;line&quot;:10,&quot;column&quot;:33,&quot;offset&quot;:325}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:14,&quot;column&quot;:55,&quot;offset&quot;:434},&quot;end&quot;:{&quot;line&quot;:14,&quot;column&quot;:57,&quot;offset&quot;:437}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:15,&quot;column&quot;:16,&quot;offset&quot;:458},&quot;end&quot;:{&quot;line&quot;:15,&quot;column&quot;:20,&quot;offset&quot;:463}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:15,&quot;column&quot;:16,&quot;offset&quot;:458},&quot;end&quot;:{&quot;line&quot;:17,&quot;column&quot;:10,&quot;offset&quot;:526}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:16,&quot;column&quot;:31,&quot;offset&quot;:510},&quot;end&quot;:{&quot;line&quot;:16,&quot;column&quot;:33,&quot;offset&quot;:513}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:50,&quot;column&quot;:7,&quot;offset&quot;:1428},&quot;end&quot;:{&quot;line&quot;:50,&quot;column&quot;:16,&quot;offset&quot;:1438}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:50,&quot;column&quot;:20,&quot;offset&quot;:1441},&quot;end&quot;:{&quot;line&quot;:50,&quot;column&quot;:43,&quot;offset&quot;:1465}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:50,&quot;column&quot;:20,&quot;offset&quot;:1441},&quot;end&quot;:{&quot;line&quot;:50,&quot;column&quot;:55,&quot;offset&quot;:1477}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:51,&quot;column&quot;:8,&quot;offset&quot;:1486},&quot;end&quot;:{&quot;line&quot;:51,&quot;column&quot;:26,&quot;offset&quot;:1505}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:51,&quot;column&quot;:16,&quot;offset&quot;:1494},&quot;end&quot;:{&quot;line&quot;:51,&quot;column&quot;:25,&quot;offset&quot;:1504}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:52,&quot;column&quot;:54,&quot;offset&quot;:1562},&quot;end&quot;:{&quot;line&quot;:52,&quot;column&quot;:63,&quot;offset&quot;:1572}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:54,&quot;column&quot;:10,&quot;offset&quot;:1588},&quot;end&quot;:{&quot;line&quot;:54,&quot;column&quot;:28,&quot;offset&quot;:1607}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/pause.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:54,&quot;column&quot;:18,&quot;offset&quot;:1596},&quot;end&quot;:{&quot;line&quot;:54,&quot;column&quot;:27,&quot;offset&quot;:1606}}]},&quot;percent&quot;:78}</pre></body></html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"/><link rel="stylesheet" href="../../../assets/semantic.min.css"/><link rel="stylesheet" href="../../../assets/codemirror.css"/><link rel="stylesheet" href="../../../assets/flow-highlight-source.css"/><link rel="stylesheet" href="../../../assets/flow-coverage-report.css"/><link rel="stylesheet" href="../../../assets/codemirror-simplescrollbars-addon.css"/><script src="../../../assets/jquery-3.1.0.min.js"></script><script src="../../../assets/semantic.min.js"></script><script src="../../../assets/semantic-tablesort.js"></script><script src="../../../assets/codemirror.js"></script><script src="../../../assets/codemirror-javascript-mode.js"></script><script src="../../../assets/codemirror-annotatescrollbar-addon.js"></script><script src="../../../assets/codemirror-simplescrollbars-addon.js"></script><script src="../../../assets/flow-highlight-source.js"></script><script src="../../../assets/index.js"></script></head><body><div class="ui grid container"><div class="row"><h1 class="twelve wide column">Flow Coverage Report - src/utils/source.js</h1><div class="four wide column" style="height:32px;"><a href="../../../index.html" id="link-to-summary">Go back to all files summary.</a></div></div><div class="row"><table class="ui small celled unstackable table"><thead><tr><th class="sorted ascending">Filename</th><th>Percent</th><th>Total</th><th>Covered</th><th>Uncovered</th></tr></thead><tbody><tr class="positive"><td class="">src/utils/source.js</td><td><span>99 %</span></td><td> 192 </td><td> 191 </td><td> 1 </td></tr></tbody></table></div><div class="row green" style="padding:0;height:12px;"></div><div class="row ui one column centered grid"><div class="column" style="text-align:left;"><div class="row"><div class="ui form"><div class="fields"><div class="sixteen wide inline field"><select class="ui search dropdown uncovered-locations"><option value="">Uncovered Locations</option><option value="122">Start: 122,14 - End: 122,44</option></select></div><div class="four wide inline field"><select class="ui search dropdown syntax-highlighting"><option value="es">ES6/ES7</option><option value="js">JavaScript</option><option value="no">None</option></select></div></div></div></div><textarea id="file-content" readonly="">// @flow
+
+/**
+ * Utils for working with Source URLs
+ * @module utils/source
+ */
+
+const { endTruncateStr } = require(&quot;./utils&quot;);
+const { basename } = require(&quot;../utils/path&quot;);
+
+import type { Source, SourceText } from &quot;devtools-client-adapters/src/types&quot;;
+
+/**
+ * Trims the query part or reference identifier of a url string, if necessary.
+ *
+ * @memberof utils/source
+ * @static
+ */
+function trimUrlQuery(url: string): string {
+  let length = url.length;
+  let q1 = url.indexOf(&quot;?&quot;);
+  let q2 = url.indexOf(&quot;&amp;&quot;);
+  let q3 = url.indexOf(&quot;#&quot;);
+  let q = Math.min(q1 != -1 ? q1 : length,
+                   q2 != -1 ? q2 : length,
+                   q3 != -1 ? q3 : length);
+
+  return url.slice(0, q);
+}
+
+/**
+ * Returns true if the specified url and/or content type are specific to
+ * javascript files.
+ *
+ * @return boolean
+ *         True if the source is likely javascript.
+ *
+ * @memberof utils/source
+ * @static
+ */
+function isJavaScript(url: string, contentType: string = &quot;&quot;): boolean {
+  return (url &amp;&amp; /\.(jsm|js)?$/.test(trimUrlQuery(url))) ||
+         contentType.includes(&quot;javascript&quot;);
+}
+
+/**
+ * @memberof utils/source
+ * @static
+ */
+function isPretty(source: Source): boolean {
+  return source.url ? /formatted$/.test(source.url) : false;
+}
+
+/**
+ * @memberof utils/source
+ * @static
+ */
+function getPrettySourceURL(url: string): string {
+  return `${url}:formatted`;
+}
+
+/**
+ * @memberof utils/source
+ * @static
+ */
+function getRawSourceURL(url: string): string {
+  return url.replace(/:formatted$/, &quot;&quot;);
+}
+
+/**
+ * Show a source url&#x27;s filename.
+ * If the source does not have a url, use the source id.
+ *
+ * @memberof utils/source
+ * @static
+ */
+function getFilename(source: Source) {
+  let { url, id } = source;
+  if (!url) {
+    const sourceId = id.split(&quot;/&quot;)[1];
+    return `SOURCE${sourceId}`;
+  }
+
+  url = getRawSourceURL(url || &quot;&quot;);
+  const name = basename(url) || &quot;(index)&quot;;
+  return endTruncateStr(name, 50);
+}
+
+const contentTypeModeMap = {
+  &quot;text/javascript&quot;: { name: &quot;javascript&quot; },
+  &quot;text/typescript&quot;: { name: &quot;javascript&quot;, typescript: true },
+  &quot;text/coffeescript&quot;: &quot;coffeescript&quot;,
+  &quot;text/typescript-jsx&quot;: {
+    name: &quot;jsx&quot;,
+    base: { name: &quot;javascript&quot;, typescript: true }
+  },
+  &quot;text/jsx&quot;: &quot;jsx&quot;,
+  &quot;text/x-elm&quot;: &quot;elm&quot;,
+  &quot;text/wasm&quot;: { name: &quot;text&quot; },
+  &quot;html&quot;: { name: &quot;htmlmixed&quot; }
+};
+
+/**
+ *
+ * Returns Code Mirror mode for source content type
+ * @param contentType
+ * @return String
+ * @memberof utils/source
+ * @static
+ */
+
+function getMode(sourceText: SourceText) {
+  const { contentType, text } = sourceText;
+
+  // // @flow or /* @flow */
+  if (text.match(/^\s*(\/\/ @flow|\/\* @flow \*\/)/)) {
+    return contentTypeModeMap[&quot;text/typescript&quot;];
+  }
+
+  if (/script|elm|jsx|wasm/.test(contentType)) {
+    if (contentType in contentTypeModeMap) {
+      return contentTypeModeMap[contentType];
+    }
+
+    return contentTypeModeMap[&quot;text/javascript&quot;];
+  }
+
+  // Use HTML mode for files in which the first non whitespace
+  // character is `&lt;` regardless of extension.
+  if (text.match(/^\s*&lt;/)) {
+    return { name: &quot;htmlmixed&quot; };
+  }
+
+  return { name: &quot;text&quot; };
+}
+
+function getContentType(url: string) {
+  if (isJavaScript(url)) {
+    return &quot;text/javascript&quot;;
+  }
+
+  if (url.match(/ts$/)) {
+    return &quot;text/typescript&quot;;
+  }
+
+  if (url.match(/tsx$/)) {
+    return &quot;text/typescript-jsx&quot;;
+  }
+
+  if (url.match(/jsx$/)) {
+    return &quot;text/jsx&quot;;
+  }
+
+  if (url.match(/coffee$/)) {
+    return &quot;text/coffeescript&quot;;
+  }
+
+  if (url.match(/elm$/)) {
+    return &quot;text/elm&quot;;
+  }
+
+  return &quot;text/plain&quot;;
+}
+
+module.exports = {
+  isJavaScript,
+  isPretty,
+  getPrettySourceURL,
+  getRawSourceURL,
+  getFilename,
+  getMode,
+  getContentType
+};
+</textarea></div></div><div class="row centered"><footer>Flow Coverage Report generated by<a href="https://flowtype.org"> flow </a>and<a href="https://github.com/rpl/flow-coverage-report"> flow-coverage-report </a>at Sun Jan 22 2017 10:17:28 GMT-0500 (EST)</footer></div></div><pre id="file-coverage-data" style="display:none;">{&quot;expressions&quot;:{&quot;covered_count&quot;:191,&quot;uncovered_count&quot;:1,&quot;uncovered_locs&quot;:[{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/source.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:122,&quot;column&quot;:14,&quot;offset&quot;:2793},&quot;end&quot;:{&quot;line&quot;:122,&quot;column&quot;:44,&quot;offset&quot;:2824}}]},&quot;percent&quot;:99}</pre></body></html>

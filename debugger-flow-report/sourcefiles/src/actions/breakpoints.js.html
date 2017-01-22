@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"/><link rel="stylesheet" href="../../../assets/semantic.min.css"/><link rel="stylesheet" href="../../../assets/codemirror.css"/><link rel="stylesheet" href="../../../assets/flow-highlight-source.css"/><link rel="stylesheet" href="../../../assets/flow-coverage-report.css"/><link rel="stylesheet" href="../../../assets/codemirror-simplescrollbars-addon.css"/><script src="../../../assets/jquery-3.1.0.min.js"></script><script src="../../../assets/semantic.min.js"></script><script src="../../../assets/semantic-tablesort.js"></script><script src="../../../assets/codemirror.js"></script><script src="../../../assets/codemirror-javascript-mode.js"></script><script src="../../../assets/codemirror-annotatescrollbar-addon.js"></script><script src="../../../assets/codemirror-simplescrollbars-addon.js"></script><script src="../../../assets/flow-highlight-source.js"></script><script src="../../../assets/index.js"></script></head><body><div class="ui grid container"><div class="row"><h1 class="twelve wide column">Flow Coverage Report - src/actions/breakpoints.js</h1><div class="four wide column" style="height:32px;"><a href="../../../index.html" id="link-to-summary">Go back to all files summary.</a></div></div><div class="row"><table class="ui small celled unstackable table"><thead><tr><th class="sorted ascending">Filename</th><th>Percent</th><th>Total</th><th>Covered</th><th>Uncovered</th></tr></thead><tbody><tr class="positive"><td class="">src/actions/breakpoints.js</td><td><span>83 %</span></td><td> 284 </td><td> 238 </td><td> 46 </td></tr></tbody></table></div><div class="row green" style="padding:0;height:12px;"></div><div class="row ui one column centered grid"><div class="column" style="text-align:left;"><div class="row"><div class="ui form"><div class="fields"><div class="sixteen wide inline field"><select class="ui search dropdown uncovered-locations"><option value="">Uncovered Locations</option><option value="12">Start: 12,9 - End: 12,15</option><option value="12">Start: 12,21 - End: 12,64</option><option value="27">Start: 27,28 - End: 27,32</option><option value="28">Start: 28,35 - End: 28,39</option><option value="32">Start: 32,33 - End: 32,37</option><option value="33">Start: 33,24 - End: 33,28</option><option value="58">Start: 58,33 - End: 58,38</option><option value="59">Start: 59,27 - End: 59,36</option><option value="63">Start: 63,39 - End: 63,48</option><option value="69">Start: 69,8 - End: 69,14</option><option value="71">Start: 71,17 - End: 71,22</option><option value="71">Start: 71,26 - End: 71,68</option><option value="71">Start: 71,36 - End: 71,45</option><option value="72">Start: 72,11 - End: 72,75</option><option value="72">Start: 72,22 - End: 72,75</option><option value="72">Start: 72,62 - End: 72,67</option><option value="72">Start: 72,62 - End: 72,74</option><option value="75">Start: 75,15 - End: 75,16</option><option value="75">Start: 75,19 - End: 75,32</option><option value="75">Start: 75,35 - End: 75,42</option><option value="75">Start: 75,48 - End: 79,9</option><option value="75">Start: 75,54 - End: 75,59</option><option value="75">Start: 75,54 - End: 79,9</option><option value="81">Start: 81,9 - End: 81,66</option><option value="81">Start: 81,26 - End: 81,66</option><option value="81">Start: 81,52 - End: 81,65</option><option value="87">Start: 87,35 - End: 87,69</option><option value="87">Start: 87,50 - End: 87,63</option><option value="87">Start: 87,50 - End: 87,68</option><option value="90">Start: 90,18 - End: 90,19</option><option value="90">Start: 90,22 - End: 90,35</option><option value="90">Start: 90,44 - End: 90,51</option><option value="117">Start: 117,33 - End: 117,38</option><option value="118">Start: 118,28 - End: 118,37</option><option value="140">Start: 140,10 - End: 140,16</option><option value="140">Start: 140,20 - End: 140,25</option><option value="140">Start: 140,20 - End: 140,49</option><option value="155">Start: 155,40 - End: 155,49</option><option value="159">Start: 159,8 - End: 159,14</option><option value="162">Start: 162,13 - End: 162,66</option><option value="164">Start: 164,13 - End: 164,65</option><option value="187">Start: 187,33 - End: 187,38</option><option value="188">Start: 188,30 - End: 188,39</option><option value="203">Start: 203,8 - End: 203,14</option><option value="203">Start: 203,18 - End: 203,23</option><option value="203">Start: 203,18 - End: 208,7</option></select></div><div class="four wide inline field"><select class="ui search dropdown syntax-highlighting"><option value="es">ES6/ES7</option><option value="js">JavaScript</option><option value="no">None</option></select></div></div></div></div><textarea id="file-content" readonly="">// @flow
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+/**
+ * Redux actions for breakpoints
+ * @module actions/breakpoints
+ */
+
+const constants = require(&quot;../constants&quot;);
+const { PROMISE } = require(&quot;../utils/redux/middleware/promise&quot;);
+const { getBreakpoint, getBreakpoints, getSource } = require(&quot;../selectors&quot;);
+
+const {
+  getOriginalLocation, getGeneratedLocation, isOriginalId
+} = require(&quot;../utils/source-map&quot;);
+
+import type { ThunkArgs } from &quot;./types&quot;;
+import type { Location } from &quot;devtools-client-adapters/src/types&quot;;
+
+type addBreakpointOptions = {
+  condition: string,
+  getTextForLine: () =&gt; any,
+};
+
+function _breakpointExists(state, location: Location) {
+  const currentBp = getBreakpoint(state, location);
+  return currentBp &amp;&amp; !currentBp.disabled;
+}
+
+function _getOrCreateBreakpoint(state, location, condition) {
+  return getBreakpoint(state, location) || { location, condition, text: &quot;&quot; };
+}
+
+/**
+ * Enabling a breakpoint calls {@link addBreakpoint}
+ * which will reuse the existing breakpoint information that is stored.
+ *
+ * @memberof actions/breakpoints
+ * @static
+ */
+function enableBreakpoint(location: Location) {
+  return addBreakpoint(location);
+}
+
+/**
+ * Add a new or enable an existing breakpoint
+ *
+ * @memberof actions/breakpoints
+ * @static
+ * @param {String} $1.condition Conditional breakpoint condition value
+ * @param {Function} $1.getTextForLine Get the text to represent the line
+ */
+function addBreakpoint(
+  location: Location,
+  { condition, getTextForLine } : addBreakpointOptions = {}) {
+  return ({ dispatch, getState, client }: ThunkArgs) =&gt; {
+    if (_breakpointExists(getState(), location)) {
+      return Promise.resolve();
+    }
+
+    const bp = _getOrCreateBreakpoint(getState(), location, condition);
+
+    return dispatch({
+      type: constants.ADD_BREAKPOINT,
+      breakpoint: bp,
+      condition: condition,
+      [PROMISE]: (async function() {
+        if (isOriginalId(bp.location.sourceId)) {
+          const source = getSource(getState(), bp.location.sourceId);
+          location = await getGeneratedLocation(bp.location, source.toJS());
+        }
+
+        let { id, actualLocation, hitCount } = await client.setBreakpoint(
+          location,
+          bp.condition,
+          isOriginalId(bp.location.sourceId)
+        );
+
+        actualLocation = await getOriginalLocation(actualLocation);
+
+        // If this breakpoint is being re-enabled, it already has a
+        // text snippet.
+        let text = bp.text;
+        if (!text) {
+          text = getTextForLine ? getTextForLine(actualLocation.line) : &quot;&quot;;
+        }
+
+        return { id, actualLocation, text, hitCount };
+      })()
+    });
+  };
+}
+
+/**
+ * Disable a single breakpoint
+ *
+ * @memberof actions/breakpoints
+ * @static
+ */
+function disableBreakpoint(location: Location) {
+  return _removeOrDisableBreakpoint(location, true);
+}
+
+/**
+ * Remove a single breakpoint
+ *
+ * @memberof actions/breakpoints
+ * @static
+ */
+function removeBreakpoint(location: Location) {
+  return _removeOrDisableBreakpoint(location);
+}
+
+function _removeOrDisableBreakpoint(location, isDisabled) {
+  return ({ dispatch, getState, client }: ThunkArgs) =&gt; {
+    let bp = getBreakpoint(getState(), location);
+    if (!bp) {
+      throw new Error(&quot;attempt to remove breakpoint that does not exist&quot;);
+    }
+    if (bp.loading) {
+      // TODO(jwl): make this wait until the breakpoint is saved if it
+      // is still loading
+      throw new Error(&quot;attempt to remove unsaved breakpoint&quot;);
+    }
+
+    const action = {
+      type: constants.REMOVE_BREAKPOINT,
+      breakpoint: bp,
+      disabled: isDisabled
+    };
+
+    // If the breakpoint is already disabled, we don&#x27;t need to remove
+    // it from the server. We just need to dispatch an action
+    // simulating a successful server request to remove it, and it
+    // will be removed completely from the state.
+    if (!bp.disabled) {
+      return dispatch(Object.assign({}, action, {
+        [PROMISE]: client.removeBreakpoint(bp.id)
+      }));
+    }
+    return dispatch(Object.assign({}, action, { status: &quot;done&quot; }));
+  };
+}
+
+/**
+ * Toggle All Breakpoints
+ *
+ * @memberof actions/breakpoints
+ * @static
+ */
+function toggleAllBreakpoints(shouldDisableBreakpoints: boolean) {
+  return ({ dispatch, getState }: ThunkArgs) =&gt; {
+    const breakpoints = getBreakpoints(getState());
+    return dispatch({
+      type: constants.TOGGLE_BREAKPOINTS,
+      shouldDisableBreakpoints,
+      [PROMISE]: (async function() {
+        for (let [, breakpoint] of breakpoints) {
+          if (shouldDisableBreakpoints) {
+            await dispatch(disableBreakpoint(breakpoint.location));
+          } else {
+            await dispatch(enableBreakpoint(breakpoint.location));
+          }
+        }
+      })()
+    });
+  };
+}
+
+/**
+ * Update the condition of a breakpoint.
+ *
+ * @throws {Error} &quot;not implemented&quot;
+ * @memberof actions/breakpoints
+ * @static
+ * @param {Location} location
+ *        @see DebuggerController.Breakpoints.addBreakpoint
+ * @param {string} condition
+ *        The condition to set on the breakpoint
+ */
+function setBreakpointCondition(
+  location: Location,
+  { condition, getTextForLine } : addBreakpointOptions = {}) {
+  // location: Location, condition: string, { getTextForLine }) {
+  return ({ dispatch, getState, client }: ThunkArgs) =&gt; {
+    const bp = getBreakpoint(getState(), location);
+    if (!bp) {
+      return dispatch(addBreakpoint(location, { condition, getTextForLine }));
+    }
+
+    if (bp.loading) {
+      // TODO(jwl): when this function is called, make sure the action
+      // creator waits for the breakpoint to exist
+      throw new Error(&quot;breakpoint must be saved&quot;);
+    }
+
+    return dispatch({
+      type: constants.SET_BREAKPOINT_CONDITION,
+      breakpoint: bp,
+      condition: condition,
+      [PROMISE]: client.setBreakpointCondition(
+        bp.id,
+        location,
+        condition,
+        isOriginalId(bp.location.sourceId)
+      )
+    });
+  };
+}
+
+module.exports = {
+  enableBreakpoint,
+  addBreakpoint,
+  disableBreakpoint,
+  removeBreakpoint,
+  toggleAllBreakpoints,
+  setBreakpointCondition
+};
+</textarea></div></div><div class="row centered"><footer>Flow Coverage Report generated by<a href="https://flowtype.org"> flow </a>and<a href="https://github.com/rpl/flow-coverage-report"> flow-coverage-report </a>at Sun Jan 22 2017 10:17:28 GMT-0500 (EST)</footer></div></div><pre id="file-coverage-data" style="display:none;">{&quot;expressions&quot;:{&quot;covered_count&quot;:238,&quot;uncovered_count&quot;:46,&quot;uncovered_locs&quot;:[{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/breakpoints.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:12,&quot;column&quot;:9,&quot;offset&quot;:339},&quot;end&quot;:{&quot;line&quot;:12,&quot;column&quot;:15,&quot;offset&quot;:346}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/breakpoints.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:12,&quot;column&quot;:21,&quot;offset&quot;:351},&quot;end&quot;:{&quot;line&quot;:12,&quot;column&quot;:64,&quot;offset&quot;:395}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/breakpoints.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:27,&quot;column&quot;:28,&quot;offset&quot;:801},&quot;end&quot;:{&quot;line&quot;:27,&quot;column&quot;:32,&quot;offset&quot;:806}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/breakpoints.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:28,&quot;column&quot;:35,&quot;offset&quot;:864},&quot;end&quot;:{&quot;line&quot;:28,&quot;column&quot;:39,&quot;offset&quot;:869}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/breakpoints.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:32,&quot;column&quot;:33,&quot;offset&quot;:960},&quot;end&quot;:{&quot;line&quot;:32,&quot;column&quot;:37,&quot;offset&quot;:965}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/breakpoints.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:33,&quot;column&quot;:24,&quot;offset&quot;:1013},&quot;end&quot;:{&quot;line&quot;:33,&quot;column&quot;:28,&quot;offset&quot;:1018}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/breakpoints.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:58,&quot;column&quot;:33,&quot;offset&quot;:1723},&quot;end&quot;:{&quot;line&quot;:58,&quot;column&quot;:38,&quot;offset&quot;:1729}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/breakpoints.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:59,&quot;column&quot;:27,&quot;offset&quot;:1775},&quot;end&quot;:{&quot;line&quot;:59,&quot;column&quot;:36,&quot;offset&quot;:1785}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/breakpoints.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:63,&quot;column&quot;:39,&quot;offset&quot;:1877},&quot;end&quot;:{&quot;line&quot;:63,&quot;column&quot;:48,&quot;offset&quot;:1887}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/breakpoints.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:69,&quot;column&quot;:8,&quot;offset&quot;:2029},&quot;end&quot;:{&quot;line&quot;:69,&quot;column&quot;:14,&quot;offset&quot;:2036}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/breakpoints.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:71,&quot;column&quot;:17,&quot;offset&quot;:2125},&quot;end&quot;:{&quot;line&quot;:71,&quot;column&quot;:22,&quot;offset&quot;:2131}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/breakpoints.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:71,&quot;column&quot;:26,&quot;offset&quot;:2134},&quot;end&quot;:{&quot;line&quot;:71,&quot;column&quot;:68,&quot;offset&quot;:2177}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/breakpoints.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:71,&quot;column&quot;:36,&quot;offset&quot;:2144},&quot;end&quot;:{&quot;line&quot;:71,&quot;column&quot;:45,&quot;offset&quot;:2154}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/breakpoints.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:72,&quot;column&quot;:11,&quot;offset&quot;:2189},&quot;end&quot;:{&quot;line&quot;:72,&quot;column&quot;:75,&quot;offset&quot;:2254}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/breakpoints.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:72,&quot;column&quot;:22,&quot;offset&quot;:2200},&quot;end&quot;:{&quot;line&quot;:72,&quot;column&quot;:75,&quot;offset&quot;:2254}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/breakpoints.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:72,&quot;column&quot;:62,&quot;offset&quot;:2240},&quot;end&quot;:{&quot;line&quot;:72,&quot;column&quot;:67,&quot;offset&quot;:2246}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/breakpoints.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:72,&quot;column&quot;:62,&quot;offset&quot;:2240},&quot;end&quot;:{&quot;line&quot;:72,&quot;column&quot;:74,&quot;offset&quot;:2253}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/breakpoints.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:75,&quot;column&quot;:15,&quot;offset&quot;:2281},&quot;end&quot;:{&quot;line&quot;:75,&quot;column&quot;:16,&quot;offset&quot;:2283}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/breakpoints.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:75,&quot;column&quot;:19,&quot;offset&quot;:2285},&quot;end&quot;:{&quot;line&quot;:75,&quot;column&quot;:32,&quot;offset&quot;:2299}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/breakpoints.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:75,&quot;column&quot;:35,&quot;offset&quot;:2301},&quot;end&quot;:{&quot;line&quot;:75,&quot;column&quot;:42,&quot;offset&quot;:2309}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/breakpoints.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:75,&quot;column&quot;:48,&quot;offset&quot;:2314},&quot;end&quot;:{&quot;line&quot;:79,&quot;column&quot;:9,&quot;offset&quot;:2440}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/breakpoints.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:75,&quot;column&quot;:54,&quot;offset&quot;:2320},&quot;end&quot;:{&quot;line&quot;:75,&quot;column&quot;:59,&quot;offset&quot;:2326}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/breakpoints.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:75,&quot;column&quot;:54,&quot;offset&quot;:2320},&quot;end&quot;:{&quot;line&quot;:79,&quot;column&quot;:9,&quot;offset&quot;:2440}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/breakpoints.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:81,&quot;column&quot;:9,&quot;offset&quot;:2451},&quot;end&quot;:{&quot;line&quot;:81,&quot;column&quot;:66,&quot;offset&quot;:2509}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/breakpoints.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:81,&quot;column&quot;:26,&quot;offset&quot;:2468},&quot;end&quot;:{&quot;line&quot;:81,&quot;column&quot;:66,&quot;offset&quot;:2509}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/breakpoints.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:81,&quot;column&quot;:52,&quot;offset&quot;:2494},&quot;end&quot;:{&quot;line&quot;:81,&quot;column&quot;:65,&quot;offset&quot;:2508}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/breakpoints.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:87,&quot;column&quot;:35,&quot;offset&quot;:2688},&quot;end&quot;:{&quot;line&quot;:87,&quot;column&quot;:69,&quot;offset&quot;:2723}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/breakpoints.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:87,&quot;column&quot;:50,&quot;offset&quot;:2703},&quot;end&quot;:{&quot;line&quot;:87,&quot;column&quot;:63,&quot;offset&quot;:2717}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/breakpoints.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:87,&quot;column&quot;:50,&quot;offset&quot;:2703},&quot;end&quot;:{&quot;line&quot;:87,&quot;column&quot;:68,&quot;offset&quot;:2722}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/breakpoints.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:90,&quot;column&quot;:18,&quot;offset&quot;:2758},&quot;end&quot;:{&quot;line&quot;:90,&quot;column&quot;:19,&quot;offset&quot;:2760}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/breakpoints.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:90,&quot;column&quot;:22,&quot;offset&quot;:2762},&quot;end&quot;:{&quot;line&quot;:90,&quot;column&quot;:35,&quot;offset&quot;:2776}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/breakpoints.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:90,&quot;column&quot;:44,&quot;offset&quot;:2784},&quot;end&quot;:{&quot;line&quot;:90,&quot;column&quot;:51,&quot;offset&quot;:2792}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/breakpoints.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:117,&quot;column&quot;:33,&quot;offset&quot;:3289},&quot;end&quot;:{&quot;line&quot;:117,&quot;column&quot;:38,&quot;offset&quot;:3295}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/breakpoints.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:118,&quot;column&quot;:28,&quot;offset&quot;:3342},&quot;end&quot;:{&quot;line&quot;:118,&quot;column&quot;:37,&quot;offset&quot;:3352}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/breakpoints.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:140,&quot;column&quot;:10,&quot;offset&quot;:4101},&quot;end&quot;:{&quot;line&quot;:140,&quot;column&quot;:16,&quot;offset&quot;:4108}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/breakpoints.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:140,&quot;column&quot;:20,&quot;offset&quot;:4111},&quot;end&quot;:{&quot;line&quot;:140,&quot;column&quot;:25,&quot;offset&quot;:4117}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/breakpoints.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:140,&quot;column&quot;:20,&quot;offset&quot;:4111},&quot;end&quot;:{&quot;line&quot;:140,&quot;column&quot;:49,&quot;offset&quot;:4141}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/breakpoints.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:155,&quot;column&quot;:40,&quot;offset&quot;:4472},&quot;end&quot;:{&quot;line&quot;:155,&quot;column&quot;:49,&quot;offset&quot;:4482}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/breakpoints.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:159,&quot;column&quot;:8,&quot;offset&quot;:4588},&quot;end&quot;:{&quot;line&quot;:159,&quot;column&quot;:14,&quot;offset&quot;:4595}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/breakpoints.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:162,&quot;column&quot;:13,&quot;offset&quot;:4722},&quot;end&quot;:{&quot;line&quot;:162,&quot;column&quot;:66,&quot;offset&quot;:4776}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/breakpoints.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:164,&quot;column&quot;:13,&quot;offset&quot;:4809},&quot;end&quot;:{&quot;line&quot;:164,&quot;column&quot;:65,&quot;offset&quot;:4862}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/breakpoints.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:187,&quot;column&quot;:33,&quot;offset&quot;:5430},&quot;end&quot;:{&quot;line&quot;:187,&quot;column&quot;:38,&quot;offset&quot;:5436}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/breakpoints.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:188,&quot;column&quot;:30,&quot;offset&quot;:5485},&quot;end&quot;:{&quot;line&quot;:188,&quot;column&quot;:39,&quot;offset&quot;:5495}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/breakpoints.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:203,&quot;column&quot;:8,&quot;offset&quot;:5938},&quot;end&quot;:{&quot;line&quot;:203,&quot;column&quot;:14,&quot;offset&quot;:5945}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/breakpoints.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:203,&quot;column&quot;:18,&quot;offset&quot;:5948},&quot;end&quot;:{&quot;line&quot;:203,&quot;column&quot;:23,&quot;offset&quot;:5954}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/breakpoints.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:203,&quot;column&quot;:18,&quot;offset&quot;:5948},&quot;end&quot;:{&quot;line&quot;:208,&quot;column&quot;:7,&quot;offset&quot;:6081}}]},&quot;percent&quot;:83}</pre></body></html>

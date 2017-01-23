@@ -1,7 +1,7 @@
 name: Jason Laster
 markdown: redcarpet
 highlighter: rouge
-description: This blog is a home for my technical thoughts.
+description: Firefox DevTools.
 url: http://jasonlaster.github.io/
 syntax-highlighting:
   enabled : true

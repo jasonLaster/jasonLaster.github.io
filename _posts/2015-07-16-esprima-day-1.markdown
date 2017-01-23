@@ -10,7 +10,7 @@ There are plenty of articles on parsers and ASTs.
 Today, I'm going to take a look at *how* Esprima builds the AST.
 
 
-## What is 2+2?
+### What is 2+2?
 
 ```js
 2+2

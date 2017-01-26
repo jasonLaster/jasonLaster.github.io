@@ -125,6 +125,7 @@ If you’re interested in helping us improve our coverage, here’s our current 
 [sankha]:https://twitter.com/sankha93
 [bryan]:https://twitter.com/clarkbw
 [report]:http://jasonlaster.github.io/debugger-flow-report/
+[fernando]:https://twitter.com/montogeek
 [client-types]:https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-client-adapters/src/types.js
 [flow-issues]:https://github.com/devtools-html/debugger.html/labels/flow
 [types-1]:https://github.com/devtools-html/debugger.html/pull/325

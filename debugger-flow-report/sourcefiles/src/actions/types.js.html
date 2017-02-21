@@ -1,12 +1,19 @@
 <!DOCTYPE html>
-<html><head><meta charset="utf-8"/><link rel="stylesheet" href="../../../assets/semantic.min.css"/><link rel="stylesheet" href="../../../assets/codemirror.css"/><link rel="stylesheet" href="../../../assets/flow-highlight-source.css"/><link rel="stylesheet" href="../../../assets/flow-coverage-report.css"/><link rel="stylesheet" href="../../../assets/codemirror-simplescrollbars-addon.css"/><script src="../../../assets/jquery-3.1.0.min.js"></script><script src="../../../assets/semantic.min.js"></script><script src="../../../assets/semantic-tablesort.js"></script><script src="../../../assets/codemirror.js"></script><script src="../../../assets/codemirror-javascript-mode.js"></script><script src="../../../assets/codemirror-annotatescrollbar-addon.js"></script><script src="../../../assets/codemirror-simplescrollbars-addon.js"></script><script src="../../../assets/flow-highlight-source.js"></script><script src="../../../assets/index.js"></script></head><body><div class="ui grid container"><div class="row"><h1 class="twelve wide column">Flow Coverage Report - src/actions/types.js</h1><div class="four wide column" style="height:32px;"><a href="../../../index.html" id="link-to-summary">Go back to all files summary.</a></div></div><div class="row"><table class="ui small celled unstackable table"><thead><tr><th class="sorted ascending">Filename</th><th>Percent</th><th>Total</th><th>Covered</th><th>Uncovered</th></tr></thead><tbody><tr class="positive"><td class="">src/actions/types.js</td><td><span>100 %</span></td><td> 9 </td><td> 9 </td><td> 0 </td></tr></tbody></table></div><div class="row green" style="padding:0;height:12px;"></div><div class="row ui one column centered grid"><div class="column" style="text-align:left;"><div class="row"><div class="ui form"><div class="fields"><div class="sixteen wide inline field"><select class="ui search dropdown uncovered-locations"><option value="">Uncovered Locations</option></select></div><div class="four wide inline field"><select class="ui search dropdown syntax-highlighting"><option value="es">ES6/ES7</option><option value="js">JavaScript</option><option value="no">None</option></select></div></div></div></div><textarea id="file-content" readonly="">// @flow
+<html><head><meta charset="utf-8"/><link rel="stylesheet" href="../../../assets/semantic.min.css"/><link rel="stylesheet" href="../../../assets/codemirror.css"/><link rel="stylesheet" href="../../../assets/flow-highlight-source.css"/><link rel="stylesheet" href="../../../assets/flow-coverage-report.css"/><link rel="stylesheet" href="../../../assets/codemirror-simplescrollbars-addon.css"/><script src="../../../assets/jquery-3.1.0.min.js"></script><script src="../../../assets/semantic.min.js"></script><script src="../../../assets/semantic-tablesort.js"></script><script src="../../../assets/codemirror.js"></script><script src="../../../assets/codemirror-javascript-mode.js"></script><script src="../../../assets/codemirror-annotatescrollbar-addon.js"></script><script src="../../../assets/codemirror-simplescrollbars-addon.js"></script><script src="../../../assets/flow-highlight-source.js"></script><script src="../../../assets/index.js"></script><style>
+.ui .CodeMirror {
+  border: 1px solid rgba(34,36,38,.15);
+  height: auto;
+}
+</style></head><body><div class="ui grid container"><div class="row"><div class="twelve wide column"><h2 class="ui header"><a href="../../../index.html" id="link-to-summary">Flow Coverage Report</a></h2></div></div><div class="row"><table class="ui small celled unstackable table"><thead><tr><th class="sorted ascending">Filename</th><th>Percent</th><th>Total</th><th>Covered</th><th>Uncovered</th></tr></thead><tbody><tr class="positive"><td class="">src/actions/types.js</td><td><span>100 %</span></td><td> 10 </td><td> 10 </td><td> 0 </td></tr></tbody></table></div><div class="row ui one column centered grid"><div class="column" style="text-align:left;"><div class="row"><div class="ui form"><div class="fields"><div class="sixteen wide inline field"><select class="ui search dropdown uncovered-locations"><option value="">Uncovered Locations</option></select></div><div class="four wide inline field"><select class="ui search dropdown syntax-highlighting"><option value="es">ES6/ES7</option><option value="js">JavaScript</option><option value="no">None</option></select></div></div></div></div><textarea id="file-content" readonly="">// @flow
 
 import type { Source,
               Breakpoint,
+              Expression,
+              LoadedObject,
               Location,
               SourceText,
               Frame,
-              Why } from &quot;devtools-client-adapters/src/types&quot;;
+              Why } from &quot;../types&quot;;
 
 /**
  * Flow types
@@ -25,6 +32,8 @@ export type ThunkArgs = {
   getState: () =&gt; any,
   client: any
 };
+
+export type ActionType = Object | Function;
 
 /**
  * Tri-state status for async operations
@@ -99,7 +108,7 @@ export type panelPositionType = &quot;start&quot; | &quot;end&quot;;
 
 type UIAction =
   {
-    type: &quot;TOGGLE_FILE_SEARCH&quot;,
+    type: &quot;SET_FILE_SEARCH&quot;,
     searchOn: boolean }
   | {
     type: &quot;SHOW_SOURCE&quot;,
@@ -118,7 +127,8 @@ type PauseAction =
                   isInterrupted?: boolean },
       frames: Frame[],
       selectedFrameId: string,
-      }
+      loadedObjects: LoadedObject[]
+    }
   | { type: &quot;PAUSE_ON_EXCEPTIONS&quot;,
       shouldPauseOnExceptions: boolean,
       shouldIgnoreCaughtExceptions: boolean }
@@ -134,16 +144,15 @@ type PauseAction =
       input: string,
       value: string }
   | { type: &quot;EVALUATE_EXPRESSION&quot;,
-      id: number,
       input: string,
       status: string,
       value: Object,
       &quot;@@dispatch/promise&quot;: any }
   | { type: &quot;UPDATE_EXPRESSION&quot;,
-      id: number,
+      expression: Expression,
       input: string }
   | { type: &quot;DELETE_EXPRESSION&quot;,
-      id: number };
+      input: string };
 
 /**
  * Actions: Source, Breakpoint, and Navigation
@@ -157,4 +166,4 @@ export type Action =
   | PauseAction
   | { type: &quot;NAVIGATE&quot; }
   | UIAction;
-</textarea></div></div><div class="row centered"><footer>Flow Coverage Report generated by<a href="https://flowtype.org"> flow </a>and<a href="https://github.com/rpl/flow-coverage-report"> flow-coverage-report </a>at Sun Jan 22 2017 10:17:28 GMT-0500 (EST)</footer></div></div><pre id="file-coverage-data" style="display:none;">{&quot;expressions&quot;:{&quot;covered_count&quot;:9,&quot;uncovered_count&quot;:0,&quot;uncovered_locs&quot;:[]},&quot;percent&quot;:100}</pre></body></html>
+</textarea></div></div><div class="row centered"><footer>Flow Coverage Report generated by<a href="https://flowtype.org"> flow </a>and<a href="https://github.com/rpl/flow-coverage-report"> flow-coverage-report </a>at Tue Feb 21 2017 17:31:46 GMT-0500 (EST)</footer></div></div><pre id="file-coverage-data" style="display:none;">{&quot;expressions&quot;:{&quot;covered_count&quot;:10,&quot;uncovered_count&quot;:0,&quot;uncovered_locs&quot;:[]},&quot;filename&quot;:&quot;src/actions/types.js&quot;,&quot;percent&quot;:100}</pre></body></html>

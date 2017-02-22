@@ -34,3 +34,5 @@ that make it difficult to get right. Here is a quick spec that helped me documen
 * **select text**
 	* **cmd+f** should update the query of the search bar
 	* **cmd+g** should search from that location with the current query
+
+![](https://cloud.githubusercontent.com/assets/254562/23221293/b2a0ece6-f8f2-11e6-9d12-ef3604534ffc.gif)

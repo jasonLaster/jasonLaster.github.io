@@ -38,8 +38,8 @@ h1 {
 }
 p {
     margin: 1em 0;
-    font-size: 17px;
-    line-height: 26px;
+    font-size: 1em;
+    line-height: 1.5em;
     font-family: aller-light, helvetica;
     font-stretch: normal;
     font-style: normal;
@@ -341,18 +341,15 @@ b {
     padding: 0 .4em;
 }
 .post ul, .post ol {
-    /* margin-left: 1.35em; */
     width: 600px;
-    /* border-left: 3px solid #ECECEC; */
-    /* list-style: none; */
     padding-left: 1em;
     margin: -.5em 0 1em .5em;
 }
 
 .post li {
-    font-size: .8em;
+    font-size: 1em;
     margin-left: .5em;
-    margin-top: .2em;
+    margin-top: 1em;
 }
 
 .post li > code {

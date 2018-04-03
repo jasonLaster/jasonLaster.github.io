@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"/><link rel="stylesheet" href="../../../../../assets/semantic.min.css"/><link rel="stylesheet" href="../../../../../assets/codemirror.css"/><link rel="stylesheet" href="../../../../../assets/flow-highlight-source.css"/><link rel="stylesheet" href="../../../../../assets/flow-coverage-report.css"/><link rel="stylesheet" href="../../../../../assets/codemirror-simplescrollbars-addon.css"/><script src="../../../../../assets/jquery-3.1.0.min.js"></script><script src="../../../../../assets/semantic.min.js"></script><script src="../../../../../assets/semantic-tablesort.js"></script><script src="../../../../../assets/codemirror.js"></script><script src="../../../../../assets/codemirror-javascript-mode.js"></script><script src="../../../../../assets/codemirror-annotatescrollbar-addon.js"></script><script src="../../../../../assets/codemirror-simplescrollbars-addon.js"></script><script src="../../../../../assets/flow-highlight-source.js"></script></head><body><div class="ui grid container"><div class="row"><h1 class="twelve wide column">Flow Coverage Report - src/components/SecondaryPanes/Frames/Frame.js</h1><div class="four wide column" style="height:32px;"><a href="../../../../../index.html" id="link-to-summary">Go back to all files summary.</a></div></div><div class="row"><table class="ui small celled unstackable table"><thead><tr><th class="sorted ascending">Filename</th><th>Percent</th><th>Total</th><th>Covered</th><th>Uncovered</th></tr></thead><tbody><tr class="negative"><td class="">src/components/SecondaryPanes/Frames/Frame.js</td><td> 69 %</td><td> 134 </td><td> 93 </td><td> 41 </td></tr></tbody></table></div><div class="row red" style="padding:0;height:12px;"></div><div class="row ui one column centered grid"><div class="column" style="text-align:left;"><div class="row"><div class="ui form"><div class="fields"><div class="sixteen wide inline field"><select class="ui search dropdown uncovered-locations"><option value="">Uncovered Locations</option><option value="23">Start: 23,9 - End: 23,19</option><option value="23">Start: 23,23 - End: 23,39</option><option value="23">Start: 23,23 - End: 23,55</option><option value="24">Start: 24,34 - End: 24,44</option><option value="29">Start: 29,26 - End: 29,30</option><option value="30">Start: 30,8 - End: 30,12</option><option value="30">Start: 30,8 - End: 30,19</option><option value="34">Start: 34,7 - End: 34,11</option><option value="34">Start: 34,7 - End: 34,19</option><option value="37">Start: 37,10 - End: 37,14</option><option value="37">Start: 37,10 - End: 37,22</option><option value="38">Start: 38,20 - End: 38,24</option><option value="38">Start: 38,20 - End: 38,32</option><option value="38">Start: 38,20 - End: 38,46</option><option value="43">Start: 43,32 - End: 43,36</option><option value="43">Start: 43,32 - End: 43,43</option><option value="45">Start: 45,48 - End: 45,52</option><option value="45">Start: 45,48 - End: 45,61</option><option value="45">Start: 45,48 - End: 45,66</option><option value="78">Start: 78,7 - End: 78,11</option><option value="93">Start: 93,5 - End: 93,33</option><option value="104">Start: 104,5 - End: 104,33</option><option value="116">Start: 116,17 - End: 116,29</option><option value="116">Start: 116,34 - End: 116,46</option><option value="116">Start: 116,34 - End: 116,49</option><option value="116">Start: 116,55 - End: 116,59</option><option value="116">Start: 116,55 - End: 116,62</option><option value="120">Start: 120,14 - End: 120,18</option><option value="120">Start: 120,14 - End: 120,21</option><option value="122">Start: 122,22 - End: 122,22</option><option value="122">Start: 122,44 - End: 122,44</option><option value="122">Start: 122,47 - End: 122,51</option><option value="122">Start: 122,54 - End: 122,66</option><option value="123">Start: 123,18 - End: 123,18</option><option value="123">Start: 123,36 - End: 123,36</option><option value="123">Start: 123,39 - End: 123,43</option><option value="123">Start: 123,46 - End: 123,58</option><option value="124">Start: 124,24 - End: 124,24</option><option value="124">Start: 124,48 - End: 124,48</option><option value="127">Start: 127,28 - End: 127,32</option><option value="128">Start: 128,49 - End: 128,53</option></select></div><div class="four wide inline field"><select class="ui search dropdown syntax-highlighting"><option value="es">ES6/ES7</option><option value="js">JavaScript</option><option value="no">None</option></select></div></div></div></div><textarea id="file-content" readonly="">/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at &lt;http://mozilla.org/MPL/2.0/&gt;. */
+
+// @flow
+import React, { Component } from &quot;react&quot;;
+import classNames from &quot;classnames&quot;;
+import Svg from &quot;../../shared/Svg&quot;;
+
+import { formatDisplayName } from &quot;../../../utils/pause/frames&quot;;
+import { getFilename } from &quot;../../../utils/source&quot;;
+import FrameMenu from &quot;./FrameMenu&quot;;
+
+import type { Frame } from &quot;../../../types&quot;;
+import type { LocalFrame } from &quot;./types&quot;;
+
+type FrameTitleProps = {
+  frame: Frame,
+  options: Object
+};
+
+function FrameTitle({ frame, options }: FrameTitleProps) {
+  const displayName = formatDisplayName(frame, options);
+  return &lt;div className=&quot;title&quot;&gt;{displayName}&lt;/div&gt;;
+}
+
+type FrameLocationProps = { frame: LocalFrame };
+
+function FrameLocation({ frame }: FrameLocationProps) {
+  if (!frame.source) {
+    return;
+  }
+
+  if (frame.library) {
+    return (
+      &lt;div className=&quot;location&quot;&gt;
+        {frame.library}
+        &lt;Svg name={frame.library.toLowerCase()} className=&quot;annotation-logo&quot; /&gt;
+      &lt;/div&gt;
+    );
+  }
+
+  const filename = getFilename(frame.source);
+  return (
+    &lt;div className=&quot;location&quot;&gt;{`${filename}: ${frame.location.line}`}&lt;/div&gt;
+  );
+}
+
+FrameLocation.displayName = &quot;FrameLocation&quot;;
+
+type FrameComponentProps = {
+  frame: LocalFrame,
+  selectedFrame: LocalFrame,
+  copyStackTrace: Function,
+  toggleFrameworkGrouping: Function,
+  selectFrame: Function,
+  frameworkGroupingOn: boolean,
+  hideLocation: boolean,
+  shouldMapDisplayName: boolean,
+  toggleBlackBox: Function
+};
+
+export default class FrameComponent extends Component&lt;FrameComponentProps&gt; {
+  static defaultProps = {
+    hideLocation: false,
+    shouldMapDisplayName: true
+  };
+
+  onContextMenu(event: SyntheticKeyboardEvent&lt;HTMLElement&gt;) {
+    const {
+      frame,
+      copyStackTrace,
+      toggleFrameworkGrouping,
+      toggleBlackBox,
+      frameworkGroupingOn
+    } = this.props;
+    FrameMenu(
+      frame,
+      frameworkGroupingOn,
+      { copyStackTrace, toggleFrameworkGrouping, toggleBlackBox },
+      event
+    );
+  }
+
+  onMouseDown(
+    e: SyntheticKeyboardEvent&lt;HTMLElement&gt;,
+    frame: Frame,
+    selectedFrame: Frame
+  ) {
+    if (e.nativeEvent.which == 3) {
+      return;
+    }
+    this.props.selectFrame(frame);
+  }
+
+  onKeyUp(
+    event: SyntheticKeyboardEvent&lt;HTMLElement&gt;,
+    frame: Frame,
+    selectedFrame: Frame
+  ) {
+    if (event.key != &quot;Enter&quot;) {
+      return;
+    }
+    this.props.selectFrame(frame);
+  }
+
+  render() {
+    const {
+      frame,
+      selectedFrame,
+      hideLocation,
+      shouldMapDisplayName
+    } = this.props;
+
+    const className = classNames(&quot;frame&quot;, {
+      selected: selectedFrame &amp;&amp; selectedFrame.id === frame.id
+    });
+    return (
+      &lt;li
+        key={frame.id}
+        className={className}
+        onMouseDown={e =&gt; this.onMouseDown(e, frame, selectedFrame)}
+        onKeyUp={e =&gt; this.onKeyUp(e, frame, selectedFrame)}
+        onContextMenu={e =&gt; this.onContextMenu(e)}
+        tabIndex={0}
+      &gt;
+        &lt;FrameTitle frame={frame} options={{ shouldMapDisplayName }} /&gt;
+        {!hideLocation &amp;&amp; &lt;FrameLocation frame={frame} /&gt;}
+      &lt;/li&gt;
+    );
+  }
+}
+
+FrameComponent.displayName = &quot;Frame&quot;;
+</textarea></div></div><div class="row centered"><footer>Flow Coverage Report generated by<a href="https://flowtype.org"> flow </a>and<a href="https://github.com/rpl/flow-coverage-report"> flow-coverage-report </a>at Tue Apr 03 2018 15:58:53 GMT-0400 (EDT)</footer></div></div><pre id="file-coverage-data" style="display:none;">{&quot;expressions&quot;:{&quot;covered_count&quot;:93,&quot;uncovered_count&quot;:41,&quot;uncovered_locs&quot;:[{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/Frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:23,&quot;column&quot;:9,&quot;offset&quot;:708},&quot;end&quot;:{&quot;line&quot;:23,&quot;column&quot;:19,&quot;offset&quot;:719}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/Frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:23,&quot;column&quot;:23,&quot;offset&quot;:722},&quot;end&quot;:{&quot;line&quot;:23,&quot;column&quot;:39,&quot;offset&quot;:739}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/Frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:23,&quot;column&quot;:23,&quot;offset&quot;:722},&quot;end&quot;:{&quot;line&quot;:23,&quot;column&quot;:55,&quot;offset&quot;:755}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/Frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:24,&quot;column&quot;:34,&quot;offset&quot;:790},&quot;end&quot;:{&quot;line&quot;:24,&quot;column&quot;:44,&quot;offset&quot;:801}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/Frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:29,&quot;column&quot;:26,&quot;offset&quot;:888},&quot;end&quot;:{&quot;line&quot;:29,&quot;column&quot;:30,&quot;offset&quot;:893}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/Frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:30,&quot;column&quot;:8,&quot;offset&quot;:926},&quot;end&quot;:{&quot;line&quot;:30,&quot;column&quot;:12,&quot;offset&quot;:931}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/Frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:30,&quot;column&quot;:8,&quot;offset&quot;:926},&quot;end&quot;:{&quot;line&quot;:30,&quot;column&quot;:19,&quot;offset&quot;:938}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/Frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:34,&quot;column&quot;:7,&quot;offset&quot;:965},&quot;end&quot;:{&quot;line&quot;:34,&quot;column&quot;:11,&quot;offset&quot;:970}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/Frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:34,&quot;column&quot;:7,&quot;offset&quot;:965},&quot;end&quot;:{&quot;line&quot;:34,&quot;column&quot;:19,&quot;offset&quot;:978}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/Frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:37,&quot;column&quot;:10,&quot;offset&quot;:1037},&quot;end&quot;:{&quot;line&quot;:37,&quot;column&quot;:14,&quot;offset&quot;:1042}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/Frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:37,&quot;column&quot;:10,&quot;offset&quot;:1037},&quot;end&quot;:{&quot;line&quot;:37,&quot;column&quot;:22,&quot;offset&quot;:1050}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/Frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:38,&quot;column&quot;:20,&quot;offset&quot;:1071},&quot;end&quot;:{&quot;line&quot;:38,&quot;column&quot;:24,&quot;offset&quot;:1076}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/Frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:38,&quot;column&quot;:20,&quot;offset&quot;:1071},&quot;end&quot;:{&quot;line&quot;:38,&quot;column&quot;:32,&quot;offset&quot;:1084}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/Frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:38,&quot;column&quot;:20,&quot;offset&quot;:1071},&quot;end&quot;:{&quot;line&quot;:38,&quot;column&quot;:46,&quot;offset&quot;:1098}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/Frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:43,&quot;column&quot;:32,&quot;offset&quot;:1187},&quot;end&quot;:{&quot;line&quot;:43,&quot;column&quot;:36,&quot;offset&quot;:1192}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/Frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:43,&quot;column&quot;:32,&quot;offset&quot;:1187},&quot;end&quot;:{&quot;line&quot;:43,&quot;column&quot;:43,&quot;offset&quot;:1199}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/Frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:45,&quot;column&quot;:48,&quot;offset&quot;:1260},&quot;end&quot;:{&quot;line&quot;:45,&quot;column&quot;:52,&quot;offset&quot;:1265}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/Frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:45,&quot;column&quot;:48,&quot;offset&quot;:1260},&quot;end&quot;:{&quot;line&quot;:45,&quot;column&quot;:61,&quot;offset&quot;:1274}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/Frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:45,&quot;column&quot;:48,&quot;offset&quot;:1260},&quot;end&quot;:{&quot;line&quot;:45,&quot;column&quot;:66,&quot;offset&quot;:1279}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/Frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:78,&quot;column&quot;:7,&quot;offset&quot;:2027},&quot;end&quot;:{&quot;line&quot;:78,&quot;column&quot;:11,&quot;offset&quot;:2032}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/Frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:93,&quot;column&quot;:5,&quot;offset&quot;:2320},&quot;end&quot;:{&quot;line&quot;:93,&quot;column&quot;:33,&quot;offset&quot;:2349}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/Frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:104,&quot;column&quot;:5,&quot;offset&quot;:2520},&quot;end&quot;:{&quot;line&quot;:104,&quot;column&quot;:33,&quot;offset&quot;:2549}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/Frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:116,&quot;column&quot;:17,&quot;offset&quot;:2743},&quot;end&quot;:{&quot;line&quot;:116,&quot;column&quot;:29,&quot;offset&quot;:2756}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/Frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:116,&quot;column&quot;:34,&quot;offset&quot;:2760},&quot;end&quot;:{&quot;line&quot;:116,&quot;column&quot;:46,&quot;offset&quot;:2773}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/Frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:116,&quot;column&quot;:34,&quot;offset&quot;:2760},&quot;end&quot;:{&quot;line&quot;:116,&quot;column&quot;:49,&quot;offset&quot;:2776}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/Frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:116,&quot;column&quot;:55,&quot;offset&quot;:2781},&quot;end&quot;:{&quot;line&quot;:116,&quot;column&quot;:59,&quot;offset&quot;:2786}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/Frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:116,&quot;column&quot;:55,&quot;offset&quot;:2781},&quot;end&quot;:{&quot;line&quot;:116,&quot;column&quot;:62,&quot;offset&quot;:2789}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/Frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:120,&quot;column&quot;:14,&quot;offset&quot;:2834},&quot;end&quot;:{&quot;line&quot;:120,&quot;column&quot;:18,&quot;offset&quot;:2839}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/Frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:120,&quot;column&quot;:14,&quot;offset&quot;:2834},&quot;end&quot;:{&quot;line&quot;:120,&quot;column&quot;:21,&quot;offset&quot;:2842}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/Frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:122,&quot;column&quot;:22,&quot;offset&quot;:2895},&quot;end&quot;:{&quot;line&quot;:122,&quot;column&quot;:22,&quot;offset&quot;:2896}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/Frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:122,&quot;column&quot;:44,&quot;offset&quot;:2917},&quot;end&quot;:{&quot;line&quot;:122,&quot;column&quot;:44,&quot;offset&quot;:2918}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/Frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:122,&quot;column&quot;:47,&quot;offset&quot;:2920},&quot;end&quot;:{&quot;line&quot;:122,&quot;column&quot;:51,&quot;offset&quot;:2925}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/Frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:122,&quot;column&quot;:54,&quot;offset&quot;:2927},&quot;end&quot;:{&quot;line&quot;:122,&quot;column&quot;:66,&quot;offset&quot;:2940}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/Frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:123,&quot;column&quot;:18,&quot;offset&quot;:2960},&quot;end&quot;:{&quot;line&quot;:123,&quot;column&quot;:18,&quot;offset&quot;:2961}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/Frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:123,&quot;column&quot;:36,&quot;offset&quot;:2978},&quot;end&quot;:{&quot;line&quot;:123,&quot;column&quot;:36,&quot;offset&quot;:2979}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/Frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:123,&quot;column&quot;:39,&quot;offset&quot;:2981},&quot;end&quot;:{&quot;line&quot;:123,&quot;column&quot;:43,&quot;offset&quot;:2986}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/Frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:123,&quot;column&quot;:46,&quot;offset&quot;:2988},&quot;end&quot;:{&quot;line&quot;:123,&quot;column&quot;:58,&quot;offset&quot;:3001}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/Frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:124,&quot;column&quot;:24,&quot;offset&quot;:3027},&quot;end&quot;:{&quot;line&quot;:124,&quot;column&quot;:24,&quot;offset&quot;:3028}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/Frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:124,&quot;column&quot;:48,&quot;offset&quot;:3051},&quot;end&quot;:{&quot;line&quot;:124,&quot;column&quot;:48,&quot;offset&quot;:3052}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/Frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:127,&quot;column&quot;:28,&quot;offset&quot;:3111},&quot;end&quot;:{&quot;line&quot;:127,&quot;column&quot;:32,&quot;offset&quot;:3116}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/Frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:128,&quot;column&quot;:49,&quot;offset&quot;:3204},&quot;end&quot;:{&quot;line&quot;:128,&quot;column&quot;:53,&quot;offset&quot;:3209}}]},&quot;percent&quot;:69}</pre></body></html>

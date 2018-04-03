@@ -1,52 +1,182 @@
 <!DOCTYPE html>
-<html><head><meta charset="utf-8"/><link rel="stylesheet" href="../../../assets/semantic.min.css"/><link rel="stylesheet" href="../../../assets/codemirror.css"/><link rel="stylesheet" href="../../../assets/flow-highlight-source.css"/><link rel="stylesheet" href="../../../assets/flow-coverage-report.css"/><link rel="stylesheet" href="../../../assets/codemirror-simplescrollbars-addon.css"/><script src="../../../assets/jquery-3.1.0.min.js"></script><script src="../../../assets/semantic.min.js"></script><script src="../../../assets/semantic-tablesort.js"></script><script src="../../../assets/codemirror.js"></script><script src="../../../assets/codemirror-javascript-mode.js"></script><script src="../../../assets/codemirror-annotatescrollbar-addon.js"></script><script src="../../../assets/codemirror-simplescrollbars-addon.js"></script><script src="../../../assets/flow-highlight-source.js"></script><script src="../../../assets/index.js"></script><style>
-.ui .CodeMirror {
-  border: 1px solid rgba(34,36,38,.15);
-  height: auto;
-}
-</style></head><body><div class="ui grid container"><div class="row"><div class="twelve wide column"><h2 class="ui header"><a href="../../../index.html" id="link-to-summary">Flow Coverage Report</a></h2></div></div><div class="row"><table class="ui small celled unstackable table"><thead><tr><th class="sorted ascending">Filename</th><th>Percent</th><th>Total</th><th>Covered</th><th>Uncovered</th></tr></thead><tbody><tr class="positive"><td class="">src/actions/ui.js</td><td><span>89 %</span></td><td> 57 </td><td> 51 </td><td> 6 </td></tr></tbody></table></div><div class="row ui one column centered grid"><div class="column" style="text-align:left;"><div class="row"><div class="ui form"><div class="fields"><div class="sixteen wide inline field"><select class="ui search dropdown uncovered-locations"><option value="">Uncovered Locations</option><option value="10">Start: 10,37 - End: 10,46</option><option value="24">Start: 24,11 - End: 24,16</option><option value="24">Start: 24,20 - End: 24,50</option><option value="24">Start: 24,30 - End: 24,39</option><option value="27">Start: 27,18 - End: 27,23</option><option value="27">Start: 27,18 - End: 27,34</option></select></div><div class="four wide inline field"><select class="ui search dropdown syntax-highlighting"><option value="es">ES6/ES7</option><option value="js">JavaScript</option><option value="no">None</option></select></div></div></div></div><textarea id="file-content" readonly="">// @flow
-const constants = require(&quot;../constants&quot;);
-const { getSource, getFileSearchState } = require(&quot;../selectors&quot;);
-import type { ThunkArgs } from &quot;./types&quot;;
+<html><head><meta charset="utf-8"/><link rel="stylesheet" href="../../../assets/semantic.min.css"/><link rel="stylesheet" href="../../../assets/codemirror.css"/><link rel="stylesheet" href="../../../assets/flow-highlight-source.css"/><link rel="stylesheet" href="../../../assets/flow-coverage-report.css"/><link rel="stylesheet" href="../../../assets/codemirror-simplescrollbars-addon.css"/><script src="../../../assets/jquery-3.1.0.min.js"></script><script src="../../../assets/semantic.min.js"></script><script src="../../../assets/semantic-tablesort.js"></script><script src="../../../assets/codemirror.js"></script><script src="../../../assets/codemirror-javascript-mode.js"></script><script src="../../../assets/codemirror-annotatescrollbar-addon.js"></script><script src="../../../assets/codemirror-simplescrollbars-addon.js"></script><script src="../../../assets/flow-highlight-source.js"></script></head><body><div class="ui grid container"><div class="row"><h1 class="twelve wide column">Flow Coverage Report - src/actions/ui.js</h1><div class="four wide column" style="height:32px;"><a href="../../../index.html" id="link-to-summary">Go back to all files summary.</a></div></div><div class="row"><table class="ui small celled unstackable table"><thead><tr><th class="sorted ascending">Filename</th><th>Percent</th><th>Total</th><th>Covered</th><th>Uncovered</th></tr></thead><tbody><tr class="positive"><td class="">src/actions/ui.js</td><td> 96 %</td><td> 180 </td><td> 173 </td><td> 7 </td></tr></tbody></table></div><div class="row green" style="padding:0;height:12px;"></div><div class="row ui one column centered grid"><div class="column" style="text-align:left;"><div class="row"><div class="ui form"><div class="fields"><div class="sixteen wide inline field"><select class="ui search dropdown uncovered-locations"><option value="">Uncovered Locations</option><option value="23">Start: 23,46 - End: 23,55</option><option value="25">Start: 25,63 - End: 25,67</option><option value="47">Start: 47,9 - End: 47,27</option><option value="47">Start: 47,9 - End: 47,39</option><option value="69">Start: 69,11 - End: 69,16</option><option value="79">Start: 79,34 - End: 79,39</option><option value="79">Start: 79,34 - End: 79,50</option></select></div><div class="four wide inline field"><select class="ui search dropdown syntax-highlighting"><option value="es">ES6/ES7</option><option value="js">JavaScript</option><option value="no">None</option></select></div></div></div></div><textarea id="file-content" readonly="">/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at &lt;http://mozilla.org/MPL/2.0/&gt;. */
 
-function toggleFileSearch() {
+// @flow
+
+import {
+  getActiveSearch,
+  getPaneCollapse,
+  getQuickOpenEnabled,
+  getSource
+} from &quot;../selectors&quot;;
+import { getProjectDirectoryRoot } from &quot;../reducers/ui&quot;;
+import type { ThunkArgs, panelPositionType } from &quot;./types&quot;;
+import { getRawSourceURL } from &quot;../utils/source&quot;;
+
+import type {
+  ActiveSearchType,
+  OrientationType,
+  SelectedPrimaryPaneTabType
+} from &quot;../reducers/ui&quot;;
+
+export function setContextMenu(type: string, event: any) {
+  return ({ dispatch }: ThunkArgs) =&gt; {
+    dispatch({ type: &quot;SET_CONTEXT_MENU&quot;, contextMenu: { type, event } });
+  };
+}
+
+export function setPrimaryPaneTab(tabName: SelectedPrimaryPaneTabType) {
+  return { type: &quot;SET_PRIMARY_PANE_TAB&quot;, tabName };
+}
+
+export function closeActiveSearch() {
+  return {
+    type: &quot;TOGGLE_ACTIVE_SEARCH&quot;,
+    value: null
+  };
+}
+
+export function setActiveSearch(activeSearch?: ActiveSearchType) {
   return ({ dispatch, getState }: ThunkArgs) =&gt; {
+    const activeSearchState = getActiveSearch(getState());
+    if (activeSearchState === activeSearch) {
+      return;
+    }
+
+    if (getQuickOpenEnabled(getState())) {
+      dispatch({ type: &quot;CLOSE_QUICK_OPEN&quot; });
+    }
+
     dispatch({
-      type: constants.SET_FILE_SEARCH,
-      searchOn: !getFileSearchState(getState())
+      type: &quot;TOGGLE_ACTIVE_SEARCH&quot;,
+      value: activeSearch
     });
   };
 }
 
-function closeFileSearch() {
-  return {
-    type: constants.SET_FILE_SEARCH,
-    searchOn: false
+export function toggleFrameworkGrouping(toggleValue: boolean) {
+  return ({ dispatch, getState }: ThunkArgs) =&gt; {
+    dispatch({
+      type: &quot;TOGGLE_FRAMEWORK_GROUPING&quot;,
+      value: toggleValue
+    });
   };
 }
 
-function showSource(sourceId: string) {
+export function showSource(sourceId: string) {
   return ({ dispatch, getState }: ThunkArgs) =&gt; {
     const source = getSource(getState(), sourceId);
+
+    dispatch(setPrimaryPaneTab(&quot;sources&quot;));
     dispatch({
-      type: constants.SHOW_SOURCE,
-      sourceUrl: source.get(&quot;url&quot;)
+      type: &quot;SHOW_SOURCE&quot;,
+      sourceUrl: &quot;&quot;
+    });
+
+    dispatch({
+      type: &quot;SHOW_SOURCE&quot;,
+      sourceUrl: getRawSourceURL(source.get(&quot;url&quot;))
     });
   };
 }
 
-function togglePaneCollapse(position: string, paneCollapsed: boolean) {
-  return {
-    type: constants.TOGGLE_PANE,
-    position,
-    paneCollapsed
+export function togglePaneCollapse(
+  position: panelPositionType,
+  paneCollapsed: boolean
+) {
+  return ({ dispatch, getState }: ThunkArgs) =&gt; {
+    const prevPaneCollapse = getPaneCollapse(getState(), position);
+    if (prevPaneCollapse === paneCollapsed) {
+      return;
+    }
+
+    dispatch({
+      type: &quot;TOGGLE_PANE&quot;,
+      position,
+      paneCollapsed
+    });
   };
 }
 
-module.exports = {
-  toggleFileSearch,
-  closeFileSearch,
-  showSource,
-  togglePaneCollapse
-};
-</textarea></div></div><div class="row centered"><footer>Flow Coverage Report generated by<a href="https://flowtype.org"> flow </a>and<a href="https://github.com/rpl/flow-coverage-report"> flow-coverage-report </a>at Tue Feb 21 2017 17:31:46 GMT-0500 (EST)</footer></div></div><pre id="file-coverage-data" style="display:none;">{&quot;expressions&quot;:{&quot;covered_count&quot;:51,&quot;uncovered_count&quot;:6,&quot;uncovered_locs&quot;:[{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/ui.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:10,&quot;column&quot;:37,&quot;offset&quot;:332},&quot;end&quot;:{&quot;line&quot;:10,&quot;column&quot;:46,&quot;offset&quot;:342}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/ui.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:24,&quot;column&quot;:11,&quot;offset&quot;:565},&quot;end&quot;:{&quot;line&quot;:24,&quot;column&quot;:16,&quot;offset&quot;:571}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/ui.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:24,&quot;column&quot;:20,&quot;offset&quot;:574},&quot;end&quot;:{&quot;line&quot;:24,&quot;column&quot;:50,&quot;offset&quot;:605}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/ui.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:24,&quot;column&quot;:30,&quot;offset&quot;:584},&quot;end&quot;:{&quot;line&quot;:24,&quot;column&quot;:39,&quot;offset&quot;:594}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/ui.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:27,&quot;column&quot;:18,&quot;offset&quot;:674},&quot;end&quot;:{&quot;line&quot;:27,&quot;column&quot;:23,&quot;offset&quot;:680}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/ui.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:27,&quot;column&quot;:18,&quot;offset&quot;:674},&quot;end&quot;:{&quot;line&quot;:27,&quot;column&quot;:34,&quot;offset&quot;:691}}]},&quot;filename&quot;:&quot;src/actions/ui.js&quot;,&quot;percent&quot;:89}</pre></body></html>
+/**
+ * @memberof actions/sources
+ * @static
+ */
+export function highlightLineRange(location: {
+  start: number,
+  end: number,
+  sourceId: number
+}) {
+  return {
+    type: &quot;HIGHLIGHT_LINES&quot;,
+    location
+  };
+}
+
+export function flashLineRange(location: {
+  start: number,
+  end: number,
+  sourceId: number
+}) {
+  return ({ dispatch }: ThunkArgs) =&gt; {
+    dispatch(highlightLineRange(location));
+    setTimeout(() =&gt; dispatch(clearHighlightLineRange()), 200);
+  };
+}
+
+/**
+ * @memberof actions/sources
+ * @static
+ */
+export function clearHighlightLineRange() {
+  return {
+    type: &quot;CLEAR_HIGHLIGHT_LINES&quot;
+  };
+}
+
+export function openConditionalPanel(line: ?number) {
+  if (!line) {
+    return;
+  }
+
+  return {
+    type: &quot;OPEN_CONDITIONAL_PANEL&quot;,
+    line
+  };
+}
+
+export function closeConditionalPanel() {
+  return {
+    type: &quot;CLOSE_CONDITIONAL_PANEL&quot;
+  };
+}
+
+export function clearProjectDirectoryRoot() {
+  return {
+    type: &quot;SET_PROJECT_DIRECTORY_ROOT&quot;,
+    url: &quot;&quot;
+  };
+}
+
+export function setProjectDirectoryRoot(newRoot: string) {
+  return ({ dispatch, getState }: ThunkArgs) =&gt; {
+    const curRoot = getProjectDirectoryRoot(getState());
+    if (newRoot &amp;&amp; curRoot) {
+      const temp = newRoot.split(&quot;/&quot;);
+      temp.splice(0, 2);
+      newRoot = `${curRoot}/${temp.join(&quot;/&quot;)}`;
+    }
+
+    dispatch({
+      type: &quot;SET_PROJECT_DIRECTORY_ROOT&quot;,
+      url: newRoot
+    });
+  };
+}
+
+export function setOrientation(orientation: OrientationType) {
+  return { type: &quot;SET_ORIENTATION&quot;, orientation };
+}
+</textarea></div></div><div class="row centered"><footer>Flow Coverage Report generated by<a href="https://flowtype.org"> flow </a>and<a href="https://github.com/rpl/flow-coverage-report"> flow-coverage-report </a>at Tue Apr 03 2018 15:58:53 GMT-0400 (EDT)</footer></div></div><pre id="file-coverage-data" style="display:none;">{&quot;expressions&quot;:{&quot;covered_count&quot;:173,&quot;uncovered_count&quot;:7,&quot;uncovered_locs&quot;:[{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/ui.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:23,&quot;column&quot;:46,&quot;offset&quot;:647},&quot;end&quot;:{&quot;line&quot;:23,&quot;column&quot;:55,&quot;offset&quot;:657}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/ui.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:25,&quot;column&quot;:63,&quot;offset&quot;:763},&quot;end&quot;:{&quot;line&quot;:25,&quot;column&quot;:67,&quot;offset&quot;:768}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/ui.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:47,&quot;column&quot;:9,&quot;offset&quot;:1269},&quot;end&quot;:{&quot;line&quot;:47,&quot;column&quot;:27,&quot;offset&quot;:1288}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/ui.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:47,&quot;column&quot;:9,&quot;offset&quot;:1269},&quot;end&quot;:{&quot;line&quot;:47,&quot;column&quot;:39,&quot;offset&quot;:1300}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/ui.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:69,&quot;column&quot;:11,&quot;offset&quot;:1768},&quot;end&quot;:{&quot;line&quot;:69,&quot;column&quot;:16,&quot;offset&quot;:1774}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/ui.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:79,&quot;column&quot;:34,&quot;offset&quot;:2001},&quot;end&quot;:{&quot;line&quot;:79,&quot;column&quot;:39,&quot;offset&quot;:2007}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/ui.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:79,&quot;column&quot;:34,&quot;offset&quot;:2001},&quot;end&quot;:{&quot;line&quot;:79,&quot;column&quot;:50,&quot;offset&quot;:2018}}]},&quot;percent&quot;:96}</pre></body></html>

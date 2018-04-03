@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"/><link rel="stylesheet" href="../../../../assets/semantic.min.css"/><link rel="stylesheet" href="../../../../assets/codemirror.css"/><link rel="stylesheet" href="../../../../assets/flow-highlight-source.css"/><link rel="stylesheet" href="../../../../assets/flow-coverage-report.css"/><link rel="stylesheet" href="../../../../assets/codemirror-simplescrollbars-addon.css"/><script src="../../../../assets/jquery-3.1.0.min.js"></script><script src="../../../../assets/semantic.min.js"></script><script src="../../../../assets/semantic-tablesort.js"></script><script src="../../../../assets/codemirror.js"></script><script src="../../../../assets/codemirror-javascript-mode.js"></script><script src="../../../../assets/codemirror-annotatescrollbar-addon.js"></script><script src="../../../../assets/codemirror-simplescrollbars-addon.js"></script><script src="../../../../assets/flow-highlight-source.js"></script></head><body><div class="ui grid container"><div class="row"><h1 class="twelve wide column">Flow Coverage Report - src/components/shared/SearchInput.js</h1><div class="four wide column" style="height:32px;"><a href="../../../../index.html" id="link-to-summary">Go back to all files summary.</a></div></div><div class="row"><table class="ui small celled unstackable table"><thead><tr><th class="sorted ascending">Filename</th><th>Percent</th><th>Total</th><th>Covered</th><th>Uncovered</th></tr></thead><tbody><tr class="positive"><td class="">src/components/shared/SearchInput.js</td><td> 100 %</td><td> 167 </td><td> 167 </td><td> 0 </td></tr></tbody></table></div><div class="row green" style="padding:0;height:12px;"></div><div class="row ui one column centered grid"><div class="column" style="text-align:left;"><div class="row"><div class="ui form"><div class="fields"><div class="sixteen wide inline field"><select class="ui search dropdown uncovered-locations"><option value="">Uncovered Locations</option></select></div><div class="four wide inline field"><select class="ui search dropdown syntax-highlighting"><option value="es">ES6/ES7</option><option value="js">JavaScript</option><option value="no">None</option></select></div></div></div></div><textarea id="file-content" readonly="">/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at &lt;http://mozilla.org/MPL/2.0/&gt;. */
+
+// @flow
+
+import React, { Component } from &quot;react&quot;;
+import Svg from &quot;./Svg&quot;;
+import classnames from &quot;classnames&quot;;
+import CloseButton from &quot;./Button/Close&quot;;
+import &quot;./SearchInput.css&quot;;
+
+const arrowBtn = (onClick, type, className, tooltip) =&gt; {
+  const props = {
+    className,
+    key: type,
+    onClick,
+    title: tooltip,
+    type
+  };
+
+  return (
+    &lt;button {...props}&gt;
+      &lt;Svg name={type} /&gt;
+    &lt;/button&gt;
+  );
+};
+
+type Props = {
+  count: number,
+  expanded: boolean,
+  handleClose: (e: SyntheticMouseEvent&lt;HTMLDivElement&gt;) =&gt; void,
+  handleNext?: (e: SyntheticMouseEvent&lt;HTMLButtonElement&gt;) =&gt; void,
+  handlePrev?: (e: SyntheticMouseEvent&lt;HTMLButtonElement&gt;) =&gt; void,
+  hasPrefix?: boolean,
+  onBlur?: (e: SyntheticFocusEvent&lt;HTMLInputElement&gt;) =&gt; void,
+  onChange: (e: SyntheticInputEvent&lt;HTMLInputElement&gt;) =&gt; void,
+  onFocus?: (e: SyntheticFocusEvent&lt;HTMLInputElement&gt;) =&gt; void,
+  onKeyDown: (e: SyntheticKeyboardEvent&lt;HTMLInputElement&gt;) =&gt; void,
+  onKeyUp?: (e: SyntheticKeyboardEvent&lt;HTMLInputElement&gt;) =&gt; void,
+  placeholder: string,
+  query: string,
+  selectedItemId?: string,
+  shouldFocus?: boolean,
+  showErrorEmoji: boolean,
+  size: string,
+  summaryMsg: string
+};
+
+class SearchInput extends Component&lt;Props&gt; {
+  displayName: &quot;SearchInput&quot;;
+  $input: ?HTMLInputElement;
+
+  static defaultProps = {
+    expanded: false,
+    hasPrefix: false,
+    selectedItemId: &quot;&quot;,
+    size: &quot;&quot;
+  };
+
+  componentDidMount() {
+    this.setFocus();
+  }
+
+  componentDidUpdate(prevProps: Props) {
+    if (this.props.shouldFocus &amp;&amp; !prevProps.shouldFocus) {
+      this.setFocus();
+    }
+  }
+
+  setFocus() {
+    if (this.$input) {
+      const input = this.$input;
+      input.focus();
+
+      if (!input.value) {
+        return;
+      }
+
+      // omit prefix @:# from being selected
+      const selectStartPos = this.props.hasPrefix ? 1 : 0;
+      input.setSelectionRange(selectStartPos, input.value.length + 1);
+    }
+  }
+
+  renderSvg() {
+    const svgName = this.props.showErrorEmoji ? &quot;sad-face&quot; : &quot;magnifying-glass&quot;;
+    return &lt;Svg name={svgName} /&gt;;
+  }
+
+  renderArrowButtons() {
+    const { handleNext, handlePrev } = this.props;
+
+    return [
+      arrowBtn(
+        handleNext,
+        &quot;arrow-down&quot;,
+        classnames(&quot;nav-btn&quot;, &quot;next&quot;),
+        L10N.getFormatStr(&quot;editor.searchResults.nextResult&quot;)
+      ),
+      arrowBtn(
+        handlePrev,
+        &quot;arrow-up&quot;,
+        classnames(&quot;nav-btn&quot;, &quot;prev&quot;),
+        L10N.getFormatStr(&quot;editor.searchResults.prevResult&quot;)
+      )
+    ];
+  }
+
+  renderNav() {
+    const { count, handleNext, handlePrev } = this.props;
+    if ((!handleNext &amp;&amp; !handlePrev) || (!count || count == 1)) {
+      return;
+    }
+
+    return (
+      &lt;div className=&quot;search-nav-buttons&quot;&gt;{this.renderArrowButtons()}&lt;/div&gt;
+    );
+  }
+
+  render() {
+    const {
+      expanded,
+      handleClose,
+      onBlur,
+      onChange,
+      onFocus,
+      onKeyDown,
+      onKeyUp,
+      placeholder,
+      query,
+      selectedItemId,
+      showErrorEmoji,
+      size,
+      summaryMsg
+    } = this.props;
+
+    const inputProps = {
+      className: classnames({
+        empty: showErrorEmoji
+      }),
+      onChange,
+      onKeyDown,
+      onKeyUp,
+      onFocus,
+      onBlur,
+      &quot;aria-autocomplete&quot;: &quot;list&quot;,
+      &quot;aria-controls&quot;: &quot;result-list&quot;,
+      &quot;aria-activedescendant&quot;:
+        expanded &amp;&amp; selectedItemId ? `${selectedItemId}-title` : &quot;&quot;,
+      placeholder,
+      value: query,
+      spellCheck: false,
+      ref: c =&gt; (this.$input = c)
+    };
+
+    return (
+      &lt;div
+        className={classnames(&quot;search-field&quot;, size)}
+        role=&quot;combobox&quot;
+        aria-haspopup=&quot;listbox&quot;
+        aria-owns=&quot;result-list&quot;
+        aria-expanded={expanded}
+      &gt;
+        {this.renderSvg()}
+        &lt;input {...inputProps} /&gt;
+        {summaryMsg &amp;&amp; &lt;div className=&quot;summary&quot;&gt;{summaryMsg}&lt;/div&gt;}
+        {this.renderNav()}
+        &lt;CloseButton handleClick={handleClose} buttonClass={size} /&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+
+export default SearchInput;
+</textarea></div></div><div class="row centered"><footer>Flow Coverage Report generated by<a href="https://flowtype.org"> flow </a>and<a href="https://github.com/rpl/flow-coverage-report"> flow-coverage-report </a>at Tue Apr 03 2018 15:58:53 GMT-0400 (EDT)</footer></div></div><pre id="file-coverage-data" style="display:none;">{&quot;expressions&quot;:{&quot;covered_count&quot;:167,&quot;uncovered_count&quot;:0,&quot;uncovered_locs&quot;:[]},&quot;percent&quot;:100}</pre></body></html>

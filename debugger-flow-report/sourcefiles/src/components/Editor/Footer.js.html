@@ -1,117 +1,187 @@
 <!DOCTYPE html>
-<html><head><meta charset="utf-8"/><link rel="stylesheet" href="../../../../assets/semantic.min.css"/><link rel="stylesheet" href="../../../../assets/codemirror.css"/><link rel="stylesheet" href="../../../../assets/flow-highlight-source.css"/><link rel="stylesheet" href="../../../../assets/flow-coverage-report.css"/><link rel="stylesheet" href="../../../../assets/codemirror-simplescrollbars-addon.css"/><script src="../../../../assets/jquery-3.1.0.min.js"></script><script src="../../../../assets/semantic.min.js"></script><script src="../../../../assets/semantic-tablesort.js"></script><script src="../../../../assets/codemirror.js"></script><script src="../../../../assets/codemirror-javascript-mode.js"></script><script src="../../../../assets/codemirror-annotatescrollbar-addon.js"></script><script src="../../../../assets/codemirror-simplescrollbars-addon.js"></script><script src="../../../../assets/flow-highlight-source.js"></script><script src="../../../../assets/index.js"></script><style>
-.ui .CodeMirror {
-  border: 1px solid rgba(34,36,38,.15);
-  height: auto;
-}
-</style></head><body><div class="ui grid container"><div class="row"><div class="twelve wide column"><h2 class="ui header"><a href="../../../../index.html" id="link-to-summary">Flow Coverage Report</a></h2></div></div><div class="row"><table class="ui small celled unstackable table"><thead><tr><th class="sorted ascending">Filename</th><th>Percent</th><th>Total</th><th>Covered</th><th>Uncovered</th></tr></thead><tbody><tr class="negative"><td class="">src/components/Editor/Footer.js</td><td><span>65 %</span></td><td> 205 </td><td> 134 </td><td> 71 </td></tr></tbody></table></div><div class="row ui one column centered grid"><div class="column" style="text-align:left;"><div class="row"><div class="ui form"><div class="fields"><div class="sixteen wide inline field"><select class="ui search dropdown uncovered-locations"><option value="">Uncovered Locations</option><option value="2">Start: 2,14 - End: 2,16</option><option value="3">Start: 3,9 - End: 3,15</option><option value="3">Start: 3,21 - End: 3,42</option><option value="4">Start: 4,9 - End: 4,26</option><option value="4">Start: 4,32 - End: 4,47</option><option value="8">Start: 8,7 - End: 8,9</option><option value="8">Start: 8,13 - End: 8,36</option><option value="9">Start: 9,7 - End: 9,17</option><option value="9">Start: 9,21 - End: 9,56</option><option value="10">Start: 10,7 - End: 10,16</option><option value="10">Start: 10,20 - End: 10,40</option><option value="11">Start: 11,9 - End: 11,17</option><option value="11">Start: 11,23 - End: 11,48</option><option value="14">Start: 14,3 - End: 14,18</option><option value="15">Start: 15,3 - End: 15,23</option><option value="16">Start: 16,5 - End: 16,33</option><option value="18">Start: 18,3 - End: 18,40</option><option value="25">Start: 25,21 - End: 25,31</option><option value="25">Start: 25,21 - End: 25,35</option><option value="28">Start: 28,17 - End: 28,27</option><option value="28">Start: 28,17 - End: 28,31</option><option value="30">Start: 30,19 - End: 30,29</option><option value="30">Start: 30,19 - End: 30,33</option><option value="40">Start: 40,5 - End: 40,69</option><option value="40">Start: 40,34 - End: 40,68</option><option value="46">Start: 46,5 - End: 46,30</option><option value="46">Start: 46,6 - End: 46,15</option><option value="46">Start: 46,6 - End: 46,30</option><option value="48">Start: 48,10 - End: 48,30</option><option value="48">Start: 48,10 - End: 48,46</option><option value="52">Start: 52,11 - End: 52,17</option><option value="52">Start: 52,21 - End: 52,24</option><option value="52">Start: 52,21 - End: 52,63</option><option value="55">Start: 55,12 - End: 55,14</option><option value="55">Start: 55,12 - End: 66,5</option><option value="57">Start: 57,18 - End: 57,27</option><option value="57">Start: 57,18 - End: 60,8</option><option value="59">Start: 59,26 - End: 59,46</option><option value="62">Start: 62,14 - End: 62,20</option><option value="63">Start: 63,21 - End: 63,27</option><option value="65">Start: 65,7 - End: 65,9</option><option value="65">Start: 65,7 - End: 65,15</option><option value="72">Start: 72,10 - End: 72,18</option><option value="72">Start: 72,10 - End: 72,34</option><option value="76">Start: 76,12 - End: 76,14</option><option value="76">Start: 76,12 - End: 81,11</option><option value="79">Start: 79,22 - End: 79,37</option><option value="100">Start: 100,10 - End: 100,30</option><option value="100">Start: 100,10 - End: 100,46</option><option value="104">Start: 104,12 - End: 104,14</option><option value="104">Start: 104,12 - End: 107,5</option><option value="113">Start: 113,10 - End: 113,25</option><option value="113">Start: 113,10 - End: 113,53</option><option value="117">Start: 117,12 - End: 117,14</option><option value="117">Start: 117,12 - End: 120,5</option><option value="124">Start: 124,1 - End: 136,15</option><option value="124">Start: 124,18 - End: 124,24</option><option value="124">Start: 124,18 - End: 136,1</option><option value="124">Start: 124,18 - End: 136,15</option><option value="125">Start: 125,3 - End: 125,7</option><option value="126">Start: 126,46 - End: 126,50</option><option value="127">Start: 127,42 - End: 127,55</option><option value="127">Start: 127,42 - End: 127,65</option><option value="130">Start: 130,19 - End: 130,50</option><option value="130">Start: 130,33 - End: 130,37</option><option value="131">Start: 131,37 - End: 131,41</option><option value="132">Start: 132,42 - End: 132,46</option><option value="135">Start: 135,3 - End: 135,10</option><option value="135">Start: 135,15 - End: 135,32</option><option value="135">Start: 135,15 - End: 135,51</option><option value="135">Start: 135,43 - End: 135,50</option></select></div><div class="four wide inline field"><select class="ui search dropdown syntax-highlighting"><option value="es">ES6/ES7</option><option value="js">JavaScript</option><option value="no">None</option></select></div></div></div></div><textarea id="file-content" readonly="">const React = require(&quot;react&quot;);
-const { DOM: dom, PropTypes } = React;
-const { connect } = require(&quot;react-redux&quot;);
-const { bindActionCreators } = require(&quot;redux&quot;);
-const actions = require(&quot;../../actions&quot;);
-const { getSelectedSource, getSourceText,
-        getPrettySource, getPaneCollapse } = require(&quot;../../selectors&quot;);
-const Svg = require(&quot;../shared/Svg&quot;);
-const ImPropTypes = require(&quot;react-immutable-proptypes&quot;);
-const classnames = require(&quot;classnames&quot;);
-const { isEnabled } = require(&quot;devtools-config&quot;);
-const { isPretty } = require(&quot;../../utils/source&quot;);
-const {
-  shouldShowFooter,
-  shouldShowPrettyPrint
-} = require(&quot;../../utils/editor&quot;);
-const PaneToggleButton = React.createFactory(
-  require(&quot;../shared/Button/PaneToggle&quot;)
-);
+<html><head><meta charset="utf-8"/><link rel="stylesheet" href="../../../../assets/semantic.min.css"/><link rel="stylesheet" href="../../../../assets/codemirror.css"/><link rel="stylesheet" href="../../../../assets/flow-highlight-source.css"/><link rel="stylesheet" href="../../../../assets/flow-coverage-report.css"/><link rel="stylesheet" href="../../../../assets/codemirror-simplescrollbars-addon.css"/><script src="../../../../assets/jquery-3.1.0.min.js"></script><script src="../../../../assets/semantic.min.js"></script><script src="../../../../assets/semantic-tablesort.js"></script><script src="../../../../assets/codemirror.js"></script><script src="../../../../assets/codemirror-javascript-mode.js"></script><script src="../../../../assets/codemirror-annotatescrollbar-addon.js"></script><script src="../../../../assets/codemirror-simplescrollbars-addon.js"></script><script src="../../../../assets/flow-highlight-source.js"></script></head><body><div class="ui grid container"><div class="row"><h1 class="twelve wide column">Flow Coverage Report - src/components/Editor/Footer.js</h1><div class="four wide column" style="height:32px;"><a href="../../../../index.html" id="link-to-summary">Go back to all files summary.</a></div></div><div class="row"><table class="ui small celled unstackable table"><thead><tr><th class="sorted ascending">Filename</th><th>Percent</th><th>Total</th><th>Covered</th><th>Uncovered</th></tr></thead><tbody><tr class="negative"><td class="">src/components/Editor/Footer.js</td><td> 76 %</td><td> 217 </td><td> 165 </td><td> 52 </td></tr></tbody></table></div><div class="row red" style="padding:0;height:12px;"></div><div class="row ui one column centered grid"><div class="column" style="text-align:left;"><div class="row"><div class="ui form"><div class="fields"><div class="sixteen wide inline field"><select class="ui search dropdown uncovered-locations"><option value="">Uncovered Locations</option><option value="44">Start: 44,26 - End: 44,39</option><option value="44">Start: 44,53 - End: 44,66</option><option value="46">Start: 46,32 - End: 46,45</option><option value="55">Start: 55,42 - End: 55,55</option><option value="55">Start: 55,42 - End: 55,65</option><option value="58">Start: 58,28 - End: 58,41</option><option value="71">Start: 71,26 - End: 71,39</option><option value="71">Start: 71,53 - End: 71,66</option><option value="77">Start: 77,11 - End: 77,20</option><option value="77">Start: 77,24 - End: 77,37</option><option value="77">Start: 77,24 - End: 77,50</option><option value="84">Start: 84,39 - End: 84,52</option><option value="84">Start: 84,39 - End: 84,59</option><option value="87">Start: 87,23 - End: 87,32</option><option value="101">Start: 101,10 - End: 101,23</option><option value="101">Start: 101,29 - End: 101,42</option><option value="101">Start: 101,29 - End: 101,55</option><option value="115">Start: 115,10 - End: 115,17</option><option value="115">Start: 115,10 - End: 115,30</option><option value="159">Start: 159,9 - End: 159,20</option><option value="160">Start: 160,13 - End: 160,24</option><option value="160">Start: 160,28 - End: 160,39</option><option value="160">Start: 160,28 - End: 160,46</option><option value="161">Start: 161,36 - End: 161,47</option><option value="168">Start: 168,19 - End: 168,32</option><option value="168">Start: 168,19 - End: 168,42</option><option value="188">Start: 188,27 - End: 188,40</option><option value="202">Start: 202,16 - End: 202,22</option><option value="202">Start: 202,16 - End: 215,1</option><option value="202">Start: 202,16 - End: 215,15</option><option value="203">Start: 203,3 - End: 203,7</option><option value="204">Start: 204,11 - End: 204,24</option><option value="204">Start: 204,28 - End: 204,44</option><option value="204">Start: 204,28 - End: 204,51</option><option value="204">Start: 204,46 - End: 204,50</option><option value="205">Start: 205,11 - End: 205,20</option><option value="205">Start: 205,24 - End: 205,37</option><option value="205">Start: 205,24 - End: 205,47</option><option value="206">Start: 206,11 - End: 206,16</option><option value="206">Start: 206,20 - End: 206,33</option><option value="206">Start: 206,20 - End: 206,40</option><option value="208">Start: 208,7 - End: 208,20</option><option value="209">Start: 209,40 - End: 209,44</option><option value="209">Start: 209,47 - End: 209,52</option><option value="210">Start: 210,37 - End: 210,41</option><option value="210">Start: 210,44 - End: 210,53</option><option value="211">Start: 211,42 - End: 211,46</option><option value="214">Start: 214,3 - End: 214,10</option><option value="214">Start: 214,15 - End: 214,32</option><option value="214">Start: 214,15 - End: 214,51</option><option value="214">Start: 214,34 - End: 214,40</option><option value="214">Start: 214,43 - End: 214,50</option></select></div><div class="four wide inline field"><select class="ui search dropdown syntax-highlighting"><option value="es">ES6/ES7</option><option value="js">JavaScript</option><option value="no">None</option></select></div></div></div></div><textarea id="file-content" readonly="">/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at &lt;http://mozilla.org/MPL/2.0/&gt;. */
 
-require(&quot;./Footer.css&quot;);
+// @flow
+import React, { PureComponent } from &quot;react&quot;;
+import { connect } from &quot;react-redux&quot;;
+import { bindActionCreators } from &quot;redux&quot;;
+import actions from &quot;../../actions&quot;;
+import {
+  getSelectedSource,
+  getPrettySource,
+  getPaneCollapse
+} from &quot;../../selectors&quot;;
 
-const SourceFooter = React.createClass({
-  propTypes: {
-    selectedSource: ImPropTypes.map,
-    togglePrettyPrint: PropTypes.func,
-    recordCoverage: PropTypes.func,
-    sourceText: ImPropTypes.map,
-    selectSource: PropTypes.func,
-    prettySource: ImPropTypes.map,
-    editor: PropTypes.object,
-    endPanelCollapsed: PropTypes.bool,
-    togglePaneCollapse: PropTypes.func,
-    horizontal: PropTypes.bool
-  },
+import classnames from &quot;classnames&quot;;
+import { features } from &quot;../../utils/prefs&quot;;
+import { isPretty, isLoaded, getFilename } from &quot;../../utils/source&quot;;
+import { getGeneratedSource } from &quot;../../reducers/sources&quot;;
+import { shouldShowFooter, shouldShowPrettyPrint } from &quot;../../utils/editor&quot;;
 
-  displayName: &quot;SourceFooter&quot;,
+import PaneToggleButton from &quot;../shared/Button/PaneToggle&quot;;
 
-  onClickPrettyPrint() {
-    this.props.togglePrettyPrint(this.props.selectedSource.get(&quot;id&quot;));
-  },
+import type { SourceRecord } from &quot;../../types&quot;;
 
+import &quot;./Footer.css&quot;;
+
+type Props = {
+  selectedSource: SourceRecord,
+  mappedSource: SourceRecord,
+  editor: any,
+  togglePrettyPrint: string =&gt; void,
+  toggleBlackBox: Object =&gt; void,
+  jumpToMappedLocation: (SourceRecord: any) =&gt; void,
+  recordCoverage: () =&gt; void,
+  togglePaneCollapse: () =&gt; void,
+  endPanelCollapsed: boolean,
+  horizontal: boolean
+};
+
+class SourceFooter extends PureComponent&lt;Props&gt; {
   prettyPrintButton() {
-    const { selectedSource, sourceText } = this.props;
-    const sourceLoaded = selectedSource &amp;&amp; sourceText &amp;&amp;
-    !sourceText.get(&quot;loading&quot;);
+    const { selectedSource, togglePrettyPrint } = this.props;
+    const sourceLoaded = selectedSource &amp;&amp; isLoaded(selectedSource);
 
     if (!shouldShowPrettyPrint(selectedSource)) {
       return;
     }
 
-    const tooltip = L10N.getStr(&quot;sourceFooter.debugBtnTooltip&quot;);
-    const type = &quot;prettyPrint&quot;;
+    const tooltip = L10N.getStr(&quot;sourceTabs.prettyPrint&quot;);
 
-    return dom.button({
-      onClick: this.onClickPrettyPrint,
-      className: classnames(&quot;action&quot;, type, {
-        active: sourceLoaded,
-        pretty: isPretty(selectedSource.toJS())
-      }),
-      key: type,
-      title: tooltip,
-      &quot;aria-label&quot;: tooltip
-    },
-      Svg(type)
+    const type = &quot;prettyPrint&quot;;
+    return (
+      &lt;button
+        onClick={() =&gt; togglePrettyPrint(selectedSource.get(&quot;id&quot;))}
+        className={classnames(&quot;action&quot;, type, {
+          active: sourceLoaded,
+          pretty: isPretty(selectedSource)
+        })}
+        key={type}
+        title={tooltip}
+        aria-label={tooltip}
+      &gt;
+        &lt;img className={type} /&gt;
+      &lt;/button&gt;
     );
-  },
+  }
+
+  blackBoxButton() {
+    const { selectedSource, toggleBlackBox } = this.props;
+    const sourceLoaded = selectedSource &amp;&amp; isLoaded(selectedSource);
+
+    if (!sourceLoaded) {
+      return;
+    }
+
+    const blackboxed = selectedSource.isBlackBoxed;
+
+    const tooltip = L10N.getStr(&quot;sourceFooter.blackbox&quot;);
+    const type = &quot;black-box&quot;;
+
+    return (
+      &lt;button
+        onClick={() =&gt; toggleBlackBox(selectedSource.toJS())}
+        className={classnames(&quot;action&quot;, type, {
+          active: sourceLoaded,
+          blackboxed: blackboxed
+        })}
+        key={type}
+        title={tooltip}
+        aria-label={tooltip}
+      &gt;
+        &lt;img className=&quot;blackBox&quot; /&gt;
+      &lt;/button&gt;
+    );
+  }
+
+  blackBoxSummary() {
+    const { selectedSource } = this.props;
+
+    if (!selectedSource || !selectedSource.isBlackBoxed) {
+      return;
+    }
+
+    return (
+      &lt;span className=&quot;blackbox-summary&quot;&gt;
+        {L10N.getStr(&quot;sourceFooter.blackboxed&quot;)}
+      &lt;/span&gt;
+    );
+  }
 
   coverageButton() {
     const { recordCoverage } = this.props;
 
-    if (!isEnabled(&quot;codeCoverage&quot;)) {
+    if (!features.codeCoverage) {
       return;
     }
 
-    return dom.button({
-      className: &quot;coverage action&quot;,
-      title: &quot;Code Coverage&quot;,
-      onClick: () =&gt; recordCoverage(),
-      &quot;aria-label&quot;: &quot;Code Coverage&quot;
-    }, &quot;C&quot;);
-  },
+    return (
+      &lt;button
+        className=&quot;coverage action&quot;
+        title={L10N.getStr(&quot;sourceFooter.codeCoverage&quot;)}
+        onClick={() =&gt; recordCoverage()}
+        aria-label={L10N.getStr(&quot;sourceFooter.codeCoverage&quot;)}
+      &gt;
+        C
+      &lt;/button&gt;
+    );
+  }
 
   renderToggleButton() {
     if (this.props.horizontal) {
       return;
     }
 
-    return PaneToggleButton({
-      position: &quot;end&quot;,
-      collapsed: !this.props.endPanelCollapsed,
-      horizontal: this.props.horizontal,
-      handleClick: this.props.togglePaneCollapse
-    });
-  },
+    return (
+      &lt;PaneToggleButton
+        position=&quot;end&quot;
+        collapsed={!this.props.endPanelCollapsed}
+        horizontal={this.props.horizontal}
+        handleClick={this.props.togglePaneCollapse}
+      /&gt;
+    );
+  }
 
   renderCommands() {
-    const { selectedSource } = this.props;
-
-    if (!shouldShowPrettyPrint(selectedSource)) {
-      return null;
-    }
-
-    return dom.div({ className: &quot;commands&quot; },
-      this.prettyPrintButton(),
-      this.coverageButton()
+    return (
+      &lt;div className=&quot;commands&quot;&gt;
+        {this.prettyPrintButton()}
+        {this.blackBoxButton()}
+        {this.blackBoxSummary()}
+        {this.coverageButton()}
+      &lt;/div&gt;
     );
-  },
+  }
+
+  renderSourceSummary() {
+    const { mappedSource, jumpToMappedLocation, selectedSource } = this.props;
+    if (mappedSource) {
+      const bundleSource = mappedSource.toJS();
+      const filename = getFilename(bundleSource);
+      const tooltip = L10N.getFormatStr(
+        &quot;sourceFooter.mappedSourceTooltip&quot;,
+        filename
+      );
+      const title = L10N.getFormatStr(&quot;sourceFooter.mappedSource&quot;, filename);
+      const mappedSourceLocation = {
+        sourceId: selectedSource.get(&quot;id&quot;),
+        line: 1,
+        column: 1
+      };
+      return (
+        &lt;button
+          className=&quot;mapped-source&quot;
+          onClick={() =&gt; jumpToMappedLocation(mappedSourceLocation)}
+          title={tooltip}
+        &gt;
+          &lt;span&gt;{title}&lt;/span&gt;
+        &lt;/button&gt;
+      );
+    }
+    return null;
+  }
 
   render() {
     const { selectedSource, horizontal } = this.props;
@@ -120,24 +190,28 @@ const SourceFooter = React.createClass({
       return null;
     }
 
-    return dom.div({ className: &quot;source-footer&quot; },
-      this.renderCommands(),
-      this.renderToggleButton()
+    return (
+      &lt;div className=&quot;source-footer&quot;&gt;
+        {this.renderCommands()}
+        {this.renderSourceSummary()}
+        {this.renderToggleButton()}
+      &lt;/div&gt;
     );
   }
-});
+}
 
-module.exports = connect(
+export default connect(
   state =&gt; {
     const selectedSource = getSelectedSource(state);
-    const selectedId = selectedSource &amp;&amp; selectedSource.get(&quot;id&quot;);
+    const selectedId = selectedSource.get(&quot;id&quot;);
+    const source = selectedSource.toJS();
     return {
       selectedSource,
-      sourceText: getSourceText(state, selectedId),
+      mappedSource: getGeneratedSource(state, source),
       prettySource: getPrettySource(state, selectedId),
       endPanelCollapsed: getPaneCollapse(state, &quot;end&quot;)
     };
   },
   dispatch =&gt; bindActionCreators(actions, dispatch)
 )(SourceFooter);
-</textarea></div></div><div class="row centered"><footer>Flow Coverage Report generated by<a href="https://flowtype.org"> flow </a>and<a href="https://github.com/rpl/flow-coverage-report"> flow-coverage-report </a>at Tue Feb 21 2017 17:31:46 GMT-0500 (EST)</footer></div></div><pre id="file-coverage-data" style="display:none;">{&quot;expressions&quot;:{&quot;covered_count&quot;:134,&quot;uncovered_count&quot;:71,&quot;uncovered_locs&quot;:[{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:2,&quot;column&quot;:14,&quot;offset&quot;:45},&quot;end&quot;:{&quot;line&quot;:2,&quot;column&quot;:16,&quot;offset&quot;:48}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:3,&quot;column&quot;:9,&quot;offset&quot;:79},&quot;end&quot;:{&quot;line&quot;:3,&quot;column&quot;:15,&quot;offset&quot;:86}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:3,&quot;column&quot;:21,&quot;offset&quot;:91},&quot;end&quot;:{&quot;line&quot;:3,&quot;column&quot;:42,&quot;offset&quot;:113}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:4,&quot;column&quot;:9,&quot;offset&quot;:123},&quot;end&quot;:{&quot;line&quot;:4,&quot;column&quot;:26,&quot;offset&quot;:141}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:4,&quot;column&quot;:32,&quot;offset&quot;:146},&quot;end&quot;:{&quot;line&quot;:4,&quot;column&quot;:47,&quot;offset&quot;:162}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:8,&quot;column&quot;:7,&quot;offset&quot;:327},&quot;end&quot;:{&quot;line&quot;:8,&quot;column&quot;:9,&quot;offset&quot;:330}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:8,&quot;column&quot;:13,&quot;offset&quot;:333},&quot;end&quot;:{&quot;line&quot;:8,&quot;column&quot;:36,&quot;offset&quot;:357}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:9,&quot;column&quot;:7,&quot;offset&quot;:365},&quot;end&quot;:{&quot;line&quot;:9,&quot;column&quot;:17,&quot;offset&quot;:376}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:9,&quot;column&quot;:21,&quot;offset&quot;:379},&quot;end&quot;:{&quot;line&quot;:9,&quot;column&quot;:56,&quot;offset&quot;:415}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:10,&quot;column&quot;:7,&quot;offset&quot;:423},&quot;end&quot;:{&quot;line&quot;:10,&quot;column&quot;:16,&quot;offset&quot;:433}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:10,&quot;column&quot;:20,&quot;offset&quot;:436},&quot;end&quot;:{&quot;line&quot;:10,&quot;column&quot;:40,&quot;offset&quot;:457}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:11,&quot;column&quot;:9,&quot;offset&quot;:467},&quot;end&quot;:{&quot;line&quot;:11,&quot;column&quot;:17,&quot;offset&quot;:476}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:11,&quot;column&quot;:23,&quot;offset&quot;:481},&quot;end&quot;:{&quot;line&quot;:11,&quot;column&quot;:48,&quot;offset&quot;:507}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:14,&quot;column&quot;:3,&quot;offset&quot;:571},&quot;end&quot;:{&quot;line&quot;:14,&quot;column&quot;:18,&quot;offset&quot;:587}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:15,&quot;column&quot;:3,&quot;offset&quot;:591},&quot;end&quot;:{&quot;line&quot;:15,&quot;column&quot;:23,&quot;offset&quot;:612}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:16,&quot;column&quot;:5,&quot;offset&quot;:617},&quot;end&quot;:{&quot;line&quot;:16,&quot;column&quot;:33,&quot;offset&quot;:646}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:18,&quot;column&quot;:3,&quot;offset&quot;:696},&quot;end&quot;:{&quot;line&quot;:18,&quot;column&quot;:40,&quot;offset&quot;:734}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:25,&quot;column&quot;:21,&quot;offset&quot;:841},&quot;end&quot;:{&quot;line&quot;:25,&quot;column&quot;:31,&quot;offset&quot;:852}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:25,&quot;column&quot;:21,&quot;offset&quot;:841},&quot;end&quot;:{&quot;line&quot;:25,&quot;column&quot;:35,&quot;offset&quot;:856}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:28,&quot;column&quot;:17,&quot;offset&quot;:949},&quot;end&quot;:{&quot;line&quot;:28,&quot;column&quot;:27,&quot;offset&quot;:960}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:28,&quot;column&quot;:17,&quot;offset&quot;:949},&quot;end&quot;:{&quot;line&quot;:28,&quot;column&quot;:31,&quot;offset&quot;:964}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:30,&quot;column&quot;:19,&quot;offset&quot;:1018},&quot;end&quot;:{&quot;line&quot;:30,&quot;column&quot;:29,&quot;offset&quot;:1029}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:30,&quot;column&quot;:19,&quot;offset&quot;:1018},&quot;end&quot;:{&quot;line&quot;:30,&quot;column&quot;:33,&quot;offset&quot;:1033}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:40,&quot;column&quot;:5,&quot;offset&quot;:1242},&quot;end&quot;:{&quot;line&quot;:40,&quot;column&quot;:69,&quot;offset&quot;:1307}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:40,&quot;column&quot;:34,&quot;offset&quot;:1271},&quot;end&quot;:{&quot;line&quot;:40,&quot;column&quot;:68,&quot;offset&quot;:1306}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:46,&quot;column&quot;:5,&quot;offset&quot;:1455},&quot;end&quot;:{&quot;line&quot;:46,&quot;column&quot;:30,&quot;offset&quot;:1481}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:46,&quot;column&quot;:6,&quot;offset&quot;:1456},&quot;end&quot;:{&quot;line&quot;:46,&quot;column&quot;:15,&quot;offset&quot;:1466}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:46,&quot;column&quot;:6,&quot;offset&quot;:1456},&quot;end&quot;:{&quot;line&quot;:46,&quot;column&quot;:30,&quot;offset&quot;:1481}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:48,&quot;column&quot;:10,&quot;offset&quot;:1493},&quot;end&quot;:{&quot;line&quot;:48,&quot;column&quot;:30,&quot;offset&quot;:1514}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:48,&quot;column&quot;:10,&quot;offset&quot;:1493},&quot;end&quot;:{&quot;line&quot;:48,&quot;column&quot;:46,&quot;offset&quot;:1530}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:52,&quot;column&quot;:11,&quot;offset&quot;:1565},&quot;end&quot;:{&quot;line&quot;:52,&quot;column&quot;:17,&quot;offset&quot;:1572}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:52,&quot;column&quot;:21,&quot;offset&quot;:1575},&quot;end&quot;:{&quot;line&quot;:52,&quot;column&quot;:24,&quot;offset&quot;:1579}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:52,&quot;column&quot;:21,&quot;offset&quot;:1575},&quot;end&quot;:{&quot;line&quot;:52,&quot;column&quot;:63,&quot;offset&quot;:1618}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:55,&quot;column&quot;:12,&quot;offset&quot;:1664},&quot;end&quot;:{&quot;line&quot;:55,&quot;column&quot;:14,&quot;offset&quot;:1667}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:55,&quot;column&quot;:12,&quot;offset&quot;:1664},&quot;end&quot;:{&quot;line&quot;:66,&quot;column&quot;:5,&quot;offset&quot;:1946}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:57,&quot;column&quot;:18,&quot;offset&quot;:1734},&quot;end&quot;:{&quot;line&quot;:57,&quot;column&quot;:27,&quot;offset&quot;:1744}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:57,&quot;column&quot;:18,&quot;offset&quot;:1734},&quot;end&quot;:{&quot;line&quot;:60,&quot;column&quot;:8,&quot;offset&quot;:1849}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:59,&quot;column&quot;:26,&quot;offset&quot;:1818},&quot;end&quot;:{&quot;line&quot;:59,&quot;column&quot;:46,&quot;offset&quot;:1839}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:62,&quot;column&quot;:14,&quot;offset&quot;:1881},&quot;end&quot;:{&quot;line&quot;:62,&quot;column&quot;:20,&quot;offset&quot;:1888}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:63,&quot;column&quot;:21,&quot;offset&quot;:1910},&quot;end&quot;:{&quot;line&quot;:63,&quot;column&quot;:27,&quot;offset&quot;:1917}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:65,&quot;column&quot;:7,&quot;offset&quot;:1931},&quot;end&quot;:{&quot;line&quot;:65,&quot;column&quot;:9,&quot;offset&quot;:1934}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:65,&quot;column&quot;:7,&quot;offset&quot;:1931},&quot;end&quot;:{&quot;line&quot;:65,&quot;column&quot;:15,&quot;offset&quot;:1940}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:72,&quot;column&quot;:10,&quot;offset&quot;:2028},&quot;end&quot;:{&quot;line&quot;:72,&quot;column&quot;:18,&quot;offset&quot;:2037}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:72,&quot;column&quot;:10,&quot;offset&quot;:2028},&quot;end&quot;:{&quot;line&quot;:72,&quot;column&quot;:34,&quot;offset&quot;:2053}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:76,&quot;column&quot;:12,&quot;offset&quot;:2089},&quot;end&quot;:{&quot;line&quot;:76,&quot;column&quot;:14,&quot;offset&quot;:2092}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:76,&quot;column&quot;:12,&quot;offset&quot;:2089},&quot;end&quot;:{&quot;line&quot;:81,&quot;column&quot;:11,&quot;offset&quot;:2254}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:79,&quot;column&quot;:22,&quot;offset&quot;:2189},&quot;end&quot;:{&quot;line&quot;:79,&quot;column&quot;:37,&quot;offset&quot;:2205}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:100,&quot;column&quot;:10,&quot;offset&quot;:2620},&quot;end&quot;:{&quot;line&quot;:100,&quot;column&quot;:30,&quot;offset&quot;:2641}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:100,&quot;column&quot;:10,&quot;offset&quot;:2620},&quot;end&quot;:{&quot;line&quot;:100,&quot;column&quot;:46,&quot;offset&quot;:2657}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:104,&quot;column&quot;:12,&quot;offset&quot;:2698},&quot;end&quot;:{&quot;line&quot;:104,&quot;column&quot;:14,&quot;offset&quot;:2701}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:104,&quot;column&quot;:12,&quot;offset&quot;:2698},&quot;end&quot;:{&quot;line&quot;:107,&quot;column&quot;:5,&quot;offset&quot;:2798}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:113,&quot;column&quot;:10,&quot;offset&quot;:2884},&quot;end&quot;:{&quot;line&quot;:113,&quot;column&quot;:25,&quot;offset&quot;:2900}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:113,&quot;column&quot;:10,&quot;offset&quot;:2884},&quot;end&quot;:{&quot;line&quot;:113,&quot;column&quot;:53,&quot;offset&quot;:2928}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:117,&quot;column&quot;:12,&quot;offset&quot;:2969},&quot;end&quot;:{&quot;line&quot;:117,&quot;column&quot;:14,&quot;offset&quot;:2972}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:117,&quot;column&quot;:12,&quot;offset&quot;:2969},&quot;end&quot;:{&quot;line&quot;:120,&quot;column&quot;:5,&quot;offset&quot;:3075}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:124,&quot;column&quot;:1,&quot;offset&quot;:3086},&quot;end&quot;:{&quot;line&quot;:136,&quot;column&quot;:15,&quot;offset&quot;:3522}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:124,&quot;column&quot;:18,&quot;offset&quot;:3103},&quot;end&quot;:{&quot;line&quot;:124,&quot;column&quot;:24,&quot;offset&quot;:3110}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:124,&quot;column&quot;:18,&quot;offset&quot;:3103},&quot;end&quot;:{&quot;line&quot;:136,&quot;column&quot;:1,&quot;offset&quot;:3508}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:124,&quot;column&quot;:18,&quot;offset&quot;:3103},&quot;end&quot;:{&quot;line&quot;:136,&quot;column&quot;:15,&quot;offset&quot;:3522}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:125,&quot;column&quot;:3,&quot;offset&quot;:3114},&quot;end&quot;:{&quot;line&quot;:125,&quot;column&quot;:7,&quot;offset&quot;:3119}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:126,&quot;column&quot;:46,&quot;offset&quot;:3170},&quot;end&quot;:{&quot;line&quot;:126,&quot;column&quot;:50,&quot;offset&quot;:3175}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:127,&quot;column&quot;:42,&quot;offset&quot;:3219},&quot;end&quot;:{&quot;line&quot;:127,&quot;column&quot;:55,&quot;offset&quot;:3233}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:127,&quot;column&quot;:42,&quot;offset&quot;:3219},&quot;end&quot;:{&quot;line&quot;:127,&quot;column&quot;:65,&quot;offset&quot;:3243}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:130,&quot;column&quot;:19,&quot;offset&quot;:3298},&quot;end&quot;:{&quot;line&quot;:130,&quot;column&quot;:50,&quot;offset&quot;:3330}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:130,&quot;column&quot;:33,&quot;offset&quot;:3312},&quot;end&quot;:{&quot;line&quot;:130,&quot;column&quot;:37,&quot;offset&quot;:3317}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:131,&quot;column&quot;:37,&quot;offset&quot;:3368},&quot;end&quot;:{&quot;line&quot;:131,&quot;column&quot;:41,&quot;offset&quot;:3373}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:132,&quot;column&quot;:42,&quot;offset&quot;:3429},&quot;end&quot;:{&quot;line&quot;:132,&quot;column&quot;:46,&quot;offset&quot;:3434}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:135,&quot;column&quot;:3,&quot;offset&quot;:3457},&quot;end&quot;:{&quot;line&quot;:135,&quot;column&quot;:10,&quot;offset&quot;:3465}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:135,&quot;column&quot;:15,&quot;offset&quot;:3469},&quot;end&quot;:{&quot;line&quot;:135,&quot;column&quot;:32,&quot;offset&quot;:3487}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:135,&quot;column&quot;:15,&quot;offset&quot;:3469},&quot;end&quot;:{&quot;line&quot;:135,&quot;column&quot;:51,&quot;offset&quot;:3506}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:135,&quot;column&quot;:43,&quot;offset&quot;:3497},&quot;end&quot;:{&quot;line&quot;:135,&quot;column&quot;:50,&quot;offset&quot;:3505}}]},&quot;filename&quot;:&quot;src/components/Editor/Footer.js&quot;,&quot;percent&quot;:65}</pre></body></html>
+</textarea></div></div><div class="row centered"><footer>Flow Coverage Report generated by<a href="https://flowtype.org"> flow </a>and<a href="https://github.com/rpl/flow-coverage-report"> flow-coverage-report </a>at Tue Apr 03 2018 15:58:53 GMT-0400 (EDT)</footer></div></div><pre id="file-coverage-data" style="display:none;">{&quot;expressions&quot;:{&quot;covered_count&quot;:165,&quot;uncovered_count&quot;:52,&quot;uncovered_locs&quot;:[{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:44,&quot;column&quot;:26,&quot;offset&quot;:1402},&quot;end&quot;:{&quot;line&quot;:44,&quot;column&quot;:39,&quot;offset&quot;:1416}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:44,&quot;column&quot;:53,&quot;offset&quot;:1429},&quot;end&quot;:{&quot;line&quot;:44,&quot;column&quot;:66,&quot;offset&quot;:1443}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:46,&quot;column&quot;:32,&quot;offset&quot;:1478},&quot;end&quot;:{&quot;line&quot;:46,&quot;column&quot;:45,&quot;offset&quot;:1492}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:55,&quot;column&quot;:42,&quot;offset&quot;:1678},&quot;end&quot;:{&quot;line&quot;:55,&quot;column&quot;:55,&quot;offset&quot;:1692}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:55,&quot;column&quot;:42,&quot;offset&quot;:1678},&quot;end&quot;:{&quot;line&quot;:55,&quot;column&quot;:65,&quot;offset&quot;:1702}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:58,&quot;column&quot;:28,&quot;offset&quot;:1812},&quot;end&quot;:{&quot;line&quot;:58,&quot;column&quot;:41,&quot;offset&quot;:1826}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:71,&quot;column&quot;:26,&quot;offset&quot;:2086},&quot;end&quot;:{&quot;line&quot;:71,&quot;column&quot;:39,&quot;offset&quot;:2100}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:71,&quot;column&quot;:53,&quot;offset&quot;:2113},&quot;end&quot;:{&quot;line&quot;:71,&quot;column&quot;:66,&quot;offset&quot;:2127}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:77,&quot;column&quot;:11,&quot;offset&quot;:2187},&quot;end&quot;:{&quot;line&quot;:77,&quot;column&quot;:20,&quot;offset&quot;:2197}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:77,&quot;column&quot;:24,&quot;offset&quot;:2200},&quot;end&quot;:{&quot;line&quot;:77,&quot;column&quot;:37,&quot;offset&quot;:2214}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:77,&quot;column&quot;:24,&quot;offset&quot;:2200},&quot;end&quot;:{&quot;line&quot;:77,&quot;column&quot;:50,&quot;offset&quot;:2227}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:84,&quot;column&quot;:39,&quot;offset&quot;:2384},&quot;end&quot;:{&quot;line&quot;:84,&quot;column&quot;:52,&quot;offset&quot;:2398}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:84,&quot;column&quot;:39,&quot;offset&quot;:2384},&quot;end&quot;:{&quot;line&quot;:84,&quot;column&quot;:59,&quot;offset&quot;:2405}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:87,&quot;column&quot;:23,&quot;offset&quot;:2510},&quot;end&quot;:{&quot;line&quot;:87,&quot;column&quot;:32,&quot;offset&quot;:2520}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:101,&quot;column&quot;:10,&quot;offset&quot;:2753},&quot;end&quot;:{&quot;line&quot;:101,&quot;column&quot;:23,&quot;offset&quot;:2767}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:101,&quot;column&quot;:29,&quot;offset&quot;:2772},&quot;end&quot;:{&quot;line&quot;:101,&quot;column&quot;:42,&quot;offset&quot;:2786}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:101,&quot;column&quot;:29,&quot;offset&quot;:2772},&quot;end&quot;:{&quot;line&quot;:101,&quot;column&quot;:55,&quot;offset&quot;:2799}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:115,&quot;column&quot;:10,&quot;offset&quot;:3028},&quot;end&quot;:{&quot;line&quot;:115,&quot;column&quot;:17,&quot;offset&quot;:3036}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:115,&quot;column&quot;:10,&quot;offset&quot;:3028},&quot;end&quot;:{&quot;line&quot;:115,&quot;column&quot;:30,&quot;offset&quot;:3049}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:159,&quot;column&quot;:9,&quot;offset&quot;:3985},&quot;end&quot;:{&quot;line&quot;:159,&quot;column&quot;:20,&quot;offset&quot;:3997}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:160,&quot;column&quot;:13,&quot;offset&quot;:4013},&quot;end&quot;:{&quot;line&quot;:160,&quot;column&quot;:24,&quot;offset&quot;:4025}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:160,&quot;column&quot;:28,&quot;offset&quot;:4028},&quot;end&quot;:{&quot;line&quot;:160,&quot;column&quot;:39,&quot;offset&quot;:4040}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:160,&quot;column&quot;:28,&quot;offset&quot;:4028},&quot;end&quot;:{&quot;line&quot;:160,&quot;column&quot;:46,&quot;offset&quot;:4047}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:161,&quot;column&quot;:36,&quot;offset&quot;:4084},&quot;end&quot;:{&quot;line&quot;:161,&quot;column&quot;:47,&quot;offset&quot;:4096}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:168,&quot;column&quot;:19,&quot;offset&quot;:4343},&quot;end&quot;:{&quot;line&quot;:168,&quot;column&quot;:32,&quot;offset&quot;:4357}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:168,&quot;column&quot;:19,&quot;offset&quot;:4343},&quot;end&quot;:{&quot;line&quot;:168,&quot;column&quot;:42,&quot;offset&quot;:4367}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:188,&quot;column&quot;:27,&quot;offset&quot;:4766},&quot;end&quot;:{&quot;line&quot;:188,&quot;column&quot;:40,&quot;offset&quot;:4780}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:202,&quot;column&quot;:16,&quot;offset&quot;:5021},&quot;end&quot;:{&quot;line&quot;:202,&quot;column&quot;:22,&quot;offset&quot;:5028}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:202,&quot;column&quot;:16,&quot;offset&quot;:5021},&quot;end&quot;:{&quot;line&quot;:215,&quot;column&quot;:1,&quot;offset&quot;:5453}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:202,&quot;column&quot;:16,&quot;offset&quot;:5021},&quot;end&quot;:{&quot;line&quot;:215,&quot;column&quot;:15,&quot;offset&quot;:5467}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:203,&quot;column&quot;:3,&quot;offset&quot;:5032},&quot;end&quot;:{&quot;line&quot;:203,&quot;column&quot;:7,&quot;offset&quot;:5037}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:204,&quot;column&quot;:11,&quot;offset&quot;:5053},&quot;end&quot;:{&quot;line&quot;:204,&quot;column&quot;:24,&quot;offset&quot;:5067}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:204,&quot;column&quot;:28,&quot;offset&quot;:5070},&quot;end&quot;:{&quot;line&quot;:204,&quot;column&quot;:44,&quot;offset&quot;:5087}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:204,&quot;column&quot;:28,&quot;offset&quot;:5070},&quot;end&quot;:{&quot;line&quot;:204,&quot;column&quot;:51,&quot;offset&quot;:5094}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:204,&quot;column&quot;:46,&quot;offset&quot;:5088},&quot;end&quot;:{&quot;line&quot;:204,&quot;column&quot;:50,&quot;offset&quot;:5093}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:205,&quot;column&quot;:11,&quot;offset&quot;:5106},&quot;end&quot;:{&quot;line&quot;:205,&quot;column&quot;:20,&quot;offset&quot;:5116}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:205,&quot;column&quot;:24,&quot;offset&quot;:5119},&quot;end&quot;:{&quot;line&quot;:205,&quot;column&quot;:37,&quot;offset&quot;:5133}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:205,&quot;column&quot;:24,&quot;offset&quot;:5119},&quot;end&quot;:{&quot;line&quot;:205,&quot;column&quot;:47,&quot;offset&quot;:5143}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:206,&quot;column&quot;:11,&quot;offset&quot;:5155},&quot;end&quot;:{&quot;line&quot;:206,&quot;column&quot;:16,&quot;offset&quot;:5161}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:206,&quot;column&quot;:20,&quot;offset&quot;:5164},&quot;end&quot;:{&quot;line&quot;:206,&quot;column&quot;:33,&quot;offset&quot;:5178}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:206,&quot;column&quot;:20,&quot;offset&quot;:5164},&quot;end&quot;:{&quot;line&quot;:206,&quot;column&quot;:40,&quot;offset&quot;:5185}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:208,&quot;column&quot;:7,&quot;offset&quot;:5206},&quot;end&quot;:{&quot;line&quot;:208,&quot;column&quot;:20,&quot;offset&quot;:5220}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:209,&quot;column&quot;:40,&quot;offset&quot;:5261},&quot;end&quot;:{&quot;line&quot;:209,&quot;column&quot;:44,&quot;offset&quot;:5266}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:209,&quot;column&quot;:47,&quot;offset&quot;:5268},&quot;end&quot;:{&quot;line&quot;:209,&quot;column&quot;:52,&quot;offset&quot;:5274}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:210,&quot;column&quot;:37,&quot;offset&quot;:5313},&quot;end&quot;:{&quot;line&quot;:210,&quot;column&quot;:41,&quot;offset&quot;:5318}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:210,&quot;column&quot;:44,&quot;offset&quot;:5320},&quot;end&quot;:{&quot;line&quot;:210,&quot;column&quot;:53,&quot;offset&quot;:5330}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:211,&quot;column&quot;:42,&quot;offset&quot;:5374},&quot;end&quot;:{&quot;line&quot;:211,&quot;column&quot;:46,&quot;offset&quot;:5379}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:214,&quot;column&quot;:3,&quot;offset&quot;:5402},&quot;end&quot;:{&quot;line&quot;:214,&quot;column&quot;:10,&quot;offset&quot;:5410}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:214,&quot;column&quot;:15,&quot;offset&quot;:5414},&quot;end&quot;:{&quot;line&quot;:214,&quot;column&quot;:32,&quot;offset&quot;:5432}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:214,&quot;column&quot;:15,&quot;offset&quot;:5414},&quot;end&quot;:{&quot;line&quot;:214,&quot;column&quot;:51,&quot;offset&quot;:5451}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:214,&quot;column&quot;:34,&quot;offset&quot;:5433},&quot;end&quot;:{&quot;line&quot;:214,&quot;column&quot;:40,&quot;offset&quot;:5440}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Footer.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:214,&quot;column&quot;:43,&quot;offset&quot;:5442},&quot;end&quot;:{&quot;line&quot;:214,&quot;column&quot;:50,&quot;offset&quot;:5450}}]},&quot;percent&quot;:76}</pre></body></html>

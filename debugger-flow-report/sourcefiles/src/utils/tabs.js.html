@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"/><link rel="stylesheet" href="../../../assets/semantic.min.css"/><link rel="stylesheet" href="../../../assets/codemirror.css"/><link rel="stylesheet" href="../../../assets/flow-highlight-source.css"/><link rel="stylesheet" href="../../../assets/flow-coverage-report.css"/><link rel="stylesheet" href="../../../assets/codemirror-simplescrollbars-addon.css"/><script src="../../../assets/jquery-3.1.0.min.js"></script><script src="../../../assets/semantic.min.js"></script><script src="../../../assets/semantic-tablesort.js"></script><script src="../../../assets/codemirror.js"></script><script src="../../../assets/codemirror-javascript-mode.js"></script><script src="../../../assets/codemirror-annotatescrollbar-addon.js"></script><script src="../../../assets/codemirror-simplescrollbars-addon.js"></script><script src="../../../assets/flow-highlight-source.js"></script></head><body><div class="ui grid container"><div class="row"><h1 class="twelve wide column">Flow Coverage Report - src/utils/tabs.js</h1><div class="four wide column" style="height:32px;"><a href="../../../index.html" id="link-to-summary">Go back to all files summary.</a></div></div><div class="row"><table class="ui small celled unstackable table"><thead><tr><th class="sorted ascending">Filename</th><th>Percent</th><th>Total</th><th>Covered</th><th>Uncovered</th></tr></thead><tbody><tr class="positive"><td class="">src/utils/tabs.js</td><td> 86 %</td><td> 143 </td><td> 124 </td><td> 19 </td></tr></tbody></table></div><div class="row green" style="padding:0;height:12px;"></div><div class="row ui one column centered grid"><div class="column" style="text-align:left;"><div class="row"><div class="ui form"><div class="fields"><div class="sixteen wide inline field"><select class="ui search dropdown uncovered-locations"><option value="">Uncovered Locations</option><option value="31">Start: 31,41 - End: 31,41</option><option value="31">Start: 31,46 - End: 31,46</option><option value="31">Start: 31,46 - End: 31,70</option><option value="31">Start: 31,46 - End: 31,74</option><option value="35">Start: 35,25 - End: 35,26</option><option value="39">Start: 39,12 - End: 39,13</option><option value="39">Start: 39,12 - End: 39,37</option><option value="39">Start: 39,12 - End: 39,41</option><option value="42">Start: 42,10 - End: 45,4</option><option value="42">Start: 42,29 - End: 42,31</option><option value="42">Start: 42,34 - End: 42,38</option><option value="43">Start: 43,11 - End: 43,17</option><option value="43">Start: 43,21 - End: 43,39</option><option value="43">Start: 43,34 - End: 43,38</option><option value="44">Start: 44,12 - End: 44,18</option><option value="44">Start: 44,12 - End: 44,43</option><option value="44">Start: 44,36 - End: 44,42</option><option value="64">Start: 64,7 - End: 64,12</option><option value="64">Start: 64,7 - End: 64,25</option></select></div><div class="four wide inline field"><select class="ui search dropdown syntax-highlighting"><option value="es">ES6/ES7</option><option value="js">JavaScript</option><option value="no">None</option></select></div></div></div></div><textarea id="file-content" readonly="">/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at &lt;http://mozilla.org/MPL/2.0/&gt;. */
+
+// @flow
+
+import React from &quot;react&quot;;
+
+import type { List } from &quot;immutable&quot;;
+import type { SourceRecord } from &quot;../types&quot;;
+import type { SourceMetaDataType } from &quot;../reducers/ast&quot;;
+import { isPretty } from &quot;./source&quot;;
+
+type SourcesList = List&lt;SourceRecord&gt;;
+/*
+ * Finds the hidden tabs by comparing the tabs&#x27; top offset.
+ * hidden tabs will have a great top offset.
+ *
+ * @param sourceTabs Immutable.list
+ * @param sourceTabEls HTMLCollection
+ *
+ * @returns Immutable.list
+ */
+
+export function getHiddenTabs(
+  sourceTabs: SourcesList,
+  sourceTabEls: Array&lt;any&gt;
+) {
+  sourceTabEls = [].slice.call(sourceTabEls);
+  function getTopOffset() {
+    const topOffsets = sourceTabEls.map(t =&gt; t.getBoundingClientRect().top);
+    return Math.min(...topOffsets);
+  }
+
+  function hasTopOffset(el) {
+    // adding 10px helps account for cases where the tab might be offset by
+    // styling such as selected tabs which don&#x27;t have a border.
+    const tabTopOffset = getTopOffset();
+    return el.getBoundingClientRect().top &gt; tabTopOffset + 10;
+  }
+
+  return sourceTabs.filter((tab, index) =&gt; {
+    const element = sourceTabEls[index];
+    return element &amp;&amp; hasTopOffset(element);
+  });
+}
+
+export function getSourceAnnotation(
+  source: SourceRecord,
+  sourceMetaData: SourceMetaDataType
+) {
+  const framework =
+    sourceMetaData &amp;&amp; sourceMetaData.framework
+      ? sourceMetaData.framework
+      : false;
+
+  if (framework) {
+    return &lt;img className={framework.toLowerCase()} /&gt;;
+  }
+
+  if (isPretty(source)) {
+    return &lt;img className=&quot;prettyPrint&quot; /&gt;;
+  }
+  if (source.isBlackBoxed) {
+    return &lt;img className=&quot;blackBox&quot; /&gt;;
+  }
+}
+
+export function getTabMenuItems() {
+  return {
+    closeTab: {
+      id: &quot;node-menu-close-tab&quot;,
+      label: L10N.getStr(&quot;sourceTabs.closeTab&quot;),
+      accesskey: L10N.getStr(&quot;sourceTabs.closeTab.accesskey&quot;),
+      disabled: false
+    },
+    closeOtherTabs: {
+      id: &quot;node-menu-close-other-tabs&quot;,
+      label: L10N.getStr(&quot;sourceTabs.closeOtherTabs&quot;),
+      accesskey: L10N.getStr(&quot;sourceTabs.closeOtherTabs.accesskey&quot;),
+      disabled: false
+    },
+    closeTabsToEnd: {
+      id: &quot;node-menu-close-tabs-to-end&quot;,
+      label: L10N.getStr(&quot;sourceTabs.closeTabsToEnd&quot;),
+      accesskey: L10N.getStr(&quot;sourceTabs.closeTabsToEnd.accesskey&quot;),
+      disabled: false
+    },
+    closeAllTabs: {
+      id: &quot;node-menu-close-all-tabs&quot;,
+      label: L10N.getStr(&quot;sourceTabs.closeAllTabs&quot;),
+      accesskey: L10N.getStr(&quot;sourceTabs.closeAllTabs.accesskey&quot;),
+      disabled: false
+    },
+    showSource: {
+      id: &quot;node-menu-show-source&quot;,
+      label: L10N.getStr(&quot;sourceTabs.revealInTree&quot;),
+      accesskey: L10N.getStr(&quot;sourceTabs.revealInTree.accesskey&quot;),
+      disabled: false
+    },
+    copyToClipboard: {
+      id: &quot;node-menu-copy-to-clipboard&quot;,
+      label: L10N.getStr(&quot;copyToClipboard.label&quot;),
+      accesskey: L10N.getStr(&quot;copyToClipboard.accesskey&quot;),
+      disabled: false
+    },
+    copySourceUri2: {
+      id: &quot;node-menu-copy-source-url&quot;,
+      label: L10N.getStr(&quot;copySourceUri2&quot;),
+      accesskey: L10N.getStr(&quot;copySourceUri2.accesskey&quot;),
+      disabled: false
+    },
+    prettyPrint: {
+      id: &quot;node-menu-pretty-print&quot;,
+      label: L10N.getStr(&quot;sourceTabs.prettyPrint&quot;),
+      accesskey: L10N.getStr(&quot;sourceTabs.prettyPrint.accesskey&quot;),
+      disabled: false
+    }
+  };
+}
+</textarea></div></div><div class="row centered"><footer>Flow Coverage Report generated by<a href="https://flowtype.org"> flow </a>and<a href="https://github.com/rpl/flow-coverage-report"> flow-coverage-report </a>at Tue Apr 03 2018 15:58:53 GMT-0400 (EDT)</footer></div></div><pre id="file-coverage-data" style="display:none;">{&quot;expressions&quot;:{&quot;covered_count&quot;:124,&quot;uncovered_count&quot;:19,&quot;uncovered_locs&quot;:[{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/tabs.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:31,&quot;column&quot;:41,&quot;offset&quot;:890},&quot;end&quot;:{&quot;line&quot;:31,&quot;column&quot;:41,&quot;offset&quot;:891}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/tabs.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:31,&quot;column&quot;:46,&quot;offset&quot;:895},&quot;end&quot;:{&quot;line&quot;:31,&quot;column&quot;:46,&quot;offset&quot;:896}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/tabs.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:31,&quot;column&quot;:46,&quot;offset&quot;:895},&quot;end&quot;:{&quot;line&quot;:31,&quot;column&quot;:70,&quot;offset&quot;:920}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/tabs.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:31,&quot;column&quot;:46,&quot;offset&quot;:895},&quot;end&quot;:{&quot;line&quot;:31,&quot;column&quot;:74,&quot;offset&quot;:924}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/tabs.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:35,&quot;column&quot;:25,&quot;offset&quot;:992},&quot;end&quot;:{&quot;line&quot;:35,&quot;column&quot;:26,&quot;offset&quot;:994}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/tabs.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:39,&quot;column&quot;:12,&quot;offset&quot;:1190},&quot;end&quot;:{&quot;line&quot;:39,&quot;column&quot;:13,&quot;offset&quot;:1192}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/tabs.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:39,&quot;column&quot;:12,&quot;offset&quot;:1190},&quot;end&quot;:{&quot;line&quot;:39,&quot;column&quot;:37,&quot;offset&quot;:1216}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/tabs.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:39,&quot;column&quot;:12,&quot;offset&quot;:1190},&quot;end&quot;:{&quot;line&quot;:39,&quot;column&quot;:41,&quot;offset&quot;:1220}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/tabs.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:42,&quot;column&quot;:10,&quot;offset&quot;:1256},&quot;end&quot;:{&quot;line&quot;:45,&quot;column&quot;:4,&quot;offset&quot;:1382}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/tabs.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:42,&quot;column&quot;:29,&quot;offset&quot;:1275},&quot;end&quot;:{&quot;line&quot;:42,&quot;column&quot;:31,&quot;offset&quot;:1278}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/tabs.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:42,&quot;column&quot;:34,&quot;offset&quot;:1280},&quot;end&quot;:{&quot;line&quot;:42,&quot;column&quot;:38,&quot;offset&quot;:1285}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/tabs.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:43,&quot;column&quot;:11,&quot;offset&quot;:1302},&quot;end&quot;:{&quot;line&quot;:43,&quot;column&quot;:17,&quot;offset&quot;:1309}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/tabs.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:43,&quot;column&quot;:21,&quot;offset&quot;:1312},&quot;end&quot;:{&quot;line&quot;:43,&quot;column&quot;:39,&quot;offset&quot;:1331}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/tabs.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:43,&quot;column&quot;:34,&quot;offset&quot;:1325},&quot;end&quot;:{&quot;line&quot;:43,&quot;column&quot;:38,&quot;offset&quot;:1330}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/tabs.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:44,&quot;column&quot;:12,&quot;offset&quot;:1344},&quot;end&quot;:{&quot;line&quot;:44,&quot;column&quot;:18,&quot;offset&quot;:1351}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/tabs.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:44,&quot;column&quot;:12,&quot;offset&quot;:1344},&quot;end&quot;:{&quot;line&quot;:44,&quot;column&quot;:43,&quot;offset&quot;:1376}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/tabs.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:44,&quot;column&quot;:36,&quot;offset&quot;:1368},&quot;end&quot;:{&quot;line&quot;:44,&quot;column&quot;:42,&quot;offset&quot;:1375}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/tabs.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:64,&quot;column&quot;:7,&quot;offset&quot;:1765},&quot;end&quot;:{&quot;line&quot;:64,&quot;column&quot;:12,&quot;offset&quot;:1771}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/tabs.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:64,&quot;column&quot;:7,&quot;offset&quot;:1765},&quot;end&quot;:{&quot;line&quot;:64,&quot;column&quot;:25,&quot;offset&quot;:1784}}]},&quot;percent&quot;:86}</pre></body></html>

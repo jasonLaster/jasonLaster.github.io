@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"/><link rel="stylesheet" href="../../../assets/semantic.min.css"/><link rel="stylesheet" href="../../../assets/codemirror.css"/><link rel="stylesheet" href="../../../assets/flow-highlight-source.css"/><link rel="stylesheet" href="../../../assets/flow-coverage-report.css"/><link rel="stylesheet" href="../../../assets/codemirror-simplescrollbars-addon.css"/><script src="../../../assets/jquery-3.1.0.min.js"></script><script src="../../../assets/semantic.min.js"></script><script src="../../../assets/semantic-tablesort.js"></script><script src="../../../assets/codemirror.js"></script><script src="../../../assets/codemirror-javascript-mode.js"></script><script src="../../../assets/codemirror-annotatescrollbar-addon.js"></script><script src="../../../assets/codemirror-simplescrollbars-addon.js"></script><script src="../../../assets/flow-highlight-source.js"></script></head><body><div class="ui grid container"><div class="row"><h1 class="twelve wide column">Flow Coverage Report - src/utils/ast.js</h1><div class="four wide column" style="height:32px;"><a href="../../../index.html" id="link-to-summary">Go back to all files summary.</a></div></div><div class="row"><table class="ui small celled unstackable table"><thead><tr><th class="sorted ascending">Filename</th><th>Percent</th><th>Total</th><th>Covered</th><th>Uncovered</th></tr></thead><tbody><tr class="positive"><td class="">src/utils/ast.js</td><td> 96 %</td><td> 195 </td><td> 189 </td><td> 6 </td></tr></tbody></table></div><div class="row green" style="padding:0;height:12px;"></div><div class="row ui one column centered grid"><div class="column" style="text-align:left;"><div class="row"><div class="ui form"><div class="fields"><div class="sixteen wide inline field"><select class="ui search dropdown uncovered-locations"><option value="">Uncovered Locations</option><option value="57">Start: 57,9 - End: 57,19</option><option value="57">Start: 57,23 - End: 57,27</option><option value="57">Start: 57,23 - End: 57,45</option><option value="58">Start: 58,10 - End: 58,16</option><option value="58">Start: 58,10 - End: 58,49</option><option value="58">Start: 58,18 - End: 58,28</option></select></div><div class="four wide inline field"><select class="ui search dropdown syntax-highlighting"><option value="es">ES6/ES7</option><option value="js">JavaScript</option><option value="no">None</option></select></div></div></div></div><textarea id="file-content" readonly="">/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at &lt;http://mozilla.org/MPL/2.0/&gt;. */
+
+// @flow
+
+import { without, range } from &quot;lodash&quot;;
+
+import type { Location, Source, ColumnPosition } from &quot;../types&quot;;
+
+import type { AstPosition, AstLocation, PausePoint } from &quot;../workers/parser&quot;;
+import type {
+  SymbolDeclarations,
+  FunctionDeclaration
+} from &quot;../workers/parser/getSymbols&quot;;
+
+export function findBestMatchExpression(
+  symbols: SymbolDeclarations,
+  tokenPos: ColumnPosition
+) {
+  const { memberExpressions, identifiers, literals } = symbols;
+  const { line, column } = tokenPos;
+
+  const members = memberExpressions.filter(({ computed }) =&gt; !computed);
+
+  return []
+    .concat(identifiers, members, literals)
+    .reduce((found, expression) =&gt; {
+      const overlaps =
+        expression.location.start.line == line &amp;&amp;
+        expression.location.start.column &lt;= column &amp;&amp;
+        expression.location.end.column &gt;= column;
+
+      if (overlaps) {
+        return expression;
+      }
+
+      return found;
+    }, null);
+}
+
+export function findEmptyLines(
+  selectedSource: Source,
+  pausePoints: PausePoint[]
+) {
+  if (!pausePoints || pausePoints.length == 0 || !selectedSource) {
+    return [];
+  }
+
+  const breakpoints = pausePoints.filter(point =&gt; point.types.breakpoint);
+  const breakpointLines = breakpoints.map(point =&gt; point.location.line);
+
+  if (!selectedSource.text) {
+    return [];
+  }
+  const lineCount = selectedSource.text.split(&quot;\n&quot;).length;
+  const sourceLines = range(1, lineCount + 1);
+  return without(sourceLines, ...breakpointLines);
+}
+
+export function containsPosition(a: AstLocation, b: AstPosition) {
+  const startsBefore =
+    a.start.line &lt; b.line ||
+    (a.start.line === b.line &amp;&amp; a.start.column &lt;= b.column);
+  const endsAfter =
+    a.end.line &gt; b.line || (a.end.line === b.line &amp;&amp; a.end.column &gt;= b.column);
+
+  return startsBefore &amp;&amp; endsAfter;
+}
+
+export function findClosestFunction(
+  functions: FunctionDeclaration[],
+  location: Location
+) {
+  return functions.reduce((found, currNode) =&gt; {
+    if (
+      currNode.name === &quot;anonymous&quot; ||
+      !containsPosition(currNode.location, {
+        line: location.line,
+        column: location.column || 0
+      })
+    ) {
+      return found;
+    }
+
+    if (!found) {
+      return currNode;
+    }
+
+    if (found.location.start.line &gt; currNode.location.start.line) {
+      return found;
+    }
+    if (
+      found.location.start.line === currNode.location.start.line &amp;&amp;
+      found.location.start.column &gt; currNode.location.start.column
+    ) {
+      return found;
+    }
+
+    return currNode;
+  }, null);
+}
+</textarea></div></div><div class="row centered"><footer>Flow Coverage Report generated by<a href="https://flowtype.org"> flow </a>and<a href="https://github.com/rpl/flow-coverage-report"> flow-coverage-report </a>at Tue Apr 03 2018 15:58:53 GMT-0400 (EDT)</footer></div></div><pre id="file-coverage-data" style="display:none;">{&quot;expressions&quot;:{&quot;covered_count&quot;:189,&quot;uncovered_count&quot;:6,&quot;uncovered_locs&quot;:[{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/ast.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:57,&quot;column&quot;:9,&quot;offset&quot;:1593},&quot;end&quot;:{&quot;line&quot;:57,&quot;column&quot;:19,&quot;offset&quot;:1604}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/ast.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:57,&quot;column&quot;:23,&quot;offset&quot;:1607},&quot;end&quot;:{&quot;line&quot;:57,&quot;column&quot;:27,&quot;offset&quot;:1612}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/ast.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:57,&quot;column&quot;:23,&quot;offset&quot;:1607},&quot;end&quot;:{&quot;line&quot;:57,&quot;column&quot;:45,&quot;offset&quot;:1630}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/ast.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:58,&quot;column&quot;:10,&quot;offset&quot;:1641},&quot;end&quot;:{&quot;line&quot;:58,&quot;column&quot;:16,&quot;offset&quot;:1648}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/ast.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:58,&quot;column&quot;:10,&quot;offset&quot;:1641},&quot;end&quot;:{&quot;line&quot;:58,&quot;column&quot;:49,&quot;offset&quot;:1681}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/ast.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:58,&quot;column&quot;:18,&quot;offset&quot;:1649},&quot;end&quot;:{&quot;line&quot;:58,&quot;column&quot;:28,&quot;offset&quot;:1660}}]},&quot;percent&quot;:96}</pre></body></html>

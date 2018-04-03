@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"/><link rel="stylesheet" href="../../../../assets/semantic.min.css"/><link rel="stylesheet" href="../../../../assets/codemirror.css"/><link rel="stylesheet" href="../../../../assets/flow-highlight-source.css"/><link rel="stylesheet" href="../../../../assets/flow-coverage-report.css"/><link rel="stylesheet" href="../../../../assets/codemirror-simplescrollbars-addon.css"/><script src="../../../../assets/jquery-3.1.0.min.js"></script><script src="../../../../assets/semantic.min.js"></script><script src="../../../../assets/semantic-tablesort.js"></script><script src="../../../../assets/codemirror.js"></script><script src="../../../../assets/codemirror-javascript-mode.js"></script><script src="../../../../assets/codemirror-annotatescrollbar-addon.js"></script><script src="../../../../assets/codemirror-simplescrollbars-addon.js"></script><script src="../../../../assets/flow-highlight-source.js"></script></head><body><div class="ui grid container"><div class="row"><h1 class="twelve wide column">Flow Coverage Report - src/components/stories/ResultList.js</h1><div class="four wide column" style="height:32px;"><a href="../../../../index.html" id="link-to-summary">Go back to all files summary.</a></div></div><div class="row"><table class="ui small celled unstackable table"><thead><tr><th class="sorted ascending">Filename</th><th>Percent</th><th>Total</th><th>Covered</th><th>Uncovered</th></tr></thead><tbody><tr class="negative"><td class="">src/components/stories/ResultList.js</td><td> 73 %</td><td> 119 </td><td> 87 </td><td> 32 </td></tr></tbody></table></div><div class="row red" style="padding:0;height:12px;"></div><div class="row ui one column centered grid"><div class="column" style="text-align:left;"><div class="row"><div class="ui form"><div class="fields"><div class="sixteen wide inline field"><select class="ui search dropdown uncovered-locations"><option value="">Uncovered Locations</option><option value="6">Start: 6,7 - End: 6,16</option><option value="16">Start: 16,12 - End: 16,17</option><option value="17">Start: 17,3 - End: 17,8</option><option value="17">Start: 17,3 - End: 17,20</option><option value="17">Start: 17,17 - End: 17,20</option><option value="18">Start: 18,3 - End: 18,13</option><option value="18">Start: 18,3 - End: 18,77</option><option value="18">Start: 18,25 - End: 18,76</option><option value="21">Start: 21,28 - End: 21,34</option><option value="22">Start: 22,9 - End: 22,18</option><option value="28">Start: 28,10 - End: 28,12</option><option value="28">Start: 28,10 - End: 57,3</option><option value="39">Start: 39,5 - End: 39,7</option><option value="39">Start: 39,5 - End: 56,5</option><option value="48">Start: 48,18 - End: 55,7</option><option value="51">Start: 51,23 - End: 51,28</option><option value="51">Start: 51,23 - End: 51,42</option><option value="54">Start: 54,12 - End: 54,18</option><option value="60">Start: 60,1 - End: 60,9</option><option value="60">Start: 60,1 - End: 60,31</option><option value="60">Start: 60,1 - End: 64,4</option><option value="60">Start: 60,1 - End: 83,4</option><option value="60">Start: 60,1 - End: 103,4</option><option value="62">Start: 62,5 - End: 62,12</option><option value="62">Start: 62,5 - End: 62,44</option><option value="63">Start: 63,12 - End: 63,43</option><option value="66">Start: 66,5 - End: 66,12</option><option value="66">Start: 66,5 - End: 66,44</option><option value="67">Start: 67,12 - End: 82,6</option><option value="85">Start: 85,5 - End: 85,12</option><option value="85">Start: 85,5 - End: 85,44</option><option value="86">Start: 86,12 - End: 102,6</option></select></div><div class="four wide inline field"><select class="ui search dropdown syntax-highlighting"><option value="es">ES6/ES7</option><option value="js">JavaScript</option><option value="no">None</option></select></div></div></div></div><textarea id="file-content" readonly="">import React, { DOM as dom } from &quot;react&quot;;
+import { storiesOf } from &quot;@storybook/react&quot;;
+import { action } from &quot;@storybook/addon-actions&quot;;
+
+import _ResultList from &quot;../shared/ResultList&quot;;
+const ResultList = React.createFactory(_ResultList);
+import { L10N } from &quot;devtools-launchpad&quot;;
+import { setValue } from &quot;devtools-config&quot;;
+import prefs from &quot;../../utils/prefs&quot;;
+
+import &quot;../App.css&quot;;
+import &quot;devtools-launchpad/src/lib/themes/dark-theme.css&quot;;
+
+// NOTE: we need this for supporting L10N in storybook
+// we can move this to a shared helper as we add additional stories
+if (typeof window == &quot;object&quot;) {
+  window.L10N = L10N;
+  window.L10N.setBundle(require(&quot;../../../assets/panel/debugger.properties&quot;));
+}
+
+function ResultListFactory(options, { dir = &quot;ltr&quot;, theme = &quot;light&quot; } = {}) {
+  const themeClass = `theme-${theme}`;
+  document.dir = dir;
+  document.body.parentNode.className = themeClass;
+
+  prefs.searchNav = true;
+
+  return dom.div(
+    {
+      className: &quot;&quot;,
+      style: {
+        width: &quot;calc(100vw - 100px)&quot;,
+        height: &quot;calc(100vh - 100px)&quot;,
+        margin: &quot;auto&quot;,
+        display: &quot;flex&quot;,
+        &quot;flex-direction&quot;: &quot;row&quot;
+      }
+    },
+    dom.div(
+      {
+        className: `search-bar ${themeClass}`,
+        dir,
+        style: {
+          width: &quot;100vw&quot;,
+          &quot;align-self&quot;: &quot;center&quot;
+        }
+      },
+      ResultList({
+        ...{
+          selected: 0,
+          selectItem: action(&quot;selectItem&quot;),
+          size: &quot;&quot;
+        },
+        ...options
+      })
+    )
+  );
+}
+
+storiesOf(&quot;ResultList&quot;, module)
+  .add(&quot;no items&quot;, () =&gt; {
+    setValue(&quot;features.previewWatch&quot;, false);
+    return ResultListFactory({ items: [] });
+  })
+  .add(&quot;some matches&quot;, () =&gt; {
+    setValue(&quot;features.previewWatch&quot;, false);
+    return ResultListFactory({
+      items: [
+        {
+          id: &quot;foo&quot;,
+          subtitle: &quot;a good subtitle&quot;,
+          title: &quot;tasty title&quot;,
+          value: &quot;foo&quot;
+        },
+        {
+          id: &quot;foo2&quot;,
+          subtitle: &quot;another good subtitle&quot;,
+          title: &quot;tastier title&quot;,
+          value: &quot;foo2&quot;
+        }
+      ]
+    });
+  })
+  .add(&quot;some matches (big)&quot;, () =&gt; {
+    setValue(&quot;features.previewWatch&quot;, false);
+    return ResultListFactory({
+      items: [
+        {
+          id: &quot;foo&quot;,
+          subtitle: &quot;a good subtitle&quot;,
+          title: &quot;tasty title&quot;,
+          value: &quot;foo&quot;
+        },
+        {
+          id: &quot;foo2&quot;,
+          subtitle: &quot;another good subtitle&quot;,
+          title: &quot;tastier title&quot;,
+          value: &quot;foo2&quot;
+        }
+      ],
+      size: &quot;big&quot;
+    });
+  });
+</textarea></div></div><div class="row centered"><footer>Flow Coverage Report generated by<a href="https://flowtype.org"> flow </a>and<a href="https://github.com/rpl/flow-coverage-report"> flow-coverage-report </a>at Tue Aug 15 2017 09:36:51 GMT-0400 (EDT)</footer></div></div><pre id="file-coverage-data" style="display:none;">{&quot;expressions&quot;:{&quot;covered_count&quot;:87,&quot;uncovered_count&quot;:32,&quot;uncovered_locs&quot;:[{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:6,&quot;column&quot;:7,&quot;offset&quot;:195},&quot;end&quot;:{&quot;line&quot;:6,&quot;column&quot;:16,&quot;offset&quot;:205}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:16,&quot;column&quot;:12,&quot;offset&quot;:584},&quot;end&quot;:{&quot;line&quot;:16,&quot;column&quot;:17,&quot;offset&quot;:590}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:17,&quot;column&quot;:3,&quot;offset&quot;:608},&quot;end&quot;:{&quot;line&quot;:17,&quot;column&quot;:8,&quot;offset&quot;:614}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:17,&quot;column&quot;:3,&quot;offset&quot;:608},&quot;end&quot;:{&quot;line&quot;:17,&quot;column&quot;:20,&quot;offset&quot;:626}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:17,&quot;column&quot;:17,&quot;offset&quot;:622},&quot;end&quot;:{&quot;line&quot;:17,&quot;column&quot;:20,&quot;offset&quot;:626}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:18,&quot;column&quot;:3,&quot;offset&quot;:630},&quot;end&quot;:{&quot;line&quot;:18,&quot;column&quot;:13,&quot;offset&quot;:641}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:18,&quot;column&quot;:3,&quot;offset&quot;:630},&quot;end&quot;:{&quot;line&quot;:18,&quot;column&quot;:77,&quot;offset&quot;:705}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:18,&quot;column&quot;:25,&quot;offset&quot;:652},&quot;end&quot;:{&quot;line&quot;:18,&quot;column&quot;:76,&quot;offset&quot;:704}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:21,&quot;column&quot;:28,&quot;offset&quot;:737},&quot;end&quot;:{&quot;line&quot;:21,&quot;column&quot;:34,&quot;offset&quot;:744}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:22,&quot;column&quot;:9,&quot;offset&quot;:795},&quot;end&quot;:{&quot;line&quot;:22,&quot;column&quot;:18,&quot;offset&quot;:805}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:28,&quot;column&quot;:10,&quot;offset&quot;:936},&quot;end&quot;:{&quot;line&quot;:28,&quot;column&quot;:12,&quot;offset&quot;:939}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:28,&quot;column&quot;:10,&quot;offset&quot;:936},&quot;end&quot;:{&quot;line&quot;:57,&quot;column&quot;:3,&quot;offset&quot;:1502}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:39,&quot;column&quot;:5,&quot;offset&quot;:1164},&quot;end&quot;:{&quot;line&quot;:39,&quot;column&quot;:7,&quot;offset&quot;:1167}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:39,&quot;column&quot;:5,&quot;offset&quot;:1164},&quot;end&quot;:{&quot;line&quot;:56,&quot;column&quot;:5,&quot;offset&quot;:1498}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:48,&quot;column&quot;:18,&quot;offset&quot;:1353},&quot;end&quot;:{&quot;line&quot;:55,&quot;column&quot;:7,&quot;offset&quot;:1491}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:51,&quot;column&quot;:23,&quot;offset&quot;:1413},&quot;end&quot;:{&quot;line&quot;:51,&quot;column&quot;:28,&quot;offset&quot;:1419}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:51,&quot;column&quot;:23,&quot;offset&quot;:1413},&quot;end&quot;:{&quot;line&quot;:51,&quot;column&quot;:42,&quot;offset&quot;:1433}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:54,&quot;column&quot;:12,&quot;offset&quot;:1476},&quot;end&quot;:{&quot;line&quot;:54,&quot;column&quot;:18,&quot;offset&quot;:1483}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:60,&quot;column&quot;:1,&quot;offset&quot;:1507},&quot;end&quot;:{&quot;line&quot;:60,&quot;column&quot;:9,&quot;offset&quot;:1516}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:60,&quot;column&quot;:1,&quot;offset&quot;:1507},&quot;end&quot;:{&quot;line&quot;:60,&quot;column&quot;:31,&quot;offset&quot;:1538}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:60,&quot;column&quot;:1,&quot;offset&quot;:1507},&quot;end&quot;:{&quot;line&quot;:64,&quot;column&quot;:4,&quot;offset&quot;:1661}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:60,&quot;column&quot;:1,&quot;offset&quot;:1507},&quot;end&quot;:{&quot;line&quot;:83,&quot;column&quot;:4,&quot;offset&quot;:2086}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:60,&quot;column&quot;:1,&quot;offset&quot;:1507},&quot;end&quot;:{&quot;line&quot;:103,&quot;column&quot;:4,&quot;offset&quot;:2536}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:62,&quot;column&quot;:5,&quot;offset&quot;:1570},&quot;end&quot;:{&quot;line&quot;:62,&quot;column&quot;:12,&quot;offset&quot;:1578}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:62,&quot;column&quot;:5,&quot;offset&quot;:1570},&quot;end&quot;:{&quot;line&quot;:62,&quot;column&quot;:44,&quot;offset&quot;:1610}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:63,&quot;column&quot;:12,&quot;offset&quot;:1623},&quot;end&quot;:{&quot;line&quot;:63,&quot;column&quot;:43,&quot;offset&quot;:1655}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:66,&quot;column&quot;:5,&quot;offset&quot;:1697},&quot;end&quot;:{&quot;line&quot;:66,&quot;column&quot;:12,&quot;offset&quot;:1705}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:66,&quot;column&quot;:5,&quot;offset&quot;:1697},&quot;end&quot;:{&quot;line&quot;:66,&quot;column&quot;:44,&quot;offset&quot;:1737}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:67,&quot;column&quot;:12,&quot;offset&quot;:1750},&quot;end&quot;:{&quot;line&quot;:82,&quot;column&quot;:6,&quot;offset&quot;:2080}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:85,&quot;column&quot;:5,&quot;offset&quot;:2128},&quot;end&quot;:{&quot;line&quot;:85,&quot;column&quot;:12,&quot;offset&quot;:2136}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:85,&quot;column&quot;:5,&quot;offset&quot;:2128},&quot;end&quot;:{&quot;line&quot;:85,&quot;column&quot;:44,&quot;offset&quot;:2168}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:86,&quot;column&quot;:12,&quot;offset&quot;:2181},&quot;end&quot;:{&quot;line&quot;:102,&quot;column&quot;:6,&quot;offset&quot;:2530}}]},&quot;percent&quot;:73}</pre></body></html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"/><link rel="stylesheet" href="../../../assets/semantic.min.css"/><link rel="stylesheet" href="../../../assets/codemirror.css"/><link rel="stylesheet" href="../../../assets/flow-highlight-source.css"/><link rel="stylesheet" href="../../../assets/flow-coverage-report.css"/><link rel="stylesheet" href="../../../assets/codemirror-simplescrollbars-addon.css"/><script src="../../../assets/jquery-3.1.0.min.js"></script><script src="../../../assets/semantic.min.js"></script><script src="../../../assets/semantic-tablesort.js"></script><script src="../../../assets/codemirror.js"></script><script src="../../../assets/codemirror-javascript-mode.js"></script><script src="../../../assets/codemirror-annotatescrollbar-addon.js"></script><script src="../../../assets/codemirror-simplescrollbars-addon.js"></script><script src="../../../assets/flow-highlight-source.js"></script></head><body><div class="ui grid container"><div class="row"><h1 class="twelve wide column">Flow Coverage Report - src/reducers/project-text-search.js</h1><div class="four wide column" style="height:32px;"><a href="../../../index.html" id="link-to-summary">Go back to all files summary.</a></div></div><div class="row"><table class="ui small celled unstackable table"><thead><tr><th class="sorted ascending">Filename</th><th>Percent</th><th>Total</th><th>Covered</th><th>Uncovered</th></tr></thead><tbody><tr class="positive"><td class="">src/reducers/project-text-search.js</td><td> 86 %</td><td> 104 </td><td> 90 </td><td> 14 </td></tr></tbody></table></div><div class="row green" style="padding:0;height:12px;"></div><div class="row ui one column centered grid"><div class="column" style="text-align:left;"><div class="row"><div class="ui form"><div class="fields"><div class="sixteen wide inline field"><select class="ui search dropdown uncovered-locations"><option value="">Uncovered Locations</option><option value="47">Start: 47,16 - End: 47,16</option><option value="47">Start: 47,16 - End: 47,23</option><option value="60">Start: 60,36 - End: 60,40</option><option value="69">Start: 69,13 - End: 69,19</option><option value="69">Start: 69,23 - End: 69,42</option><option value="70">Start: 70,37 - End: 70,43</option><option value="70">Start: 70,37 - End: 70,63</option><option value="77">Start: 77,18 - End: 77,37</option><option value="77">Start: 77,18 - End: 77,45</option><option value="84">Start: 84,18 - End: 84,37</option><option value="84">Start: 84,18 - End: 84,45</option><option value="94">Start: 94,10 - End: 94,47</option><option value="98">Start: 98,10 - End: 98,46</option><option value="102">Start: 102,10 - End: 102,45</option></select></div><div class="four wide inline field"><select class="ui search dropdown syntax-highlighting"><option value="es">ES6/ES7</option><option value="js">JavaScript</option><option value="no">None</option></select></div></div></div></div><textarea id="file-content" readonly="">/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at &lt;http://mozilla.org/MPL/2.0/&gt;. */
+
+// @flow
+// @format
+
+/**
+ * Project text search reducer
+ * @module reducers/project-text-search
+ */
+
+import * as I from &quot;immutable&quot;;
+import makeRecord from &quot;../utils/makeRecord&quot;;
+
+import type { Action } from &quot;../actions/types&quot;;
+import type { Record } from &quot;../utils/makeRecord&quot;;
+import type { List } from &quot;immutable&quot;;
+
+export type Search = {
+  id: string,
+  filepath: string,
+  matches: I.List&lt;any&gt;
+};
+export type StatusType = &quot;INITIAL&quot; | &quot;FETCHING&quot; | &quot;DONE&quot; | &quot;ERROR&quot;;
+export const statusType = {
+  initial: &quot;INITIAL&quot;,
+  fetching: &quot;FETCHING&quot;,
+  done: &quot;DONE&quot;,
+  error: &quot;ERROR&quot;
+};
+
+export type ResultRecord = Record&lt;Search&gt;;
+export type ResultList = List&lt;ResultRecord&gt;;
+export type ProjectTextSearchState = {
+  query: string,
+  results: ResultList,
+  status: string
+};
+
+export function initialProjectTextSearchState(): Record&lt;
+  ProjectTextSearchState
+&gt; {
+  return makeRecord(
+    ({
+      query: &quot;&quot;,
+      results: I.List(),
+      status: statusType.initial
+    }: ProjectTextSearchState)
+  )();
+}
+
+function update(
+  state: Record&lt;ProjectTextSearchState&gt; = initialProjectTextSearchState(),
+  action: Action
+): Record&lt;ProjectTextSearchState&gt; {
+  switch (action.type) {
+    case &quot;ADD_QUERY&quot;:
+      const actionCopy = action;
+      return state.update(&quot;query&quot;, value =&gt; actionCopy.query);
+
+    case &quot;CLEAR_QUERY&quot;:
+      return state.merge({
+        query: &quot;&quot;,
+        status: statusType.initial
+      });
+
+    case &quot;ADD_SEARCH_RESULT&quot;:
+      const results = state.get(&quot;results&quot;);
+      return state.merge({ results: results.push(action.result) });
+
+    case &quot;UPDATE_STATUS&quot;:
+      return state.merge({ status: action.status });
+
+    case &quot;CLEAR_SEARCH_RESULTS&quot;:
+      return state.merge({
+        results: state.get(&quot;results&quot;).clear()
+      });
+
+    case &quot;CLEAR_SEARCH&quot;:
+    case &quot;CLOSE_PROJECT_SEARCH&quot;:
+      return state.merge({
+        query: &quot;&quot;,
+        results: state.get(&quot;results&quot;).clear(),
+        status: statusType.initial
+      });
+  }
+  return state;
+}
+
+type OuterState = { projectTextSearch: Record&lt;ProjectTextSearchState&gt; };
+
+export function getTextSearchResults(state: OuterState) {
+  return state.projectTextSearch.get(&quot;results&quot;);
+}
+
+export function getTextSearchStatus(state: OuterState) {
+  return state.projectTextSearch.get(&quot;status&quot;);
+}
+
+export function getTextSearchQuery(state: OuterState) {
+  return state.projectTextSearch.get(&quot;query&quot;);
+}
+
+export default update;
+</textarea></div></div><div class="row centered"><footer>Flow Coverage Report generated by<a href="https://flowtype.org"> flow </a>and<a href="https://github.com/rpl/flow-coverage-report"> flow-coverage-report </a>at Tue Apr 03 2018 15:58:53 GMT-0400 (EDT)</footer></div></div><pre id="file-coverage-data" style="display:none;">{&quot;expressions&quot;:{&quot;covered_count&quot;:90,&quot;uncovered_count&quot;:14,&quot;uncovered_locs&quot;:[{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/project-text-search.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:47,&quot;column&quot;:16,&quot;offset&quot;:1123},&quot;end&quot;:{&quot;line&quot;:47,&quot;column&quot;:16,&quot;offset&quot;:1124}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/project-text-search.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:47,&quot;column&quot;:16,&quot;offset&quot;:1123},&quot;end&quot;:{&quot;line&quot;:47,&quot;column&quot;:23,&quot;offset&quot;:1131}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/project-text-search.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:60,&quot;column&quot;:36,&quot;offset&quot;:1467},&quot;end&quot;:{&quot;line&quot;:60,&quot;column&quot;:40,&quot;offset&quot;:1472}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/project-text-search.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:69,&quot;column&quot;:13,&quot;offset&quot;:1654},&quot;end&quot;:{&quot;line&quot;:69,&quot;column&quot;:19,&quot;offset&quot;:1661}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/project-text-search.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:69,&quot;column&quot;:23,&quot;offset&quot;:1664},&quot;end&quot;:{&quot;line&quot;:69,&quot;column&quot;:42,&quot;offset&quot;:1684}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/project-text-search.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:70,&quot;column&quot;:37,&quot;offset&quot;:1722},&quot;end&quot;:{&quot;line&quot;:70,&quot;column&quot;:43,&quot;offset&quot;:1729}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/project-text-search.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:70,&quot;column&quot;:37,&quot;offset&quot;:1722},&quot;end&quot;:{&quot;line&quot;:70,&quot;column&quot;:63,&quot;offset&quot;:1749}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/project-text-search.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:77,&quot;column&quot;:18,&quot;offset&quot;:1912},&quot;end&quot;:{&quot;line&quot;:77,&quot;column&quot;:37,&quot;offset&quot;:1932}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/project-text-search.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:77,&quot;column&quot;:18,&quot;offset&quot;:1912},&quot;end&quot;:{&quot;line&quot;:77,&quot;column&quot;:45,&quot;offset&quot;:1940}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/project-text-search.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:84,&quot;column&quot;:18,&quot;offset&quot;:2073},&quot;end&quot;:{&quot;line&quot;:84,&quot;column&quot;:37,&quot;offset&quot;:2093}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/project-text-search.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:84,&quot;column&quot;:18,&quot;offset&quot;:2073},&quot;end&quot;:{&quot;line&quot;:84,&quot;column&quot;:45,&quot;offset&quot;:2101}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/project-text-search.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:94,&quot;column&quot;:10,&quot;offset&quot;:2312},&quot;end&quot;:{&quot;line&quot;:94,&quot;column&quot;:47,&quot;offset&quot;:2350}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/project-text-search.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:98,&quot;column&quot;:10,&quot;offset&quot;:2421},&quot;end&quot;:{&quot;line&quot;:98,&quot;column&quot;:46,&quot;offset&quot;:2458}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/project-text-search.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:102,&quot;column&quot;:10,&quot;offset&quot;:2528},&quot;end&quot;:{&quot;line&quot;:102,&quot;column&quot;:45,&quot;offset&quot;:2564}}]},&quot;percent&quot;:86}</pre></body></html>

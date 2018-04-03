@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"/><link rel="stylesheet" href="../../../../assets/semantic.min.css"/><link rel="stylesheet" href="../../../../assets/codemirror.css"/><link rel="stylesheet" href="../../../../assets/flow-highlight-source.css"/><link rel="stylesheet" href="../../../../assets/flow-coverage-report.css"/><link rel="stylesheet" href="../../../../assets/codemirror-simplescrollbars-addon.css"/><script src="../../../../assets/jquery-3.1.0.min.js"></script><script src="../../../../assets/semantic.min.js"></script><script src="../../../../assets/semantic-tablesort.js"></script><script src="../../../../assets/codemirror.js"></script><script src="../../../../assets/codemirror-javascript-mode.js"></script><script src="../../../../assets/codemirror-annotatescrollbar-addon.js"></script><script src="../../../../assets/codemirror-simplescrollbars-addon.js"></script><script src="../../../../assets/flow-highlight-source.js"></script></head><body><div class="ui grid container"><div class="row"><h1 class="twelve wide column">Flow Coverage Report - src/components/shared/Popover.js</h1><div class="four wide column" style="height:32px;"><a href="../../../../index.html" id="link-to-summary">Go back to all files summary.</a></div></div><div class="row"><table class="ui small celled unstackable table"><thead><tr><th class="sorted ascending">Filename</th><th>Percent</th><th>Total</th><th>Covered</th><th>Uncovered</th></tr></thead><tbody><tr class="positive"><td class="">src/components/shared/Popover.js</td><td> 98 %</td><td> 312 </td><td> 307 </td><td> 5 </td></tr></tbody></table></div><div class="row green" style="padding:0;height:12px;"></div><div class="row ui one column centered grid"><div class="column" style="text-align:left;"><div class="row"><div class="ui form"><div class="fields"><div class="sixteen wide inline field"><select class="ui search dropdown uncovered-locations"><option value="">Uncovered Locations</option><option value="95">Start: 95,13 - End: 95,29</option><option value="96">Start: 96,13 - End: 96,26</option><option value="99">Start: 99,9 - End: 99,23</option><option value="99">Start: 99,41 - End: 99,56</option><option value="114">Start: 114,19 - End: 114,32</option></select></div><div class="four wide inline field"><select class="ui search dropdown syntax-highlighting"><option value="es">ES6/ES7</option><option value="js">JavaScript</option><option value="no">None</option></select></div></div></div></div><textarea id="file-content" readonly="">/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at &lt;http://mozilla.org/MPL/2.0/&gt;. */
+
+// @flow
+import React, { Component } from &quot;react&quot;;
+import classNames from &quot;classnames&quot;;
+import BracketArrow from &quot;./BracketArrow&quot;;
+
+import &quot;./Popover.css&quot;;
+
+type Props = {
+  editorRef: ?HTMLDivElement,
+  targetPosition: Object,
+  children: ?React$Element&lt;any&gt;,
+  onMouseLeave: () =&gt; void,
+  type?: &quot;popover&quot; | &quot;tooltip&quot;
+};
+
+type Orientation = &quot;up&quot; | &quot;down&quot;;
+type State = {
+  left: number,
+  top: number,
+  targetMid: number,
+  orientation: Orientation
+};
+
+class Popover extends Component&lt;Props, State&gt; {
+  $popover: ?HTMLDivElement;
+  $tooltip: ?HTMLDivElement;
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      left: 0,
+      top: 0,
+      targetMid: 0,
+      orientation: &quot;up&quot;
+    };
+  }
+
+  static defaultProps = {
+    onMouseLeave: () =&gt; {},
+    type: &quot;popover&quot;
+  };
+
+  componentDidMount() {
+    const { type } = this.props;
+    const { left, top, orientation, targetMid } =
+      type == &quot;popover&quot; ? this.getPopoverCoords() : this.getTooltipCoords();
+
+    // eslint-disable-next-line react/no-did-mount-set-state
+    this.setState({ left, top, orientation, targetMid });
+  }
+
+  calculateLeft(target: ClientRect, editor: ClientRect, popover: ClientRect) {
+    const estimatedLeft = target.left;
+    const estimatedRight = estimatedLeft + popover.width;
+    const isOverflowingRight = estimatedRight &gt; editor.right;
+    if (isOverflowingRight) {
+      const adjustedLeft = editor.right - popover.width - 8;
+      return adjustedLeft;
+    }
+    return estimatedLeft;
+  }
+
+  calculateVerticalOrientation(
+    target: ClientRect,
+    editor: ClientRect,
+    popover: ClientRect
+  ) {
+    const estimatedBottom = target.bottom + popover.height;
+
+    return estimatedBottom &gt; editor.bottom ? &quot;up&quot; : &quot;down&quot;;
+  }
+
+  getPopoverCoords() {
+    if (this.$popover &amp;&amp; this.props.editorRef) {
+      const popover = this.$popover;
+      const editor = this.props.editorRef;
+      const popoverRect = popover.getBoundingClientRect();
+      const editorRect = editor.getBoundingClientRect();
+      const targetRect = this.props.targetPosition;
+      const popoverLeft = this.calculateLeft(
+        targetRect,
+        editorRect,
+        popoverRect
+      );
+      const orientation = this.calculateVerticalOrientation(
+        targetRect,
+        editorRect,
+        popoverRect
+      );
+      const top =
+        orientation == &quot;down&quot;
+          ? targetRect.bottom
+          : targetRect.top - popoverRect.height;
+
+      const targetMid =
+        targetRect.left - popoverLeft + targetRect.width / 2 - 8;
+
+      return { left: popoverLeft, top, orientation, targetMid };
+    }
+    return { left: 0, top: 0, orientation: &quot;down&quot;, targetMid: 0 };
+  }
+
+  getTooltipCoords() {
+    if (this.$tooltip &amp;&amp; this.props.editorRef) {
+      const tooltip = this.$tooltip;
+      const editor = this.props.editorRef;
+      const tooltipRect = tooltip.getBoundingClientRect();
+      const editorRect = editor.getBoundingClientRect();
+      const targetRect = this.props.targetPosition;
+      const left = this.calculateLeft(targetRect, editorRect, tooltipRect);
+      const top = targetRect.top - tooltipRect.height;
+
+      return { left, top, orientation: &quot;up&quot;, targetMid: 0 };
+    }
+    return { left: 0, top: 0, orientation: &quot;up&quot;, targetMid: 0 };
+  }
+
+  getChildren() {
+    const { children } = this.props;
+    const { orientation } = this.state;
+    const gap = &lt;div className=&quot;gap&quot; key=&quot;gap&quot; /&gt;;
+    return orientation === &quot;up&quot; ? [children, gap] : [gap, children];
+  }
+
+  getPopoverArrow(orientation: Orientation, left: number) {
+    const arrowOrientation = orientation === &quot;up&quot; ? &quot;down&quot; : &quot;up&quot;;
+
+    const arrowProp = arrowOrientation === &quot;up&quot; ? &quot;top&quot; : &quot;bottom&quot;;
+    const arrowPropValue = arrowOrientation === &quot;up&quot; ? -7 : 5;
+
+    const arrowProps = {
+      orientation: arrowOrientation,
+      left,
+      [arrowProp]: arrowPropValue
+    };
+
+    return &lt;BracketArrow {...arrowProps} /&gt;;
+  }
+
+  onMouseLeave = (e: SyntheticMouseEvent&lt;HTMLDivElement&gt;) =&gt; {
+    const { onMouseLeave } = this.props;
+    if (/^(bracket-arrow|gap)$/.test(e.currentTarget.className)) {
+      return;
+    }
+
+    onMouseLeave();
+  };
+
+  renderPopover() {
+    const { top, left, orientation, targetMid } = this.state;
+    const arrow = this.getPopoverArrow(orientation, targetMid);
+
+    return (
+      &lt;div
+        className={classNames(&quot;popover&quot;, { up: orientation === &quot;up&quot; })}
+        onMouseLeave={this.onMouseLeave}
+        style={{ top, left }}
+        ref={c =&gt; (this.$popover = c)}
+      &gt;
+        {arrow}
+        {this.getChildren()}
+      &lt;/div&gt;
+    );
+  }
+
+  renderTooltip() {
+    const { onMouseLeave } = this.props;
+    const { top, left } = this.state;
+
+    return (
+      &lt;div
+        className=&quot;tooltip&quot;
+        onMouseLeave={onMouseLeave}
+        style={{ top, left }}
+        ref={c =&gt; (this.$tooltip = c)}
+      &gt;
+        {this.getChildren()}
+      &lt;/div&gt;
+    );
+  }
+
+  render() {
+    const { type } = this.props;
+
+    if (type === &quot;tooltip&quot;) {
+      return this.renderTooltip();
+    }
+
+    return this.renderPopover();
+  }
+}
+
+export default Popover;
+</textarea></div></div><div class="row centered"><footer>Flow Coverage Report generated by<a href="https://flowtype.org"> flow </a>and<a href="https://github.com/rpl/flow-coverage-report"> flow-coverage-report </a>at Tue Apr 03 2018 15:58:53 GMT-0400 (EDT)</footer></div></div><pre id="file-coverage-data" style="display:none;">{&quot;expressions&quot;:{&quot;covered_count&quot;:307,&quot;uncovered_count&quot;:5,&quot;uncovered_locs&quot;:[{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/shared/Popover.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:95,&quot;column&quot;:13,&quot;offset&quot;:2565},&quot;end&quot;:{&quot;line&quot;:95,&quot;column&quot;:29,&quot;offset&quot;:2582}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/shared/Popover.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:96,&quot;column&quot;:13,&quot;offset&quot;:2595},&quot;end&quot;:{&quot;line&quot;:96,&quot;column&quot;:26,&quot;offset&quot;:2609}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/shared/Popover.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:99,&quot;column&quot;:9,&quot;offset&quot;:2665},&quot;end&quot;:{&quot;line&quot;:99,&quot;column&quot;:23,&quot;offset&quot;:2680}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/shared/Popover.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:99,&quot;column&quot;:41,&quot;offset&quot;:2697},&quot;end&quot;:{&quot;line&quot;:99,&quot;column&quot;:56,&quot;offset&quot;:2713}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/shared/Popover.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:114,&quot;column&quot;:19,&quot;offset&quot;:3281},&quot;end&quot;:{&quot;line&quot;:114,&quot;column&quot;:32,&quot;offset&quot;:3295}}]},&quot;percent&quot;:98}</pre></body></html>

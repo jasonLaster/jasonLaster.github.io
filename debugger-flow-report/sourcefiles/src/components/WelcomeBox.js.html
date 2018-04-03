@@ -1,64 +1,85 @@
 <!DOCTYPE html>
-<html><head><meta charset="utf-8"/><link rel="stylesheet" href="../../../assets/semantic.min.css"/><link rel="stylesheet" href="../../../assets/codemirror.css"/><link rel="stylesheet" href="../../../assets/flow-highlight-source.css"/><link rel="stylesheet" href="../../../assets/flow-coverage-report.css"/><link rel="stylesheet" href="../../../assets/codemirror-simplescrollbars-addon.css"/><script src="../../../assets/jquery-3.1.0.min.js"></script><script src="../../../assets/semantic.min.js"></script><script src="../../../assets/semantic-tablesort.js"></script><script src="../../../assets/codemirror.js"></script><script src="../../../assets/codemirror-javascript-mode.js"></script><script src="../../../assets/codemirror-annotatescrollbar-addon.js"></script><script src="../../../assets/codemirror-simplescrollbars-addon.js"></script><script src="../../../assets/flow-highlight-source.js"></script><script src="../../../assets/index.js"></script><style>
-.ui .CodeMirror {
-  border: 1px solid rgba(34,36,38,.15);
-  height: auto;
-}
-</style></head><body><div class="ui grid container"><div class="row"><div class="twelve wide column"><h2 class="ui header"><a href="../../../index.html" id="link-to-summary">Flow Coverage Report</a></h2></div></div><div class="row"><table class="ui small celled unstackable table"><thead><tr><th class="sorted ascending">Filename</th><th>Percent</th><th>Total</th><th>Covered</th><th>Uncovered</th></tr></thead><tbody><tr class="negative"><td class="">src/components/WelcomeBox.js</td><td><span>69 %</span></td><td> 78 </td><td> 54 </td><td> 24 </td></tr></tbody></table></div><div class="row ui one column centered grid"><div class="column" style="text-align:left;"><div class="row"><div class="ui form"><div class="fields"><div class="sixteen wide inline field"><select class="ui search dropdown uncovered-locations"><option value="">Uncovered Locations</option><option value="3">Start: 3,14 - End: 3,16</option><option value="4">Start: 4,9 - End: 4,15</option><option value="4">Start: 4,21 - End: 4,42</option><option value="5">Start: 5,9 - End: 5,26</option><option value="5">Start: 5,32 - End: 5,47</option><option value="11">Start: 11,3 - End: 11,39</option><option value="39">Start: 39,11 - End: 39,21</option><option value="39">Start: 39,25 - End: 39,28</option><option value="39">Start: 39,25 - End: 43,5</option><option value="41">Start: 41,22 - End: 41,25</option><option value="41">Start: 41,22 - End: 41,54</option><option value="44">Start: 44,12 - End: 44,14</option><option value="44">Start: 44,12 - End: 48,5</option><option value="46">Start: 46,7 - End: 46,17</option><option value="52">Start: 52,1 - End: 57,13</option><option value="52">Start: 52,18 - End: 52,24</option><option value="52">Start: 52,18 - End: 57,1</option><option value="52">Start: 52,18 - End: 57,13</option><option value="53">Start: 53,3 - End: 53,7</option><option value="54">Start: 54,40 - End: 54,44</option><option value="56">Start: 56,3 - End: 56,10</option><option value="56">Start: 56,15 - End: 56,32</option><option value="56">Start: 56,15 - End: 56,51</option><option value="56">Start: 56,43 - End: 56,50</option></select></div><div class="four wide inline field"><select class="ui search dropdown syntax-highlighting"><option value="es">ES6/ES7</option><option value="js">JavaScript</option><option value="no">None</option></select></div></div></div></div><textarea id="file-content" readonly="">// @flow
-const React = require(&quot;react&quot;);
-const { DOM: dom, PropTypes, createFactory } = React;
-const { connect } = require(&quot;react-redux&quot;);
-const { bindActionCreators } = require(&quot;redux&quot;);
-const actions = require(&quot;../actions&quot;);
+<html><head><meta charset="utf-8"/><link rel="stylesheet" href="../../../assets/semantic.min.css"/><link rel="stylesheet" href="../../../assets/codemirror.css"/><link rel="stylesheet" href="../../../assets/flow-highlight-source.css"/><link rel="stylesheet" href="../../../assets/flow-coverage-report.css"/><link rel="stylesheet" href="../../../assets/codemirror-simplescrollbars-addon.css"/><script src="../../../assets/jquery-3.1.0.min.js"></script><script src="../../../assets/semantic.min.js"></script><script src="../../../assets/semantic-tablesort.js"></script><script src="../../../assets/codemirror.js"></script><script src="../../../assets/codemirror-javascript-mode.js"></script><script src="../../../assets/codemirror-annotatescrollbar-addon.js"></script><script src="../../../assets/codemirror-simplescrollbars-addon.js"></script><script src="../../../assets/flow-highlight-source.js"></script></head><body><div class="ui grid container"><div class="row"><h1 class="twelve wide column">Flow Coverage Report - src/components/WelcomeBox.js</h1><div class="four wide column" style="height:32px;"><a href="../../../index.html" id="link-to-summary">Go back to all files summary.</a></div></div><div class="row"><table class="ui small celled unstackable table"><thead><tr><th class="sorted ascending">Filename</th><th>Percent</th><th>Total</th><th>Covered</th><th>Uncovered</th></tr></thead><tbody><tr class="positive"><td class="">src/components/WelcomeBox.js</td><td> 86 %</td><td> 73 </td><td> 63 </td><td> 10 </td></tr></tbody></table></div><div class="row green" style="padding:0;height:12px;"></div><div class="row ui one column centered grid"><div class="column" style="text-align:left;"><div class="row"><div class="ui form"><div class="fields"><div class="sixteen wide inline field"><select class="ui search dropdown uncovered-locations"><option value="">Uncovered Locations</option><option value="78">Start: 78,16 - End: 78,22</option><option value="78">Start: 78,16 - End: 83,1</option><option value="78">Start: 78,16 - End: 83,13</option><option value="79">Start: 79,3 - End: 79,7</option><option value="80">Start: 80,40 - End: 80,44</option><option value="82">Start: 82,3 - End: 82,10</option><option value="82">Start: 82,15 - End: 82,32</option><option value="82">Start: 82,15 - End: 82,51</option><option value="82">Start: 82,34 - End: 82,40</option><option value="82">Start: 82,43 - End: 82,50</option></select></div><div class="four wide inline field"><select class="ui search dropdown syntax-highlighting"><option value="es">ES6/ES7</option><option value="js">JavaScript</option><option value="no">None</option></select></div></div></div></div><textarea id="file-content" readonly="">/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at &lt;http://mozilla.org/MPL/2.0/&gt;. */
 
-const { getPaneCollapse } = require(&quot;../selectors&quot;);
-const { formatKeyShortcut } = require(&quot;../utils/text&quot;);
-const PaneToggleButton = createFactory(
-  require(&quot;./shared/Button/PaneToggle&quot;)
-);
+// @flow
+import React, { Component } from &quot;react&quot;;
 
-require(&quot;./WelcomeBox.css&quot;);
+import { connect } from &quot;react-redux&quot;;
+import { bindActionCreators } from &quot;redux&quot;;
 
-const WelcomeBox = React.createClass({
-  propTypes: {
-    horizontal: PropTypes.bool,
-    togglePaneCollapse: PropTypes.func,
-    endPanelCollapsed: PropTypes.bool,
-  },
+import actions from &quot;../actions&quot;;
+import { getPaneCollapse } from &quot;../selectors&quot;;
+import { formatKeyShortcut } from &quot;../utils/text&quot;;
 
-  displayName: &quot;WelcomeBox&quot;,
+import PaneToggleButton from &quot;./shared/Button/PaneToggle&quot;;
+import type { ActiveSearchType } from &quot;../reducers/ui&quot;;
 
+import &quot;./WelcomeBox.css&quot;;
+
+type Props = {
+  horizontal: boolean,
+  togglePaneCollapse: Function,
+  endPanelCollapsed: boolean,
+  setActiveSearch: (?ActiveSearchType) =&gt; any,
+  openQuickOpen: (query?: string) =&gt; void
+};
+
+class WelcomeBox extends Component&lt;Props&gt; {
   renderToggleButton() {
-    if (this.props.horizontal) {
+    const { horizontal, endPanelCollapsed, togglePaneCollapse } = this.props;
+    if (horizontal) {
       return;
     }
 
-    return PaneToggleButton({
-      position: &quot;end&quot;,
-      collapsed: !this.props.endPanelCollapsed,
-      horizontal: this.props.horizontal,
-      handleClick: this.props.togglePaneCollapse
-    });
-  },
-
-  render() {
-    const searchLabel = L10N.getFormatStr(&quot;welcome.search&quot;,
-      formatKeyShortcut(
-        `CmdOrCtrl+${L10N.getStr(&quot;sources.search.key&quot;)}`
-      )
-    );
-    return dom.div(
-      { className: &quot;welcomebox&quot; },
-      searchLabel,
-      this.renderToggleButton()
+    return (
+      &lt;PaneToggleButton
+        position=&quot;end&quot;
+        collapsed={!endPanelCollapsed}
+        horizontal={horizontal}
+        handleClick={togglePaneCollapse}
+      /&gt;
     );
   }
-});
 
-module.exports = connect(
+  render() {
+    const searchSourcesShortcut = formatKeyShortcut(
+      L10N.getStr(&quot;sources.search.key2&quot;)
+    );
+
+    const searchProjectShortcut = formatKeyShortcut(
+      L10N.getStr(&quot;projectTextSearch.key&quot;)
+    );
+
+    const searchSourcesLabel = L10N.getStr(&quot;welcome.search&quot;).substring(2);
+    const searchProjectLabel = L10N.getStr(&quot;welcome.findInFiles&quot;).substring(2);
+    const { setActiveSearch, openQuickOpen } = this.props;
+
+    return (
+      &lt;div className=&quot;welcomebox&quot;&gt;
+        &lt;div className=&quot;alignlabel&quot;&gt;
+          &lt;div className=&quot;shortcutFunction&quot;&gt;
+            &lt;p onClick={() =&gt; openQuickOpen()}&gt;
+              &lt;span className=&quot;shortcutKey&quot;&gt;{searchSourcesShortcut}&lt;/span&gt;
+              &lt;span className=&quot;shortcutLabel&quot;&gt;{searchSourcesLabel}&lt;/span&gt;
+            &lt;/p&gt;
+            &lt;p onClick={setActiveSearch.bind(null, &quot;project&quot;)}&gt;
+              &lt;span className=&quot;shortcutKey&quot;&gt;{searchProjectShortcut}&lt;/span&gt;
+              &lt;span className=&quot;shortcutLabel&quot;&gt;{searchProjectLabel}&lt;/span&gt;
+            &lt;/p&gt;
+          &lt;/div&gt;
+          {this.renderToggleButton()}
+        &lt;/div&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+
+export default connect(
   state =&gt; ({
-    endPanelCollapsed: getPaneCollapse(state, &quot;end&quot;),
+    endPanelCollapsed: getPaneCollapse(state, &quot;end&quot;)
   }),
   dispatch =&gt; bindActionCreators(actions, dispatch)
 )(WelcomeBox);
-</textarea></div></div><div class="row centered"><footer>Flow Coverage Report generated by<a href="https://flowtype.org"> flow </a>and<a href="https://github.com/rpl/flow-coverage-report"> flow-coverage-report </a>at Tue Feb 21 2017 17:31:46 GMT-0500 (EST)</footer></div></div><pre id="file-coverage-data" style="display:none;">{&quot;expressions&quot;:{&quot;covered_count&quot;:54,&quot;uncovered_count&quot;:24,&quot;uncovered_locs&quot;:[{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/WelcomeBox.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:3,&quot;column&quot;:14,&quot;offset&quot;:54},&quot;end&quot;:{&quot;line&quot;:3,&quot;column&quot;:16,&quot;offset&quot;:57}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/WelcomeBox.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:4,&quot;column&quot;:9,&quot;offset&quot;:103},&quot;end&quot;:{&quot;line&quot;:4,&quot;column&quot;:15,&quot;offset&quot;:110}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/WelcomeBox.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:4,&quot;column&quot;:21,&quot;offset&quot;:115},&quot;end&quot;:{&quot;line&quot;:4,&quot;column&quot;:42,&quot;offset&quot;:137}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/WelcomeBox.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:5,&quot;column&quot;:9,&quot;offset&quot;:147},&quot;end&quot;:{&quot;line&quot;:5,&quot;column&quot;:26,&quot;offset&quot;:165}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/WelcomeBox.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:5,&quot;column&quot;:32,&quot;offset&quot;:170},&quot;end&quot;:{&quot;line&quot;:5,&quot;column&quot;:47,&quot;offset&quot;:186}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/WelcomeBox.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:11,&quot;column&quot;:3,&quot;offset&quot;:379},&quot;end&quot;:{&quot;line&quot;:11,&quot;column&quot;:39,&quot;offset&quot;:416}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/WelcomeBox.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:39,&quot;column&quot;:11,&quot;offset&quot;:959},&quot;end&quot;:{&quot;line&quot;:39,&quot;column&quot;:21,&quot;offset&quot;:970}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/WelcomeBox.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:39,&quot;column&quot;:25,&quot;offset&quot;:973},&quot;end&quot;:{&quot;line&quot;:39,&quot;column&quot;:28,&quot;offset&quot;:977}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/WelcomeBox.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:39,&quot;column&quot;:25,&quot;offset&quot;:973},&quot;end&quot;:{&quot;line&quot;:43,&quot;column&quot;:5,&quot;offset&quot;:1104}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/WelcomeBox.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:41,&quot;column&quot;:22,&quot;offset&quot;:1055},&quot;end&quot;:{&quot;line&quot;:41,&quot;column&quot;:25,&quot;offset&quot;:1059}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/WelcomeBox.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:41,&quot;column&quot;:22,&quot;offset&quot;:1055},&quot;end&quot;:{&quot;line&quot;:41,&quot;column&quot;:54,&quot;offset&quot;:1088}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/WelcomeBox.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:44,&quot;column&quot;:12,&quot;offset&quot;:1117},&quot;end&quot;:{&quot;line&quot;:44,&quot;column&quot;:14,&quot;offset&quot;:1120}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/WelcomeBox.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:44,&quot;column&quot;:12,&quot;offset&quot;:1117},&quot;end&quot;:{&quot;line&quot;:48,&quot;column&quot;:5,&quot;offset&quot;:1217}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/WelcomeBox.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:46,&quot;column&quot;:7,&quot;offset&quot;:1167},&quot;end&quot;:{&quot;line&quot;:46,&quot;column&quot;:17,&quot;offset&quot;:1178}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/WelcomeBox.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:52,&quot;column&quot;:1,&quot;offset&quot;:1228},&quot;end&quot;:{&quot;line&quot;:57,&quot;column&quot;:13,&quot;offset&quot;:1393}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/WelcomeBox.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:52,&quot;column&quot;:18,&quot;offset&quot;:1245},&quot;end&quot;:{&quot;line&quot;:52,&quot;column&quot;:24,&quot;offset&quot;:1252}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/WelcomeBox.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:52,&quot;column&quot;:18,&quot;offset&quot;:1245},&quot;end&quot;:{&quot;line&quot;:57,&quot;column&quot;:1,&quot;offset&quot;:1381}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/WelcomeBox.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:52,&quot;column&quot;:18,&quot;offset&quot;:1245},&quot;end&quot;:{&quot;line&quot;:57,&quot;column&quot;:13,&quot;offset&quot;:1393}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/WelcomeBox.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:53,&quot;column&quot;:3,&quot;offset&quot;:1256},&quot;end&quot;:{&quot;line&quot;:53,&quot;column&quot;:7,&quot;offset&quot;:1261}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/WelcomeBox.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:54,&quot;column&quot;:40,&quot;offset&quot;:1307},&quot;end&quot;:{&quot;line&quot;:54,&quot;column&quot;:44,&quot;offset&quot;:1312}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/WelcomeBox.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:56,&quot;column&quot;:3,&quot;offset&quot;:1330},&quot;end&quot;:{&quot;line&quot;:56,&quot;column&quot;:10,&quot;offset&quot;:1338}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/WelcomeBox.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:56,&quot;column&quot;:15,&quot;offset&quot;:1342},&quot;end&quot;:{&quot;line&quot;:56,&quot;column&quot;:32,&quot;offset&quot;:1360}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/WelcomeBox.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:56,&quot;column&quot;:15,&quot;offset&quot;:1342},&quot;end&quot;:{&quot;line&quot;:56,&quot;column&quot;:51,&quot;offset&quot;:1379}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/WelcomeBox.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:56,&quot;column&quot;:43,&quot;offset&quot;:1370},&quot;end&quot;:{&quot;line&quot;:56,&quot;column&quot;:50,&quot;offset&quot;:1378}}]},&quot;filename&quot;:&quot;src/components/WelcomeBox.js&quot;,&quot;percent&quot;:69}</pre></body></html>
+</textarea></div></div><div class="row centered"><footer>Flow Coverage Report generated by<a href="https://flowtype.org"> flow </a>and<a href="https://github.com/rpl/flow-coverage-report"> flow-coverage-report </a>at Tue Apr 03 2018 15:58:53 GMT-0400 (EDT)</footer></div></div><pre id="file-coverage-data" style="display:none;">{&quot;expressions&quot;:{&quot;covered_count&quot;:63,&quot;uncovered_count&quot;:10,&quot;uncovered_locs&quot;:[{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/WelcomeBox.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:78,&quot;column&quot;:16,&quot;offset&quot;:2318},&quot;end&quot;:{&quot;line&quot;:78,&quot;column&quot;:22,&quot;offset&quot;:2325}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/WelcomeBox.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:78,&quot;column&quot;:16,&quot;offset&quot;:2318},&quot;end&quot;:{&quot;line&quot;:83,&quot;column&quot;:1,&quot;offset&quot;:2453}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/WelcomeBox.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:78,&quot;column&quot;:16,&quot;offset&quot;:2318},&quot;end&quot;:{&quot;line&quot;:83,&quot;column&quot;:13,&quot;offset&quot;:2465}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/WelcomeBox.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:79,&quot;column&quot;:3,&quot;offset&quot;:2329},&quot;end&quot;:{&quot;line&quot;:79,&quot;column&quot;:7,&quot;offset&quot;:2334}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/WelcomeBox.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:80,&quot;column&quot;:40,&quot;offset&quot;:2380},&quot;end&quot;:{&quot;line&quot;:80,&quot;column&quot;:44,&quot;offset&quot;:2385}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/WelcomeBox.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:82,&quot;column&quot;:3,&quot;offset&quot;:2402},&quot;end&quot;:{&quot;line&quot;:82,&quot;column&quot;:10,&quot;offset&quot;:2410}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/WelcomeBox.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:82,&quot;column&quot;:15,&quot;offset&quot;:2414},&quot;end&quot;:{&quot;line&quot;:82,&quot;column&quot;:32,&quot;offset&quot;:2432}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/WelcomeBox.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:82,&quot;column&quot;:15,&quot;offset&quot;:2414},&quot;end&quot;:{&quot;line&quot;:82,&quot;column&quot;:51,&quot;offset&quot;:2451}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/WelcomeBox.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:82,&quot;column&quot;:34,&quot;offset&quot;:2433},&quot;end&quot;:{&quot;line&quot;:82,&quot;column&quot;:40,&quot;offset&quot;:2440}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/WelcomeBox.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:82,&quot;column&quot;:43,&quot;offset&quot;:2442},&quot;end&quot;:{&quot;line&quot;:82,&quot;column&quot;:50,&quot;offset&quot;:2450}}]},&quot;percent&quot;:86}</pre></body></html>

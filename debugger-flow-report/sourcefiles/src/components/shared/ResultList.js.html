@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"/><link rel="stylesheet" href="../../../../assets/semantic.min.css"/><link rel="stylesheet" href="../../../../assets/codemirror.css"/><link rel="stylesheet" href="../../../../assets/flow-highlight-source.css"/><link rel="stylesheet" href="../../../../assets/flow-coverage-report.css"/><link rel="stylesheet" href="../../../../assets/codemirror-simplescrollbars-addon.css"/><script src="../../../../assets/jquery-3.1.0.min.js"></script><script src="../../../../assets/semantic.min.js"></script><script src="../../../../assets/semantic-tablesort.js"></script><script src="../../../../assets/codemirror.js"></script><script src="../../../../assets/codemirror-javascript-mode.js"></script><script src="../../../../assets/codemirror-annotatescrollbar-addon.js"></script><script src="../../../../assets/codemirror-simplescrollbars-addon.js"></script><script src="../../../../assets/flow-highlight-source.js"></script></head><body><div class="ui grid container"><div class="row"><h1 class="twelve wide column">Flow Coverage Report - src/components/shared/ResultList.js</h1><div class="four wide column" style="height:32px;"><a href="../../../../index.html" id="link-to-summary">Go back to all files summary.</a></div></div><div class="row"><table class="ui small celled unstackable table"><thead><tr><th class="sorted ascending">Filename</th><th>Percent</th><th>Total</th><th>Covered</th><th>Uncovered</th></tr></thead><tbody><tr class="negative"><td class="">src/components/shared/ResultList.js</td><td> 68 %</td><td> 86 </td><td> 59 </td><td> 27 </td></tr></tbody></table></div><div class="row red" style="padding:0;height:12px;"></div><div class="row ui one column centered grid"><div class="column" style="text-align:left;"><div class="row"><div class="ui form"><div class="fields"><div class="sixteen wide inline field"><select class="ui search dropdown uncovered-locations"><option value="">Uncovered Locations</option><option value="35">Start: 35,21 - End: 35,29</option><option value="36">Start: 36,9 - End: 36,12</option><option value="36">Start: 36,9 - End: 36,18</option><option value="36">Start: 36,31 - End: 36,34</option><option value="36">Start: 36,31 - End: 36,40</option><option value="37">Start: 37,7 - End: 37,10</option><option value="42">Start: 42,16 - End: 42,20</option><option value="42">Start: 42,36 - End: 42,40</option><option value="42">Start: 42,43 - End: 42,46</option><option value="43">Start: 43,15 - End: 43,18</option><option value="43">Start: 43,15 - End: 43,21</option><option value="43">Start: 43,25 - End: 43,28</option><option value="43">Start: 43,25 - End: 43,34</option><option value="45">Start: 45,14 - End: 45,17</option><option value="45">Start: 45,14 - End: 45,23</option><option value="46">Start: 46,29 - End: 46,32</option><option value="46">Start: 46,29 - End: 46,35</option><option value="47">Start: 47,30 - End: 47,33</option><option value="47">Start: 47,30 - End: 47,36</option><option value="56">Start: 56,21 - End: 56,24</option><option value="56">Start: 56,21 - End: 56,27</option><option value="57">Start: 57,12 - End: 57,15</option><option value="57">Start: 57,12 - End: 57,21</option><option value="59">Start: 59,21 - End: 59,24</option><option value="59">Start: 59,21 - End: 59,27</option><option value="60">Start: 60,12 - End: 60,15</option><option value="60">Start: 60,12 - End: 60,24</option></select></div><div class="four wide inline field"><select class="ui search dropdown syntax-highlighting"><option value="es">ES6/ES7</option><option value="js">JavaScript</option><option value="no">None</option></select></div></div></div></div><textarea id="file-content" readonly="">/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at &lt;http://mozilla.org/MPL/2.0/&gt;. */
+
+// @flow
+import React, { Component } from &quot;react&quot;;
+import classnames from &quot;classnames&quot;;
+
+import &quot;./ResultList.css&quot;;
+
+type Props = {
+  items: Array&lt;any&gt;,
+  selected: number,
+  selectItem: (
+    event: SyntheticKeyboardEvent&lt;HTMLElement&gt;,
+    item: any,
+    index: number
+  ) =&gt; void,
+  size: string,
+  role: string
+};
+
+export default class ResultList extends Component&lt;Props&gt; {
+  displayName: &quot;ResultList&quot;;
+
+  static defaultProps = {
+    size: &quot;small&quot;,
+    role: &quot;listbox&quot;
+  };
+
+  constructor(props: Props) {
+    super(props);
+  }
+
+  renderListItem = (item: any, index: number) =&gt; {
+    if (item.value === &quot;/&quot; &amp;&amp; item.title === &quot;&quot;) {
+      item.title = &quot;(index)&quot;;
+    }
+
+    const { selectItem, selected } = this.props;
+    const props = {
+      onClick: event =&gt; selectItem(event, item, index),
+      key: `${item.id}${item.value}${index}`,
+      ref: String(index),
+      title: item.value,
+      &quot;aria-labelledby&quot;: `${item.id}-title`,
+      &quot;aria-describedby&quot;: `${item.id}-subtitle`,
+      role: &quot;option&quot;,
+      className: classnames(&quot;result-item&quot;, {
+        selected: index === selected
+      })
+    };
+
+    return (
+      &lt;li {...props}&gt;
+        &lt;div id={`${item.id}-title`} className=&quot;title&quot;&gt;
+          {item.title}
+        &lt;/div&gt;
+        &lt;div id={`${item.id}-subtitle`} className=&quot;subtitle&quot;&gt;
+          {item.subtitle}
+        &lt;/div&gt;
+      &lt;/li&gt;
+    );
+  };
+
+  render() {
+    const { size, items, role } = this.props;
+
+    return (
+      &lt;ul
+        className={classnames(&quot;result-list&quot;, size)}
+        id=&quot;result-list&quot;
+        role={role}
+        aria-live=&quot;polite&quot;
+      &gt;
+        {items.map(this.renderListItem)}
+      &lt;/ul&gt;
+    );
+  }
+}
+</textarea></div></div><div class="row centered"><footer>Flow Coverage Report generated by<a href="https://flowtype.org"> flow </a>and<a href="https://github.com/rpl/flow-coverage-report"> flow-coverage-report </a>at Tue Apr 03 2018 15:58:53 GMT-0400 (EDT)</footer></div></div><pre id="file-coverage-data" style="display:none;">{&quot;expressions&quot;:{&quot;covered_count&quot;:59,&quot;uncovered_count&quot;:27,&quot;uncovered_locs&quot;:[{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/shared/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:35,&quot;column&quot;:21,&quot;offset&quot;:759},&quot;end&quot;:{&quot;line&quot;:35,&quot;column&quot;:29,&quot;offset&quot;:768}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/shared/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:36,&quot;column&quot;:9,&quot;offset&quot;:798},&quot;end&quot;:{&quot;line&quot;:36,&quot;column&quot;:12,&quot;offset&quot;:802}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/shared/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:36,&quot;column&quot;:9,&quot;offset&quot;:798},&quot;end&quot;:{&quot;line&quot;:36,&quot;column&quot;:18,&quot;offset&quot;:808}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/shared/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:36,&quot;column&quot;:31,&quot;offset&quot;:820},&quot;end&quot;:{&quot;line&quot;:36,&quot;column&quot;:34,&quot;offset&quot;:824}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/shared/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:36,&quot;column&quot;:31,&quot;offset&quot;:820},&quot;end&quot;:{&quot;line&quot;:36,&quot;column&quot;:40,&quot;offset&quot;:830}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/shared/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:37,&quot;column&quot;:7,&quot;offset&quot;:847},&quot;end&quot;:{&quot;line&quot;:37,&quot;column&quot;:10,&quot;offset&quot;:851}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/shared/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:42,&quot;column&quot;:16,&quot;offset&quot;:962},&quot;end&quot;:{&quot;line&quot;:42,&quot;column&quot;:20,&quot;offset&quot;:967}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/shared/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:42,&quot;column&quot;:36,&quot;offset&quot;:982},&quot;end&quot;:{&quot;line&quot;:42,&quot;column&quot;:40,&quot;offset&quot;:987}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/shared/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:42,&quot;column&quot;:43,&quot;offset&quot;:989},&quot;end&quot;:{&quot;line&quot;:42,&quot;column&quot;:46,&quot;offset&quot;:993}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/shared/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:43,&quot;column&quot;:15,&quot;offset&quot;:1017},&quot;end&quot;:{&quot;line&quot;:43,&quot;column&quot;:18,&quot;offset&quot;:1021}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/shared/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:43,&quot;column&quot;:15,&quot;offset&quot;:1017},&quot;end&quot;:{&quot;line&quot;:43,&quot;column&quot;:21,&quot;offset&quot;:1024}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/shared/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:43,&quot;column&quot;:25,&quot;offset&quot;:1027},&quot;end&quot;:{&quot;line&quot;:43,&quot;column&quot;:28,&quot;offset&quot;:1031}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/shared/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:43,&quot;column&quot;:25,&quot;offset&quot;:1027},&quot;end&quot;:{&quot;line&quot;:43,&quot;column&quot;:34,&quot;offset&quot;:1037}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/shared/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:45,&quot;column&quot;:14,&quot;offset&quot;:1088},&quot;end&quot;:{&quot;line&quot;:45,&quot;column&quot;:17,&quot;offset&quot;:1092}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/shared/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:45,&quot;column&quot;:14,&quot;offset&quot;:1088},&quot;end&quot;:{&quot;line&quot;:45,&quot;column&quot;:23,&quot;offset&quot;:1098}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/shared/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:46,&quot;column&quot;:29,&quot;offset&quot;:1128},&quot;end&quot;:{&quot;line&quot;:46,&quot;column&quot;:32,&quot;offset&quot;:1132}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/shared/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:46,&quot;column&quot;:29,&quot;offset&quot;:1128},&quot;end&quot;:{&quot;line&quot;:46,&quot;column&quot;:35,&quot;offset&quot;:1135}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/shared/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:47,&quot;column&quot;:30,&quot;offset&quot;:1174},&quot;end&quot;:{&quot;line&quot;:47,&quot;column&quot;:33,&quot;offset&quot;:1178}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/shared/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:47,&quot;column&quot;:30,&quot;offset&quot;:1174},&quot;end&quot;:{&quot;line&quot;:47,&quot;column&quot;:36,&quot;offset&quot;:1181}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/shared/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:56,&quot;column&quot;:21,&quot;offset&quot;:1370},&quot;end&quot;:{&quot;line&quot;:56,&quot;column&quot;:24,&quot;offset&quot;:1374}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/shared/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:56,&quot;column&quot;:21,&quot;offset&quot;:1370},&quot;end&quot;:{&quot;line&quot;:56,&quot;column&quot;:27,&quot;offset&quot;:1377}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/shared/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:57,&quot;column&quot;:12,&quot;offset&quot;:1417},&quot;end&quot;:{&quot;line&quot;:57,&quot;column&quot;:15,&quot;offset&quot;:1421}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/shared/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:57,&quot;column&quot;:12,&quot;offset&quot;:1417},&quot;end&quot;:{&quot;line&quot;:57,&quot;column&quot;:21,&quot;offset&quot;:1427}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/shared/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:59,&quot;column&quot;:21,&quot;offset&quot;:1464},&quot;end&quot;:{&quot;line&quot;:59,&quot;column&quot;:24,&quot;offset&quot;:1468}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/shared/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:59,&quot;column&quot;:21,&quot;offset&quot;:1464},&quot;end&quot;:{&quot;line&quot;:59,&quot;column&quot;:27,&quot;offset&quot;:1471}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/shared/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:60,&quot;column&quot;:12,&quot;offset&quot;:1517},&quot;end&quot;:{&quot;line&quot;:60,&quot;column&quot;:15,&quot;offset&quot;:1521}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/shared/ResultList.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:60,&quot;column&quot;:12,&quot;offset&quot;:1517},&quot;end&quot;:{&quot;line&quot;:60,&quot;column&quot;:24,&quot;offset&quot;:1530}}]},&quot;percent&quot;:68}</pre></body></html>

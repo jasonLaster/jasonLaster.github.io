@@ -1,19 +1,41 @@
 <!DOCTYPE html>
-<html><head><meta charset="utf-8"/><link rel="stylesheet" href="../../../assets/semantic.min.css"/><link rel="stylesheet" href="../../../assets/codemirror.css"/><link rel="stylesheet" href="../../../assets/flow-highlight-source.css"/><link rel="stylesheet" href="../../../assets/flow-coverage-report.css"/><link rel="stylesheet" href="../../../assets/codemirror-simplescrollbars-addon.css"/><script src="../../../assets/jquery-3.1.0.min.js"></script><script src="../../../assets/semantic.min.js"></script><script src="../../../assets/semantic-tablesort.js"></script><script src="../../../assets/codemirror.js"></script><script src="../../../assets/codemirror-javascript-mode.js"></script><script src="../../../assets/codemirror-annotatescrollbar-addon.js"></script><script src="../../../assets/codemirror-simplescrollbars-addon.js"></script><script src="../../../assets/flow-highlight-source.js"></script><script src="../../../assets/index.js"></script><style>
-.ui .CodeMirror {
-  border: 1px solid rgba(34,36,38,.15);
-  height: auto;
-}
-</style></head><body><div class="ui grid container"><div class="row"><div class="twelve wide column"><h2 class="ui header"><a href="../../../index.html" id="link-to-summary">Flow Coverage Report</a></h2></div></div><div class="row"><table class="ui small celled unstackable table"><thead><tr><th class="sorted ascending">Filename</th><th>Percent</th><th>Total</th><th>Covered</th><th>Uncovered</th></tr></thead><tbody><tr class="positive"><td class="">src/actions/types.js</td><td><span>100 %</span></td><td> 10 </td><td> 10 </td><td> 0 </td></tr></tbody></table></div><div class="row ui one column centered grid"><div class="column" style="text-align:left;"><div class="row"><div class="ui form"><div class="fields"><div class="sixteen wide inline field"><select class="ui search dropdown uncovered-locations"><option value="">Uncovered Locations</option></select></div><div class="four wide inline field"><select class="ui search dropdown syntax-highlighting"><option value="es">ES6/ES7</option><option value="js">JavaScript</option><option value="no">None</option></select></div></div></div></div><textarea id="file-content" readonly="">// @flow
+<html><head><meta charset="utf-8"/><link rel="stylesheet" href="../../../assets/semantic.min.css"/><link rel="stylesheet" href="../../../assets/codemirror.css"/><link rel="stylesheet" href="../../../assets/flow-highlight-source.css"/><link rel="stylesheet" href="../../../assets/flow-coverage-report.css"/><link rel="stylesheet" href="../../../assets/codemirror-simplescrollbars-addon.css"/><script src="../../../assets/jquery-3.1.0.min.js"></script><script src="../../../assets/semantic.min.js"></script><script src="../../../assets/semantic-tablesort.js"></script><script src="../../../assets/codemirror.js"></script><script src="../../../assets/codemirror-javascript-mode.js"></script><script src="../../../assets/codemirror-annotatescrollbar-addon.js"></script><script src="../../../assets/codemirror-simplescrollbars-addon.js"></script><script src="../../../assets/flow-highlight-source.js"></script></head><body><div class="ui grid container"><div class="row"><h1 class="twelve wide column">Flow Coverage Report - src/actions/types.js</h1><div class="four wide column" style="height:32px;"><a href="../../../index.html" id="link-to-summary">Go back to all files summary.</a></div></div><div class="row"><table class="ui small celled unstackable table"><thead><tr><th class="sorted ascending">Filename</th><th>Percent</th><th>Total</th><th>Covered</th><th>Uncovered</th></tr></thead><tbody><tr class="positive"><td class="">src/actions/types.js</td><td> 100 %</td><td> 21 </td><td> 21 </td><td> 0 </td></tr></tbody></table></div><div class="row green" style="padding:0;height:12px;"></div><div class="row ui one column centered grid"><div class="column" style="text-align:left;"><div class="row"><div class="ui form"><div class="fields"><div class="sixteen wide inline field"><select class="ui search dropdown uncovered-locations"><option value="">Uncovered Locations</option></select></div><div class="four wide inline field"><select class="ui search dropdown syntax-highlighting"><option value="es">ES6/ES7</option><option value="js">JavaScript</option><option value="no">None</option></select></div></div></div></div><textarea id="file-content" readonly="">/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at &lt;http://mozilla.org/MPL/2.0/&gt;. */
 
-import type { Source,
-              Breakpoint,
-              Expression,
-              LoadedObject,
-              Location,
-              SourceText,
-              Frame,
-              Why } from &quot;../types&quot;;
+// @flow
+
+import type {
+  Source,
+  Breakpoint,
+  Expression,
+  LoadedObject,
+  Location,
+  Frame,
+  Scope,
+  Why,
+  Worker
+} from &quot;../types&quot;;
+
+import type { PromiseAction } from &quot;./utils/middleware/promise&quot;;
+
+import type { State, Command } from &quot;../reducers/types&quot;;
+
+import type {
+  ActiveSearchType,
+  OrientationType,
+  SelectedPrimaryPaneTabType
+} from &quot;../reducers/ui&quot;;
+
+import type { MatchedLocations } from &quot;../reducers/file-search&quot;;
+
+import type {
+  SymbolDeclarations,
+  AstLocation,
+  PausePoint
+} from &quot;../workers/parser&quot;;
+
+import type { SourceMetaDataType } from &quot;../reducers/ast.js&quot;;
 
 /**
  * Flow types
@@ -21,17 +43,22 @@ import type { Source,
  */
 
 /**
-  * Argument parameters via Thunk middleware for {@link https://github.com/gaearon/redux-thunk|Redux Thunk}
-  *
-  * @memberof actions/breakpoints
-  * @static
-  * @typedef {Object} ThunkArgs
-  */
+ * Argument parameters via Thunk middleware for {@link https://github.com/gaearon/redux-thunk|Redux Thunk}
+ *
+ * @memberof actions/breakpoints
+ * @static
+ * @typedef {Object} ThunkArgs
+ */
 export type ThunkArgs = {
-  dispatch: () =&gt; Promise&lt;any&gt;,
-  getState: () =&gt; any,
-  client: any
+  dispatch: (action: any) =&gt; Promise&lt;any&gt;,
+  getState: () =&gt; State,
+  client: any,
+  sourceMaps: any,
+  openLink: (url: string) =&gt; void,
+  openWorkerToolbox: (worker: Worker) =&gt; void
 };
+
+export type Thunk = ThunkArgs =&gt; any;
 
 export type ActionType = Object | Function;
 
@@ -47,112 +74,358 @@ export type ActionType = Object | Function;
  */
 export type AsyncStatus = &quot;start&quot; | &quot;done&quot; | &quot;error&quot;;
 
-type BreakpointResult = {
-  actualLocation: Location,
-  id: string,
-  text: string
-}
+type AddBreakpointResult = {
+  previousLocation: Location,
+  breakpoint: Breakpoint
+};
+
+type ProjectTextSearchResult = {
+  sourceId: string,
+  filepath: string,
+  matches: MatchedLocations[]
+};
 
 type BreakpointAction =
-  { type: &quot;ADD_BREAKPOINT&quot;,
-    breakpoint: Breakpoint,
-    condition: string,
-    status: AsyncStatus,
-    error: string,
-    value: BreakpointResult}
-  | { type: &quot;REMOVE_BREAKPOINT&quot;,
-      breakpoint: Breakpoint,
-      status: AsyncStatus,
-      error: string,
-      disabled: boolean }
-  | { type: &quot;SET_BREAKPOINT_CONDITION&quot;,
-      breakpoint: Breakpoint,
-      condition: string,
-      status: AsyncStatus,
-      value: BreakpointResult,
-      error: string }
-  | { type: &quot;TOGGLE_BREAKPOINTS&quot;,
-      shouldDisableBreakpoints: boolean,
-      status: AsyncStatus,
-      error: string,
-      value: any };
+  | PromiseAction&lt;
+      {|
+        +type: &quot;ADD_BREAKPOINT&quot;,
+        +breakpoint: Breakpoint,
+        +condition?: string
+      |},
+      AddBreakpointResult
+    &gt;
+  | PromiseAction&lt;{|
+      +type: &quot;REMOVE_BREAKPOINT&quot;,
+      +breakpoint: Breakpoint,
+      +disabled: boolean
+    |}&gt;
+  // for simulating a successful server request
+  | {|
+      +type: &quot;REMOVE_BREAKPOINT&quot;,
+      +breakpoint: Breakpoint,
+      +status: &quot;done&quot;
+    |}
+  | {|
+      +type: &quot;SET_BREAKPOINT_CONDITION&quot;,
+      +breakpoint: Breakpoint
+    |}
+  | PromiseAction&lt;{|
+      +type: &quot;TOGGLE_BREAKPOINTS&quot;,
+      +shouldDisableBreakpoints: boolean
+    |}&gt;
+  | {|
+      +type: &quot;SYNC_BREAKPOINT&quot;,
+      +breakpoint: ?Breakpoint,
+      +previousLocation: Location
+    |}
+  | PromiseAction&lt;
+      {|
+        +type: &quot;ENABLE_BREAKPOINT&quot;,
+        +breakpoint: Breakpoint
+      |},
+      AddBreakpointResult
+    &gt;
+  | {|
+      +type: &quot;DISABLE_BREAKPOINT&quot;,
+      +breakpoint: Breakpoint
+    |}
+  | {|
+      +type: &quot;DISABLE_ALL_BREAKPOINTS&quot;,
+      +breakpoints: Breakpoint[]
+    |}
+  | {|
+      +type: &quot;ENABLE_ALL_BREAKPOINTS&quot;,
+      +breakpoints: Breakpoint[]
+    |}
+  | {|
+      +type: &quot;REMAP_BREAKPOINTS&quot;,
+      +breakpoints: Breakpoint[]
+    |};
 
 type SourceAction =
-  { type: &quot;ADD_SOURCE&quot;, source: Source }
-  | { type: &quot;SELECT_SOURCE&quot;,
+  | {| type: &quot;ADD_SOURCE&quot;, source: Source |}
+  | {| type: &quot;ADD_SOURCES&quot;, sources: Array&lt;Source&gt; |}
+  | {| type: &quot;UPDATE_SOURCE&quot;, source: Source |}
+  | {|
+      type: &quot;SELECT_SOURCE&quot;,
       source: Source,
-      line?: number,
-      tabIndex?: number }
-  | { type: &quot;SELECT_SOURCE_URL&quot;, url: string, line?: number }
-  | { type: &quot;LOAD_SOURCE_TEXT&quot;,
+      location?: { line?: number, column?: number }
+    |}
+  | {| type: &quot;SELECT_SOURCE_URL&quot;, url: string, line?: number |}
+  | {|
+      type: &quot;LOAD_SOURCE_TEXT&quot;,
       source: Source,
       status: AsyncStatus,
       error: string,
-      value: SourceText }
-  | { type: &quot;BLACKBOX&quot;,
+      value: Source
+    |}
+  | {| type: &quot;CLEAR_SELECTED_SOURCE&quot; |}
+  | {|
+      type: &quot;BLACKBOX&quot;,
       source: Source,
-      status: AsyncStatus,
       error: string,
-      value: { isBlackBoxed: boolean }}
-  | { type: &quot;TOGGLE_PRETTY_PRINT&quot;,
-      source: Source,
-      originalSource: Source,
-      status: AsyncStatus,
-      error: string,
-      value: { isPrettyPrinted: boolean,
-               sourceText: SourceText,
-               frames: Frame[] }}
-  | { type: &quot;CLOSE_TAB&quot;, url: string };
+      value: { isBlackBoxed: boolean }
+    |}
+  | {| type: &quot;ADD_TAB&quot;, source: Source, tabIndex: number |}
+  | {| type: &quot;MOVE_TAB&quot;, url: string, tabIndex: number |}
+  | {| type: &quot;CLOSE_TAB&quot;, url: string, tabs: any |}
+  | {| type: &quot;CLOSE_TABS&quot;, urls: string[], tabs: any |};
 
 export type panelPositionType = &quot;start&quot; | &quot;end&quot;;
 
 type UIAction =
-  {
-    type: &quot;SET_FILE_SEARCH&quot;,
-    searchOn: boolean }
-  | {
-    type: &quot;SHOW_SOURCE&quot;,
-    sourceUrl: string}
-  | {
-    type: &quot;TOGGLE_PANE&quot;,
-    position: panelPositionType,
-    paneCollapsed: boolean };
+  | {|
+      type: &quot;TOGGLE_ACTIVE_SEARCH&quot;,
+      value: ?ActiveSearchType
+    |}
+  | {|
+      type: &quot;OPEN_QUICK_OPEN&quot;,
+      query?: string
+    |}
+  | {|
+      type: &quot;CLOSE_QUICK_OPEN&quot;
+    |}
+  | {|
+      type: &quot;TOGGLE_FRAMEWORK_GROUPING&quot;,
+      value: boolean
+    |}
+  | {|
+      type: &quot;SHOW_SOURCE&quot;,
+      sourceUrl: string
+    |}
+  | {|
+      type: &quot;TOGGLE_PANE&quot;,
+      position: panelPositionType,
+      paneCollapsed: boolean
+    |}
+  | {|
+      type: &quot;SET_CONTEXT_MENU&quot;,
+      contextMenu: { type: string, event: any }
+    |}
+  | {|
+      type: &quot;SET_ORIENTATION&quot;,
+      orientation: OrientationType
+    |}
+  | {|
+      type: &quot;HIGHLIGHT_LINES&quot;,
+      location: {
+        start: number,
+        end: number,
+        sourceId: number
+      }
+    |}
+  | {|
+      type: &quot;CLEAR_HIGHLIGHT_LINES&quot;
+    |}
+  | {|
+      type: &quot;OPEN_CONDITIONAL_PANEL&quot;,
+      line: number
+    |}
+  | {|
+      type: &quot;CLOSE_CONDITIONAL_PANEL&quot;
+    |}
+  | {|
+      type: &quot;SET_PROJECT_DIRECTORY_ROOT&quot;,
+      url: Object
+    |}
+  | {|
+      type: &quot;SET_PRIMARY_PANE_TAB&quot;,
+      tabName: SelectedPrimaryPaneTabType
+    |}
+  | {|
+      type: &quot;CLOSE_PROJECT_SEARCH&quot;
+    |};
+
+type ReplayAction =
+  | {|
+      type: &quot;TRAVEL_TO&quot;,
+      data: {
+        paused: {
+          why: Why,
+          scopes: Scope[],
+          frames: Frame[],
+          selectedFrameId: string,
+          loadedObjects: Object
+        },
+        expressions?: Object[]
+      },
+      position: number
+    |}
+  | {|
+      type: &quot;CLEAR_HISTORY&quot;
+    |};
 
 type PauseAction =
-  { type: &quot;BREAK_ON_NEXT&quot;, value: boolean }
-  | { type: &quot;RESUME&quot;, value: void }
-  | { type: &quot;PAUSED&quot;,
-      pauseInfo: { why: Why,
-                  frame: Frame,
-                  isInterrupted?: boolean },
+  | {| type: &quot;BREAK_ON_NEXT&quot;, value: boolean |}
+  | {| type: &quot;RESUME&quot;, value: void |}
+  | {|
+      type: &quot;PAUSED&quot;,
+      why: Why,
+      scopes: Scope,
       frames: Frame[],
       selectedFrameId: string,
       loadedObjects: LoadedObject[]
-    }
-  | { type: &quot;PAUSE_ON_EXCEPTIONS&quot;,
+    |}
+  | {|
+      type: &quot;PAUSE_ON_EXCEPTIONS&quot;,
       shouldPauseOnExceptions: boolean,
-      shouldIgnoreCaughtExceptions: boolean }
-  | { type: &quot;COMMAND&quot;, value: void }
-  | { type: &quot;SELECT_FRAME&quot;, frame: Frame }
-  | { type: &quot;LOAD_OBJECT_PROPERTIES&quot;,
+      shouldIgnoreCaughtExceptions: boolean
+    |}
+  | {| type: &quot;COMMAND&quot;, status: AsyncStatus, command: Command |}
+  | {| type: &quot;SELECT_FRAME&quot;, frame: Frame |}
+  | {|
+      type: &quot;SET_POPUP_OBJECT_PROPERTIES&quot;,
       objectId: string,
-      status: string,
-      value: Object,
-      &quot;@@dispatch/promise&quot;: any }
-  | { type: &quot;ADD_EXPRESSION&quot;,
+      properties: Object
+    |}
+  | {|
+      type: &quot;ADD_EXPRESSION&quot;,
       id: number,
       input: string,
-      value: string }
-  | { type: &quot;EVALUATE_EXPRESSION&quot;,
+      value: string,
+      expressionError: ?string
+    |}
+  | {|
+      type: &quot;EVALUATE_EXPRESSION&quot;,
       input: string,
-      status: string,
       value: Object,
-      &quot;@@dispatch/promise&quot;: any }
-  | { type: &quot;UPDATE_EXPRESSION&quot;,
+      &quot;@@dispatch/promise&quot;: any
+    |}
+  | {|
+      type: &quot;UPDATE_EXPRESSION&quot;,
       expression: Expression,
-      input: string }
-  | { type: &quot;DELETE_EXPRESSION&quot;,
-      input: string };
+      input: string,
+      expressionError: ?string
+    |}
+  | {|
+      type: &quot;DELETE_EXPRESSION&quot;,
+      input: string
+    |}
+  | {| type: &quot;CLEAR_EXPRESSION_ERROR&quot; |}
+  | {|
+      type: &quot;MAP_SCOPES&quot;,
+      frame: Frame,
+      status: AsyncStatus,
+      value: {
+        scope: Scope,
+        mappings: {
+          [string]: string | null
+        }
+      }
+    |}
+  | {|
+      type: &quot;MAP_FRAMES&quot;,
+      frames: Frame[]
+    |}
+  | {|
+      type: &quot;ADD_SCOPES&quot;,
+      frame: Frame,
+      extra: any,
+      status: AsyncStatus,
+      value: Scope
+    |};
+
+type NavigateAction =
+  | {| type: &quot;CONNECT&quot;, url: string, canRewind: boolean |}
+  | {| type: &quot;NAVIGATE&quot;, url: string |};
+
+export type ASTAction =
+  | PromiseAction&lt;
+      {|
+        +type: &quot;SET_SYMBOLS&quot;,
+        +source: Source
+      |},
+      SymbolDeclarations
+    &gt;
+  | {|
+      +type: &quot;SET_PAUSE_POINTS&quot;,
+      +source: Source,
+      +pausePoints: PausePoint[]
+    |}
+  | {|
+      +type: &quot;OUT_OF_SCOPE_LOCATIONS&quot;,
+      +locations: ?(AstLocation[])
+    |}
+  | {|
+      +type: &quot;IN_SCOPE_LINES&quot;,
+      +lines: AstLocation[]
+    |}
+  | PromiseAction&lt;
+      {|
+        +type: &quot;SET_PREVIEW&quot;
+      |},
+      {
+        expression: string,
+        result: any,
+        location: AstLocation,
+        tokenPos: any,
+        cursorPos: any,
+        extra: any
+      }
+    &gt;
+  | {|
+      +type: &quot;SET_SOURCE_METADATA&quot;,
+      +sourceId: string,
+      +sourceMetaData: SourceMetaDataType
+    |}
+  | {|
+      +type: &quot;CLEAR_SELECTION&quot;
+    |};
+
+export type SourceTreeAction = {| type: &quot;SET_EXPANDED_STATE&quot;, expanded: any |};
+
+export type ProjectTextSearchAction =
+  | {| type: &quot;ADD_QUERY&quot;, query: string |}
+  | {|
+      type: &quot;ADD_SEARCH_RESULT&quot;,
+      result: ProjectTextSearchResult
+    |}
+  | {| type: &quot;CLEAR_QUERY&quot; |}
+  | {| type: &quot;UPDATE_STATUS&quot;, status: string |}
+  | {| type: &quot;CLEAR_SEARCH_RESULTS&quot; |}
+  | {| type: &quot;CLEAR_SEARCH&quot; |};
+
+export type FileTextSearchAction =
+  | {|
+      type: &quot;TOGGLE_FILE_SEARCH_MODIFIER&quot;,
+      modifier: &quot;caseSensitive&quot; | &quot;wholeWord&quot; | &quot;regexMatch&quot;
+    |}
+  | {|
+      type: &quot;UPDATE_FILE_SEARCH_QUERY&quot;,
+      query: string
+    |}
+  | {|
+      type: &quot;UPDATE_SEARCH_RESULTS&quot;,
+      results: {
+        matches: MatchedLocations[],
+        matchIndex: number,
+        count: number,
+        index: number
+      }
+    |};
+
+export type QuickOpenAction =
+  | {| type: &quot;SET_QUICK_OPEN_QUERY&quot;, query: string |}
+  | {| type: &quot;OPEN_QUICK_OPEN&quot;, query?: string |}
+  | {| type: &quot;CLOSE_QUICK_OPEN&quot; |};
+
+export type CoverageAction = {|
+  type: &quot;RECORD_COVERAGE&quot;,
+  value: { coverage: Object }
+|};
+
+export type DebugeeAction = {|
+  type: &quot;SET_WORKERS&quot;,
+  workers: {
+    workers: Object[]
+  }
+|};
+
+export type {
+  StartPromiseAction,
+  DonePromiseAction,
+  ErrorPromiseAction
+} from &quot;./utils/middleware/promise&quot;;
 
 /**
  * Actions: Source, Breakpoint, and Navigation
@@ -161,9 +434,16 @@ type PauseAction =
  * @static
  */
 export type Action =
-  SourceAction
+  | SourceAction
   | BreakpointAction
   | PauseAction
-  | { type: &quot;NAVIGATE&quot; }
-  | UIAction;
-</textarea></div></div><div class="row centered"><footer>Flow Coverage Report generated by<a href="https://flowtype.org"> flow </a>and<a href="https://github.com/rpl/flow-coverage-report"> flow-coverage-report </a>at Tue Feb 21 2017 17:31:46 GMT-0500 (EST)</footer></div></div><pre id="file-coverage-data" style="display:none;">{&quot;expressions&quot;:{&quot;covered_count&quot;:10,&quot;uncovered_count&quot;:0,&quot;uncovered_locs&quot;:[]},&quot;filename&quot;:&quot;src/actions/types.js&quot;,&quot;percent&quot;:100}</pre></body></html>
+  | NavigateAction
+  | UIAction
+  | ASTAction
+  | QuickOpenAction
+  | FileTextSearchAction
+  | ProjectTextSearchAction
+  | CoverageAction
+  | DebugeeAction
+  | ReplayAction;
+</textarea></div></div><div class="row centered"><footer>Flow Coverage Report generated by<a href="https://flowtype.org"> flow </a>and<a href="https://github.com/rpl/flow-coverage-report"> flow-coverage-report </a>at Tue Apr 03 2018 15:58:53 GMT-0400 (EDT)</footer></div></div><pre id="file-coverage-data" style="display:none;">{&quot;expressions&quot;:{&quot;covered_count&quot;:21,&quot;uncovered_count&quot;:0,&quot;uncovered_locs&quot;:[]},&quot;percent&quot;:100}</pre></body></html>

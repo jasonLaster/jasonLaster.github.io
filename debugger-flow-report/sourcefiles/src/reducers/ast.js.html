@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"/><link rel="stylesheet" href="../../../assets/semantic.min.css"/><link rel="stylesheet" href="../../../assets/codemirror.css"/><link rel="stylesheet" href="../../../assets/flow-highlight-source.css"/><link rel="stylesheet" href="../../../assets/flow-coverage-report.css"/><link rel="stylesheet" href="../../../assets/codemirror-simplescrollbars-addon.css"/><script src="../../../assets/jquery-3.1.0.min.js"></script><script src="../../../assets/semantic.min.js"></script><script src="../../../assets/semantic-tablesort.js"></script><script src="../../../assets/codemirror.js"></script><script src="../../../assets/codemirror-javascript-mode.js"></script><script src="../../../assets/codemirror-annotatescrollbar-addon.js"></script><script src="../../../assets/codemirror-simplescrollbars-addon.js"></script><script src="../../../assets/flow-highlight-source.js"></script></head><body><div class="ui grid container"><div class="row"><h1 class="twelve wide column">Flow Coverage Report - src/reducers/ast.js</h1><div class="four wide column" style="height:32px;"><a href="../../../index.html" id="link-to-summary">Go back to all files summary.</a></div></div><div class="row"><table class="ui small celled unstackable table"><thead><tr><th class="sorted ascending">Filename</th><th>Percent</th><th>Total</th><th>Covered</th><th>Uncovered</th></tr></thead><tbody><tr class="positive"><td class="">src/reducers/ast.js</td><td> 88 %</td><td> 275 </td><td> 243 </td><td> 32 </td></tr></tbody></table></div><div class="row green" style="padding:0;height:12px;"></div><div class="row ui one column centered grid"><div class="column" style="text-align:left;"><div class="row"><div class="ui form"><div class="fields"><div class="sixteen wide inline field"><select class="ui search dropdown uncovered-locations"><option value="">Uncovered Locations</option><option value="67">Start: 67,16 - End: 67,16</option><option value="67">Start: 67,16 - End: 67,22</option><option value="68">Start: 68,19 - End: 68,19</option><option value="68">Start: 68,19 - End: 68,25</option><option value="72">Start: 72,20 - End: 72,20</option><option value="72">Start: 72,20 - End: 72,26</option><option value="73">Start: 73,23 - End: 73,23</option><option value="73">Start: 73,23 - End: 73,29</option><option value="89">Start: 89,13 - End: 89,17</option><option value="89">Start: 89,21 - End: 89,60</option><option value="89">Start: 89,23 - End: 89,33</option><option value="90">Start: 90,50 - End: 90,54</option><option value="159">Start: 159,10 - End: 159,41</option><option value="187">Start: 187,24 - End: 187,33</option><option value="187">Start: 187,24 - End: 187,48</option><option value="195">Start: 195,10 - End: 195,44</option><option value="199">Start: 199,10 - End: 199,44</option><option value="203">Start: 203,9 - End: 203,19</option><option value="203">Start: 203,23 - End: 203,53</option><option value="204">Start: 204,10 - End: 204,22</option><option value="204">Start: 204,11 - End: 204,22</option><option value="204">Start: 204,12 - End: 204,22</option><option value="208">Start: 208,10 - End: 208,45</option><option value="212">Start: 212,10 - End: 212,33</option><option value="217">Start: 217,10 - End: 217,47</option><option value="225">Start: 225,10 - End: 225,38</option><option value="229">Start: 229,9 - End: 229,20</option><option value="229">Start: 229,24 - End: 229,52</option><option value="230">Start: 230,10 - End: 230,21</option><option value="230">Start: 230,10 - End: 230,52</option><option value="230">Start: 230,26 - End: 230,37</option><option value="230">Start: 230,26 - End: 230,52</option></select></div><div class="four wide inline field"><select class="ui search dropdown syntax-highlighting"><option value="es">ES6/ES7</option><option value="js">JavaScript</option><option value="no">None</option></select></div></div></div></div><textarea id="file-content" readonly="">/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at &lt;http://mozilla.org/MPL/2.0/&gt;. */
+
+// @flow
+
+/**
+ * Ast reducer
+ * @module reducers/ast
+ */
+
+import * as I from &quot;immutable&quot;;
+
+import makeRecord from &quot;../utils/makeRecord&quot;;
+import { findEmptyLines } from &quot;../utils/ast&quot;;
+
+import type {
+  AstLocation,
+  PausePoint,
+  SymbolDeclarations
+} from &quot;../workers/parser&quot;;
+
+import type { Map } from &quot;immutable&quot;;
+import type { Source } from &quot;../types&quot;;
+import type { Action, DonePromiseAction } from &quot;../actions/types&quot;;
+import type { Record } from &quot;../utils/makeRecord&quot;;
+
+type EmptyLinesType = number[];
+
+export type Symbols = SymbolDeclarations | {| loading: true |};
+export type SymbolsMap = Map&lt;string, Symbols&gt;;
+export type EmptyLinesMap = Map&lt;string, EmptyLinesType&gt;;
+
+export type SourceMetaDataType = {
+  framework: string | void
+};
+
+export type SourceMetaDataMap = Map&lt;string, SourceMetaDataType&gt;;
+export type PausePointsMap = Map&lt;string, PausePoint&gt;;
+
+export type Preview =
+  | {| updating: true |}
+  | null
+  | {|
+      updating: false,
+      expression: string,
+      location: AstLocation,
+      cursorPos: any,
+      tokenPos: AstLocation,
+      result: Object,
+      extra: Object
+    |};
+
+export type ASTState = {
+  symbols: SymbolsMap,
+  emptyLines: EmptyLinesMap,
+  outOfScopeLocations: ?Array&lt;AstLocation&gt;,
+  inScopeLines: ?Array&lt;Number&gt;,
+  preview: Preview,
+  pausePoints: PausePointsMap,
+  sourceMetaData: SourceMetaDataMap
+};
+
+export function initialASTState() {
+  return makeRecord(
+    ({
+      symbols: I.Map(),
+      emptyLines: I.Map(),
+      outOfScopeLocations: null,
+      inScopeLines: null,
+      preview: null,
+      pausePoints: I.Map(),
+      sourceMetaData: I.Map()
+    }: ASTState)
+  )();
+}
+
+function update(
+  state: Record&lt;ASTState&gt; = initialASTState(),
+  action: Action
+): Record&lt;ASTState&gt; {
+  switch (action.type) {
+    case &quot;SET_SYMBOLS&quot;: {
+      const { source } = action;
+      if (action.status === &quot;start&quot;) {
+        return state.setIn([&quot;symbols&quot;, source.id], { loading: true });
+      }
+
+      const value = ((action: any): DonePromiseAction).value;
+      return state.setIn([&quot;symbols&quot;, source.id], value);
+    }
+
+    case &quot;SET_PAUSE_POINTS&quot;: {
+      const { source, pausePoints } = action;
+      const emptyLines = findEmptyLines(source, pausePoints);
+
+      return state
+        .setIn([&quot;pausePoints&quot;, source.id], pausePoints)
+        .setIn([&quot;emptyLines&quot;, source.id], emptyLines);
+    }
+
+    case &quot;OUT_OF_SCOPE_LOCATIONS&quot;: {
+      return state.set(&quot;outOfScopeLocations&quot;, action.locations);
+    }
+
+    case &quot;IN_SCOPE_LINES&quot;: {
+      return state.set(&quot;inScopeLines&quot;, action.lines);
+    }
+
+    case &quot;CLEAR_SELECTION&quot;: {
+      return state.set(&quot;preview&quot;, null);
+    }
+
+    case &quot;SET_PREVIEW&quot;: {
+      if (action.status == &quot;start&quot;) {
+        return state.set(&quot;preview&quot;, { updating: true });
+      }
+
+      if (!action.value) {
+        return state.set(&quot;preview&quot;, null);
+      }
+
+      return state.set(&quot;preview&quot;, {
+        ...action.value,
+        updating: false
+      });
+    }
+
+    case &quot;RESUME&quot;: {
+      return state.set(&quot;outOfScopeLocations&quot;, null);
+    }
+
+    case &quot;NAVIGATE&quot;: {
+      return initialASTState();
+    }
+
+    case &quot;SET_SOURCE_METADATA&quot;: {
+      return state.setIn(
+        [&quot;sourceMetaData&quot;, action.sourceId],
+        action.sourceMetaData
+      );
+    }
+
+    default: {
+      return state;
+    }
+  }
+}
+
+// NOTE: we&#x27;d like to have the app state fully typed
+// https://github.com/devtools-html/debugger.html/blob/master/src/reducers/sources.js#L179-L185
+type OuterState = { ast: Record&lt;ASTState&gt; };
+
+export function getSymbols(state: OuterState, source: Source): ?Symbols {
+  if (!source) {
+    return null;
+  }
+
+  return state.ast.symbols.get(source.id) || null;
+}
+
+export function hasSymbols(state: OuterState, source: Source): boolean {
+  const symbols = getSymbols(state, source);
+
+  if (!symbols) {
+    return false;
+  }
+
+  return !symbols.hasOwnProperty(&quot;loading&quot;);
+}
+
+export function isSymbolsLoading(state: OuterState, source: Source): boolean {
+  const symbols = getSymbols(state, source);
+  if (!symbols) {
+    return false;
+  }
+
+  return symbols.hasOwnProperty(&quot;loading&quot;);
+}
+
+export function isEmptyLineInSource(
+  state: OuterState,
+  line: number,
+  selectedSource: Source
+) {
+  const emptyLines = getEmptyLines(state, selectedSource);
+  return emptyLines &amp;&amp; emptyLines.includes(line);
+}
+
+export function getEmptyLines(state: OuterState, source: Source) {
+  if (!source) {
+    return null;
+  }
+
+  return state.ast.emptyLines.get(source.id);
+}
+
+export function getPausePoints(state: OuterState, sourceId: string) {
+  return state.ast.pausePoints.get(sourceId);
+}
+
+export function hasPausePoints(state: OuterState, sourceId: string): boolean {
+  const pausePoints = getPausePoints(state, sourceId);
+  return !!pausePoints;
+}
+
+export function getOutOfScopeLocations(state: OuterState) {
+  return state.ast.get(&quot;outOfScopeLocations&quot;);
+}
+
+export function getPreview(state: OuterState) {
+  return state.ast.get(&quot;preview&quot;);
+}
+
+const emptySourceMetaData = {};
+export function getSourceMetaData(state: OuterState, sourceId: string) {
+  return state.ast.sourceMetaData.get(sourceId) || emptySourceMetaData;
+}
+
+export function hasSourceMetaData(state: OuterState, sourceId: string) {
+  return state.ast.hasIn([&quot;sourceMetaData&quot;, sourceId]);
+}
+
+export function getInScopeLines(state: OuterState) {
+  return state.ast.get(&quot;inScopeLines&quot;);
+}
+
+export function isLineInScope(state: OuterState, line: number) {
+  const linesInScope = state.ast.get(&quot;inScopeLines&quot;);
+  return linesInScope &amp;&amp; linesInScope.includes(line);
+}
+
+export default update;
+</textarea></div></div><div class="row centered"><footer>Flow Coverage Report generated by<a href="https://flowtype.org"> flow </a>and<a href="https://github.com/rpl/flow-coverage-report"> flow-coverage-report </a>at Tue Apr 03 2018 15:58:53 GMT-0400 (EDT)</footer></div></div><pre id="file-coverage-data" style="display:none;">{&quot;expressions&quot;:{&quot;covered_count&quot;:243,&quot;uncovered_count&quot;:32,&quot;uncovered_locs&quot;:[{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ast.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:67,&quot;column&quot;:16,&quot;offset&quot;:1637},&quot;end&quot;:{&quot;line&quot;:67,&quot;column&quot;:16,&quot;offset&quot;:1638}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ast.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:67,&quot;column&quot;:16,&quot;offset&quot;:1637},&quot;end&quot;:{&quot;line&quot;:67,&quot;column&quot;:22,&quot;offset&quot;:1644}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ast.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:68,&quot;column&quot;:19,&quot;offset&quot;:1664},&quot;end&quot;:{&quot;line&quot;:68,&quot;column&quot;:19,&quot;offset&quot;:1665}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ast.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:68,&quot;column&quot;:19,&quot;offset&quot;:1664},&quot;end&quot;:{&quot;line&quot;:68,&quot;column&quot;:25,&quot;offset&quot;:1671}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ast.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:72,&quot;column&quot;:20,&quot;offset&quot;:1772},&quot;end&quot;:{&quot;line&quot;:72,&quot;column&quot;:20,&quot;offset&quot;:1773}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ast.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:72,&quot;column&quot;:20,&quot;offset&quot;:1772},&quot;end&quot;:{&quot;line&quot;:72,&quot;column&quot;:26,&quot;offset&quot;:1779}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ast.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:73,&quot;column&quot;:23,&quot;offset&quot;:1803},&quot;end&quot;:{&quot;line&quot;:73,&quot;column&quot;:23,&quot;offset&quot;:1804}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ast.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:73,&quot;column&quot;:23,&quot;offset&quot;:1803},&quot;end&quot;:{&quot;line&quot;:73,&quot;column&quot;:29,&quot;offset&quot;:1810}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ast.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:89,&quot;column&quot;:13,&quot;offset&quot;:2156},&quot;end&quot;:{&quot;line&quot;:89,&quot;column&quot;:17,&quot;offset&quot;:2161}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ast.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:89,&quot;column&quot;:21,&quot;offset&quot;:2164},&quot;end&quot;:{&quot;line&quot;:89,&quot;column&quot;:60,&quot;offset&quot;:2204}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ast.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:89,&quot;column&quot;:23,&quot;offset&quot;:2166},&quot;end&quot;:{&quot;line&quot;:89,&quot;column&quot;:33,&quot;offset&quot;:2177}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ast.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:90,&quot;column&quot;:50,&quot;offset&quot;:2255},&quot;end&quot;:{&quot;line&quot;:90,&quot;column&quot;:54,&quot;offset&quot;:2260}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ast.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:159,&quot;column&quot;:10,&quot;offset&quot;:3794},&quot;end&quot;:{&quot;line&quot;:159,&quot;column&quot;:41,&quot;offset&quot;:3826}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ast.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:187,&quot;column&quot;:24,&quot;offset&quot;:4444},&quot;end&quot;:{&quot;line&quot;:187,&quot;column&quot;:33,&quot;offset&quot;:4454}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ast.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:187,&quot;column&quot;:24,&quot;offset&quot;:4444},&quot;end&quot;:{&quot;line&quot;:187,&quot;column&quot;:48,&quot;offset&quot;:4469}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ast.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:195,&quot;column&quot;:10,&quot;offset&quot;:4589},&quot;end&quot;:{&quot;line&quot;:195,&quot;column&quot;:44,&quot;offset&quot;:4624}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ast.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:199,&quot;column&quot;:10,&quot;offset&quot;:4708},&quot;end&quot;:{&quot;line&quot;:199,&quot;column&quot;:44,&quot;offset&quot;:4743}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ast.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:203,&quot;column&quot;:9,&quot;offset&quot;:4835},&quot;end&quot;:{&quot;line&quot;:203,&quot;column&quot;:19,&quot;offset&quot;:4846}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ast.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:203,&quot;column&quot;:23,&quot;offset&quot;:4849},&quot;end&quot;:{&quot;line&quot;:203,&quot;column&quot;:53,&quot;offset&quot;:4880}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ast.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:204,&quot;column&quot;:10,&quot;offset&quot;:4891},&quot;end&quot;:{&quot;line&quot;:204,&quot;column&quot;:22,&quot;offset&quot;:4904}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ast.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:204,&quot;column&quot;:11,&quot;offset&quot;:4892},&quot;end&quot;:{&quot;line&quot;:204,&quot;column&quot;:22,&quot;offset&quot;:4904}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ast.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:204,&quot;column&quot;:12,&quot;offset&quot;:4893},&quot;end&quot;:{&quot;line&quot;:204,&quot;column&quot;:22,&quot;offset&quot;:4904}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ast.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:208,&quot;column&quot;:10,&quot;offset&quot;:4978},&quot;end&quot;:{&quot;line&quot;:208,&quot;column&quot;:45,&quot;offset&quot;:5014}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ast.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:212,&quot;column&quot;:10,&quot;offset&quot;:5076},&quot;end&quot;:{&quot;line&quot;:212,&quot;column&quot;:33,&quot;offset&quot;:5100}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ast.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:217,&quot;column&quot;:10,&quot;offset&quot;:5219},&quot;end&quot;:{&quot;line&quot;:217,&quot;column&quot;:47,&quot;offset&quot;:5257}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ast.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:225,&quot;column&quot;:10,&quot;offset&quot;:5479},&quot;end&quot;:{&quot;line&quot;:225,&quot;column&quot;:38,&quot;offset&quot;:5508}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ast.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:229,&quot;column&quot;:9,&quot;offset&quot;:5586},&quot;end&quot;:{&quot;line&quot;:229,&quot;column&quot;:20,&quot;offset&quot;:5598}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ast.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:229,&quot;column&quot;:24,&quot;offset&quot;:5601},&quot;end&quot;:{&quot;line&quot;:229,&quot;column&quot;:52,&quot;offset&quot;:5630}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ast.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:230,&quot;column&quot;:10,&quot;offset&quot;:5641},&quot;end&quot;:{&quot;line&quot;:230,&quot;column&quot;:21,&quot;offset&quot;:5653}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ast.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:230,&quot;column&quot;:10,&quot;offset&quot;:5641},&quot;end&quot;:{&quot;line&quot;:230,&quot;column&quot;:52,&quot;offset&quot;:5684}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ast.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:230,&quot;column&quot;:26,&quot;offset&quot;:5657},&quot;end&quot;:{&quot;line&quot;:230,&quot;column&quot;:37,&quot;offset&quot;:5669}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ast.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:230,&quot;column&quot;:26,&quot;offset&quot;:5657},&quot;end&quot;:{&quot;line&quot;:230,&quot;column&quot;:52,&quot;offset&quot;:5684}}]},&quot;percent&quot;:88}</pre></body></html>

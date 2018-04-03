@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html><head><meta charset="utf-8"/><link rel="stylesheet" href="../../../assets/semantic.min.css"/><link rel="stylesheet" href="../../../assets/codemirror.css"/><link rel="stylesheet" href="../../../assets/flow-highlight-source.css"/><link rel="stylesheet" href="../../../assets/flow-coverage-report.css"/><link rel="stylesheet" href="../../../assets/codemirror-simplescrollbars-addon.css"/><script src="../../../assets/jquery-3.1.0.min.js"></script><script src="../../../assets/semantic.min.js"></script><script src="../../../assets/semantic-tablesort.js"></script><script src="../../../assets/codemirror.js"></script><script src="../../../assets/codemirror-javascript-mode.js"></script><script src="../../../assets/codemirror-annotatescrollbar-addon.js"></script><script src="../../../assets/codemirror-simplescrollbars-addon.js"></script><script src="../../../assets/flow-highlight-source.js"></script><script src="../../../assets/index.js"></script><style>
-.ui .CodeMirror {
-  border: 1px solid rgba(34,36,38,.15);
-  height: auto;
-}
-</style></head><body><div class="ui grid container"><div class="row"><div class="twelve wide column"><h2 class="ui header"><a href="../../../index.html" id="link-to-summary">Flow Coverage Report</a></h2></div></div><div class="row"><table class="ui small celled unstackable table"><thead><tr><th class="sorted ascending">Filename</th><th>Percent</th><th>Total</th><th>Covered</th><th>Uncovered</th></tr></thead><tbody><tr class="positive"><td class="">src/utils/makeRecord.js</td><td><span>90 %</span></td><td> 10 </td><td> 9 </td><td> 1 </td></tr></tbody></table></div><div class="row ui one column centered grid"><div class="column" style="text-align:left;"><div class="row"><div class="ui form"><div class="fields"><div class="sixteen wide inline field"><select class="ui search dropdown uncovered-locations"><option value="">Uncovered Locations</option><option value="38">Start: 38,10 - End: 38,23</option></select></div><div class="four wide inline field"><select class="ui search dropdown syntax-highlighting"><option value="es">ES6/ES7</option><option value="js">JavaScript</option><option value="no">None</option></select></div></div></div></div><textarea id="file-content" readonly="">// @flow
+<html><head><meta charset="utf-8"/><link rel="stylesheet" href="../../../assets/semantic.min.css"/><link rel="stylesheet" href="../../../assets/codemirror.css"/><link rel="stylesheet" href="../../../assets/flow-highlight-source.css"/><link rel="stylesheet" href="../../../assets/flow-coverage-report.css"/><link rel="stylesheet" href="../../../assets/codemirror-simplescrollbars-addon.css"/><script src="../../../assets/jquery-3.1.0.min.js"></script><script src="../../../assets/semantic.min.js"></script><script src="../../../assets/semantic-tablesort.js"></script><script src="../../../assets/codemirror.js"></script><script src="../../../assets/codemirror-javascript-mode.js"></script><script src="../../../assets/codemirror-annotatescrollbar-addon.js"></script><script src="../../../assets/codemirror-simplescrollbars-addon.js"></script><script src="../../../assets/flow-highlight-source.js"></script></head><body><div class="ui grid container"><div class="row"><h1 class="twelve wide column">Flow Coverage Report - src/utils/makeRecord.js</h1><div class="four wide column" style="height:32px;"><a href="../../../index.html" id="link-to-summary">Go back to all files summary.</a></div></div><div class="row"><table class="ui small celled unstackable table"><thead><tr><th class="sorted ascending">Filename</th><th>Percent</th><th>Total</th><th>Covered</th><th>Uncovered</th></tr></thead><tbody><tr class="negative"><td class="">src/utils/makeRecord.js</td><td> 71 %</td><td> 7 </td><td> 5 </td><td> 2 </td></tr></tbody></table></div><div class="row red" style="padding:0;height:12px;"></div><div class="row ui one column centered grid"><div class="column" style="text-align:left;"><div class="row"><div class="ui form"><div class="fields"><div class="sixteen wide inline field"><select class="ui search dropdown uncovered-locations"><option value="">Uncovered Locations</option><option value="47">Start: 47,10 - End: 47,10</option><option value="47">Start: 47,10 - End: 47,23</option></select></div><div class="four wide inline field"><select class="ui search dropdown syntax-highlighting"><option value="es">ES6/ES7</option><option value="js">JavaScript</option><option value="no">None</option></select></div></div></div></div><textarea id="file-content" readonly="">/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at &lt;http://mozilla.org/MPL/2.0/&gt;. */
+
+// @flow
 
 /**
  * When Flow 0.29 is released (very soon), we can use this Record type
@@ -14,20 +13,27 @@
  * @module utils/makeRecord
  */
 
-const I = require(&quot;immutable&quot;);
+import * as I from &quot;immutable&quot;;
 
 /**
  * @memberof utils/makeRecord
  * @static
  */
 export type Record&lt;T: Object&gt; = {
-  get&lt;A&gt;(key: $Keys&lt;T&gt;): A;
-  set&lt;A&gt;(key: $Keys&lt;T&gt;, value: A): Record&lt;T&gt;;
-  setIn(keyPath: Array&lt;any&gt;, ...iterables: Array&lt;any&gt;): Record&lt;T&gt;;
-  merge(values: $Shape&lt;T&gt;): Record&lt;T&gt;;
-  mergeIn(keyPath: Array&lt;any&gt;, ...iterables: Array&lt;any&gt;): Record&lt;T&gt;;
-  delete&lt;A&gt;(key: $Keys&lt;T&gt;, value: A): Record&lt;T&gt;;
-  deleteIn(keyPath: Array&lt;any&gt;, ...iterables: Array&lt;any&gt;): Record&lt;T&gt;;
+  equals&lt;A&gt;(other: A): boolean,
+  get&lt;A&gt;(key: $Keys&lt;T&gt;, notSetValue?: any): A,
+  getIn&lt;A&gt;(keyPath: Array&lt;any&gt;, notSetValue?: any): A,
+  hasIn&lt;A&gt;(keyPath: Array&lt;any&gt;): boolean,
+  set&lt;A&gt;(key: $Keys&lt;T&gt;, value: A): Record&lt;T&gt;,
+  setIn(keyPath: Array&lt;any&gt;, ...iterables: Array&lt;any&gt;): Record&lt;T&gt;,
+  merge(values: $Shape&lt;T&gt;): Record&lt;T&gt;,
+  mergeIn(keyPath: Array&lt;any&gt;, ...iterables: Array&lt;any&gt;): Record&lt;T&gt;,
+  delete&lt;A&gt;(key: $Keys&lt;T&gt;, value: A): Record&lt;T&gt;,
+  deleteIn(keyPath: Array&lt;any&gt;, ...iterables: Array&lt;any&gt;): Record&lt;T&gt;,
+  update&lt;A&gt;(key: $Keys&lt;T&gt;, value: A): Record&lt;T&gt;,
+  updateIn(keyPath: Array&lt;any&gt;, ...iterables: Array&lt;any&gt;): Record&lt;T&gt;,
+  remove&lt;A&gt;(key: $Keys&lt;T&gt;): Record&lt;T&gt;,
+  toJS(): T
 } &amp; T;
 
 /**
@@ -38,11 +44,9 @@ export type Record&lt;T: Object&gt; = {
  * @memberof utils/makeRecord
  * @static
  */
-function makeRecord&lt;T&gt;(
-  spec: T &amp; Object
-): (init: $Shape&lt;T&gt;) =&gt; Record&lt;T&gt; {
+function makeRecord&lt;T&gt;(spec: T &amp; Object): (init: $Shape&lt;T&gt;) =&gt; Record&lt;T&gt; {
   return I.Record(spec);
 }
 
-module.exports = makeRecord;
-</textarea></div></div><div class="row centered"><footer>Flow Coverage Report generated by<a href="https://flowtype.org"> flow </a>and<a href="https://github.com/rpl/flow-coverage-report"> flow-coverage-report </a>at Tue Feb 21 2017 17:31:46 GMT-0500 (EST)</footer></div></div><pre id="file-coverage-data" style="display:none;">{&quot;expressions&quot;:{&quot;covered_count&quot;:9,&quot;uncovered_count&quot;:1,&quot;uncovered_locs&quot;:[{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/makeRecord.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:38,&quot;column&quot;:10,&quot;offset&quot;:1084},&quot;end&quot;:{&quot;line&quot;:38,&quot;column&quot;:23,&quot;offset&quot;:1098}}]},&quot;filename&quot;:&quot;src/utils/makeRecord.js&quot;,&quot;percent&quot;:90}</pre></body></html>
+export default makeRecord;
+</textarea></div></div><div class="row centered"><footer>Flow Coverage Report generated by<a href="https://flowtype.org"> flow </a>and<a href="https://github.com/rpl/flow-coverage-report"> flow-coverage-report </a>at Tue Apr 03 2018 15:58:53 GMT-0400 (EDT)</footer></div></div><pre id="file-coverage-data" style="display:none;">{&quot;expressions&quot;:{&quot;covered_count&quot;:5,&quot;uncovered_count&quot;:2,&quot;uncovered_locs&quot;:[{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/makeRecord.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:47,&quot;column&quot;:10,&quot;offset&quot;:1606},&quot;end&quot;:{&quot;line&quot;:47,&quot;column&quot;:10,&quot;offset&quot;:1607}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/makeRecord.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:47,&quot;column&quot;:10,&quot;offset&quot;:1606},&quot;end&quot;:{&quot;line&quot;:47,&quot;column&quot;:23,&quot;offset&quot;:1620}}]},&quot;percent&quot;:71}</pre></body></html>

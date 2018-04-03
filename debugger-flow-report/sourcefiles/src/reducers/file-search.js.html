@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"/><link rel="stylesheet" href="../../../assets/semantic.min.css"/><link rel="stylesheet" href="../../../assets/codemirror.css"/><link rel="stylesheet" href="../../../assets/flow-highlight-source.css"/><link rel="stylesheet" href="../../../assets/flow-coverage-report.css"/><link rel="stylesheet" href="../../../assets/codemirror-simplescrollbars-addon.css"/><script src="../../../assets/jquery-3.1.0.min.js"></script><script src="../../../assets/semantic.min.js"></script><script src="../../../assets/semantic-tablesort.js"></script><script src="../../../assets/codemirror.js"></script><script src="../../../assets/codemirror-javascript-mode.js"></script><script src="../../../assets/codemirror-annotatescrollbar-addon.js"></script><script src="../../../assets/codemirror-simplescrollbars-addon.js"></script><script src="../../../assets/flow-highlight-source.js"></script></head><body><div class="ui grid container"><div class="row"><h1 class="twelve wide column">Flow Coverage Report - src/reducers/file-search.js</h1><div class="four wide column" style="height:32px;"><a href="../../../index.html" id="link-to-summary">Go back to all files summary.</a></div></div><div class="row"><table class="ui small celled unstackable table"><thead><tr><th class="sorted ascending">Filename</th><th>Percent</th><th>Total</th><th>Covered</th><th>Uncovered</th></tr></thead><tbody><tr class="positive"><td class="">src/reducers/file-search.js</td><td> 90 %</td><td> 96 </td><td> 87 </td><td> 9 </td></tr></tbody></table></div><div class="row green" style="padding:0;height:12px;"></div><div class="row ui one column centered grid"><div class="column" style="text-align:left;"><div class="row"><div class="ui form"><div class="fields"><div class="sixteen wide inline field"><select class="ui search dropdown uncovered-locations"><option value="">Uncovered Locations</option><option value="52">Start: 52,22 - End: 52,26</option><option value="52">Start: 52,22 - End: 52,50</option><option value="53">Start: 53,18 - End: 53,22</option><option value="53">Start: 53,18 - End: 53,42</option><option value="54">Start: 54,19 - End: 54,23</option><option value="54">Start: 54,19 - End: 54,44</option><option value="76">Start: 76,9 - End: 76,13</option><option value="80">Start: 80,9 - End: 80,13</option><option value="84">Start: 84,9 - End: 84,13</option></select></div><div class="four wide inline field"><select class="ui search dropdown syntax-highlighting"><option value="es">ES6/ES7</option><option value="js">JavaScript</option><option value="no">None</option></select></div></div></div></div><textarea id="file-content" readonly="">/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at &lt;http://mozilla.org/MPL/2.0/&gt;. */
+
+// @flow
+
+/**
+ * File Search reducer
+ * @module reducers/fileSearch
+ */
+
+import makeRecord from &quot;../utils/makeRecord&quot;;
+import { prefs } from &quot;../utils/prefs&quot;;
+
+import type { Action } from &quot;../actions/types&quot;;
+import type { Record } from &quot;../utils/makeRecord&quot;;
+
+export type Modifiers = Record&lt;{
+  caseSensitive: boolean,
+  wholeWord: boolean,
+  regexMatch: boolean
+}&gt;;
+
+export type MatchedLocations = {
+  line: number,
+  ch: number
+};
+
+export type SearchResults = {
+  matches: Array&lt;MatchedLocations&gt;,
+  matchIndex: number,
+  index: number,
+  count: number
+};
+
+export type FileSearchState = {
+  searchResults: SearchResults,
+  query: string,
+  modifiers: Modifiers
+};
+
+export const createFileSearchState = makeRecord(
+  ({
+    query: &quot;&quot;,
+    searchResults: {
+      matches: [],
+      matchIndex: -1,
+      index: -1,
+      count: 0
+    },
+    modifiers: makeRecord({
+      caseSensitive: prefs.fileSearchCaseSensitive,
+      wholeWord: prefs.fileSearchWholeWord,
+      regexMatch: prefs.fileSearchRegexMatch
+    })()
+  }: FileSearchState)
+);
+
+function update(
+  state: Record&lt;FileSearchState&gt; = createFileSearchState(),
+  action: Action
+): Record&lt;FileSearchState&gt; {
+  switch (action.type) {
+    case &quot;UPDATE_FILE_SEARCH_QUERY&quot;: {
+      return state.set(&quot;query&quot;, action.query);
+    }
+
+    case &quot;UPDATE_SEARCH_RESULTS&quot;: {
+      return state.set(&quot;searchResults&quot;, action.results);
+    }
+
+    case &quot;TOGGLE_FILE_SEARCH_MODIFIER&quot;: {
+      const actionVal = !state.modifiers[action.modifier];
+
+      if (action.modifier == &quot;caseSensitive&quot;) {
+        prefs.fileSearchCaseSensitive = actionVal;
+      }
+
+      if (action.modifier == &quot;wholeWord&quot;) {
+        prefs.fileSearchWholeWord = actionVal;
+      }
+
+      if (action.modifier == &quot;regexMatch&quot;) {
+        prefs.fileSearchRegexMatch = actionVal;
+      }
+
+      return state.setIn([&quot;modifiers&quot;, action.modifier], actionVal);
+    }
+
+    default: {
+      return state;
+    }
+  }
+}
+
+// NOTE: we&#x27;d like to have the app state fully typed
+// https://github.com/devtools-html/debugger.html/blob/master/src/reducers/sources.js#L179-L185
+type OuterState = { fileSearch: Record&lt;FileSearchState&gt; };
+
+export function getFileSearchQuery(state: OuterState): string {
+  return state.fileSearch.query;
+}
+
+export function getFileSearchModifiers(state: OuterState): Modifiers {
+  return state.fileSearch.modifiers;
+}
+
+export function getFileSearchResults(state: OuterState) {
+  return state.fileSearch.searchResults;
+}
+
+export default update;
+</textarea></div></div><div class="row centered"><footer>Flow Coverage Report generated by<a href="https://flowtype.org"> flow </a>and<a href="https://github.com/rpl/flow-coverage-report"> flow-coverage-report </a>at Tue Apr 03 2018 15:58:53 GMT-0400 (EDT)</footer></div></div><pre id="file-coverage-data" style="display:none;">{&quot;expressions&quot;:{&quot;covered_count&quot;:87,&quot;uncovered_count&quot;:9,&quot;uncovered_locs&quot;:[{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/file-search.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:52,&quot;column&quot;:22,&quot;offset&quot;:1094},&quot;end&quot;:{&quot;line&quot;:52,&quot;column&quot;:26,&quot;offset&quot;:1099}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/file-search.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:52,&quot;column&quot;:22,&quot;offset&quot;:1094},&quot;end&quot;:{&quot;line&quot;:52,&quot;column&quot;:50,&quot;offset&quot;:1123}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/file-search.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:53,&quot;column&quot;:18,&quot;offset&quot;:1142},&quot;end&quot;:{&quot;line&quot;:53,&quot;column&quot;:22,&quot;offset&quot;:1147}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/file-search.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:53,&quot;column&quot;:18,&quot;offset&quot;:1142},&quot;end&quot;:{&quot;line&quot;:53,&quot;column&quot;:42,&quot;offset&quot;:1167}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/file-search.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:54,&quot;column&quot;:19,&quot;offset&quot;:1187},&quot;end&quot;:{&quot;line&quot;:54,&quot;column&quot;:23,&quot;offset&quot;:1192}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/file-search.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:54,&quot;column&quot;:19,&quot;offset&quot;:1187},&quot;end&quot;:{&quot;line&quot;:54,&quot;column&quot;:44,&quot;offset&quot;:1213}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/file-search.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:76,&quot;column&quot;:9,&quot;offset&quot;:1748},&quot;end&quot;:{&quot;line&quot;:76,&quot;column&quot;:13,&quot;offset&quot;:1753}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/file-search.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:80,&quot;column&quot;:9,&quot;offset&quot;:1852},&quot;end&quot;:{&quot;line&quot;:80,&quot;column&quot;:13,&quot;offset&quot;:1857}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/file-search.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:84,&quot;column&quot;:9,&quot;offset&quot;:1953},&quot;end&quot;:{&quot;line&quot;:84,&quot;column&quot;:13,&quot;offset&quot;:1958}}]},&quot;percent&quot;:90}</pre></body></html>

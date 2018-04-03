@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"/><link rel="stylesheet" href="../../../assets/semantic.min.css"/><link rel="stylesheet" href="../../../assets/codemirror.css"/><link rel="stylesheet" href="../../../assets/flow-highlight-source.css"/><link rel="stylesheet" href="../../../assets/flow-coverage-report.css"/><link rel="stylesheet" href="../../../assets/codemirror-simplescrollbars-addon.css"/><script src="../../../assets/jquery-3.1.0.min.js"></script><script src="../../../assets/semantic.min.js"></script><script src="../../../assets/semantic-tablesort.js"></script><script src="../../../assets/codemirror.js"></script><script src="../../../assets/codemirror-javascript-mode.js"></script><script src="../../../assets/codemirror-annotatescrollbar-addon.js"></script><script src="../../../assets/codemirror-simplescrollbars-addon.js"></script><script src="../../../assets/flow-highlight-source.js"></script></head><body><div class="ui grid container"><div class="row"><h1 class="twelve wide column">Flow Coverage Report - src/components/ShortcutsModal.js</h1><div class="four wide column" style="height:32px;"><a href="../../../index.html" id="link-to-summary">Go back to all files summary.</a></div></div><div class="row"><table class="ui small celled unstackable table"><thead><tr><th class="sorted ascending">Filename</th><th>Percent</th><th>Total</th><th>Covered</th><th>Uncovered</th></tr></thead><tbody><tr class="positive"><td class="">src/components/ShortcutsModal.js</td><td> 100 %</td><td> 163 </td><td> 163 </td><td> 0 </td></tr></tbody></table></div><div class="row green" style="padding:0;height:12px;"></div><div class="row ui one column centered grid"><div class="column" style="text-align:left;"><div class="row"><div class="ui form"><div class="fields"><div class="sixteen wide inline field"><select class="ui search dropdown uncovered-locations"><option value="">Uncovered Locations</option></select></div><div class="four wide inline field"><select class="ui search dropdown syntax-highlighting"><option value="es">ES6/ES7</option><option value="js">JavaScript</option><option value="no">None</option></select></div></div></div></div><textarea id="file-content" readonly="">/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at &lt;http://mozilla.org/MPL/2.0/&gt;. */
+
+// @flow
+
+import React, { Component } from &quot;react&quot;;
+import Modal from &quot;./shared/Modal&quot;;
+import classnames from &quot;classnames&quot;;
+import { formatKeyShortcut } from &quot;../utils/text&quot;;
+
+import &quot;./ShortcutsModal.css&quot;;
+
+type Props = {
+  enabled: boolean,
+  additionalClass: string,
+  handleClose: () =&gt; void
+};
+
+export class ShortcutsModal extends Component&lt;Props&gt; {
+  renderPrettyCombos(combo: string) {
+    return combo
+      .split(&quot; &quot;)
+      .map(c =&gt; (
+        &lt;span key={c} className=&quot;keystroke&quot;&gt;
+          {c}
+        &lt;/span&gt;
+      ))
+      .reduce((prev, curr) =&gt; [prev, &quot; + &quot;, curr]);
+  }
+
+  renderShorcutItem(title: string, combo: string) {
+    return (
+      &lt;li&gt;
+        &lt;span&gt;{title}&lt;/span&gt;
+        &lt;span&gt;{this.renderPrettyCombos(combo)}&lt;/span&gt;
+      &lt;/li&gt;
+    );
+  }
+
+  renderEditorShortcuts() {
+    return (
+      &lt;ul className=&quot;shortcuts-list&quot;&gt;
+        {this.renderShorcutItem(
+          L10N.getStr(&quot;shortcuts.toggleBreakpoint&quot;),
+          formatKeyShortcut(L10N.getStr(&quot;toggleBreakpoint.key&quot;))
+        )}
+        {this.renderShorcutItem(
+          L10N.getStr(&quot;shortcuts.toggleCondPanel&quot;),
+          formatKeyShortcut(L10N.getStr(&quot;toggleCondPanel.key&quot;))
+        )}
+      &lt;/ul&gt;
+    );
+  }
+
+  renderSteppingShortcuts() {
+    return (
+      &lt;ul className=&quot;shortcuts-list&quot;&gt;
+        {this.renderShorcutItem(L10N.getStr(&quot;shortcuts.pauseOrResume&quot;), &quot;F8&quot;)}
+        {this.renderShorcutItem(L10N.getStr(&quot;shortcuts.stepOver&quot;), &quot;F10&quot;)}
+        {this.renderShorcutItem(L10N.getStr(&quot;shortcuts.stepIn&quot;), &quot;F11&quot;)}
+        {this.renderShorcutItem(
+          L10N.getStr(&quot;shortcuts.stepOut&quot;),
+          formatKeyShortcut(L10N.getStr(&quot;stepOut.key&quot;))
+        )}
+      &lt;/ul&gt;
+    );
+  }
+
+  renderSearchShortcuts() {
+    return (
+      &lt;ul className=&quot;shortcuts-list&quot;&gt;
+        {this.renderShorcutItem(
+          L10N.getStr(&quot;shortcuts.fileSearch&quot;),
+          formatKeyShortcut(L10N.getStr(&quot;sources.search.key2&quot;))
+        )}
+        {this.renderShorcutItem(
+          L10N.getStr(&quot;shortcuts.searchAgain&quot;),
+          formatKeyShortcut(L10N.getStr(&quot;sourceSearch.search.again.key2&quot;))
+        )}
+        {this.renderShorcutItem(
+          L10N.getStr(&quot;shortcuts.projectSearch&quot;),
+          formatKeyShortcut(L10N.getStr(&quot;projectTextSearch.key&quot;))
+        )}
+        {this.renderShorcutItem(
+          L10N.getStr(&quot;shortcuts.functionSearch&quot;),
+          formatKeyShortcut(L10N.getStr(&quot;functionSearch.key&quot;))
+        )}
+        {this.renderShorcutItem(
+          L10N.getStr(&quot;shortcuts.gotoLine&quot;),
+          formatKeyShortcut(L10N.getStr(&quot;gotoLineModal.key2&quot;))
+        )}
+      &lt;/ul&gt;
+    );
+  }
+
+  renderShortcutsContent() {
+    return (
+      &lt;div
+        className={classnames(&quot;shortcuts-content&quot;, this.props.additionalClass)}
+      &gt;
+        &lt;div className=&quot;shortcuts-section&quot;&gt;
+          &lt;h2&gt;{L10N.getStr(&quot;shortcuts.header.editor&quot;)}&lt;/h2&gt;
+          {this.renderEditorShortcuts()}
+        &lt;/div&gt;
+        &lt;div className=&quot;shortcuts-section&quot;&gt;
+          &lt;h2&gt;{L10N.getStr(&quot;shortcuts.header.stepping&quot;)}&lt;/h2&gt;
+          {this.renderSteppingShortcuts()}
+        &lt;/div&gt;
+        &lt;div className=&quot;shortcuts-section&quot;&gt;
+          &lt;h2&gt;{L10N.getStr(&quot;shortcuts.header.search&quot;)}&lt;/h2&gt;
+          {this.renderSearchShortcuts()}
+        &lt;/div&gt;
+      &lt;/div&gt;
+    );
+  }
+
+  render() {
+    const { enabled } = this.props;
+
+    if (!enabled) {
+      return null;
+    }
+
+    return (
+      &lt;Modal
+        in={enabled}
+        additionalClass=&quot;shortcuts-modal&quot;
+        handleClose={this.props.handleClose}
+      &gt;
+        {this.renderShortcutsContent()}
+      &lt;/Modal&gt;
+    );
+  }
+}
+</textarea></div></div><div class="row centered"><footer>Flow Coverage Report generated by<a href="https://flowtype.org"> flow </a>and<a href="https://github.com/rpl/flow-coverage-report"> flow-coverage-report </a>at Tue Apr 03 2018 15:58:53 GMT-0400 (EDT)</footer></div></div><pre id="file-coverage-data" style="display:none;">{&quot;expressions&quot;:{&quot;covered_count&quot;:163,&quot;uncovered_count&quot;:0,&quot;uncovered_locs&quot;:[]},&quot;percent&quot;:100}</pre></body></html>

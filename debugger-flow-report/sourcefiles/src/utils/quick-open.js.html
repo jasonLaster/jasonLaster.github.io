@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"/><link rel="stylesheet" href="../../../assets/semantic.min.css"/><link rel="stylesheet" href="../../../assets/codemirror.css"/><link rel="stylesheet" href="../../../assets/flow-highlight-source.css"/><link rel="stylesheet" href="../../../assets/flow-coverage-report.css"/><link rel="stylesheet" href="../../../assets/codemirror-simplescrollbars-addon.css"/><script src="../../../assets/jquery-3.1.0.min.js"></script><script src="../../../assets/semantic.min.js"></script><script src="../../../assets/semantic-tablesort.js"></script><script src="../../../assets/codemirror.js"></script><script src="../../../assets/codemirror-javascript-mode.js"></script><script src="../../../assets/codemirror-annotatescrollbar-addon.js"></script><script src="../../../assets/codemirror-simplescrollbars-addon.js"></script><script src="../../../assets/flow-highlight-source.js"></script></head><body><div class="ui grid container"><div class="row"><h1 class="twelve wide column">Flow Coverage Report - src/utils/quick-open.js</h1><div class="four wide column" style="height:32px;"><a href="../../../index.html" id="link-to-summary">Go back to all files summary.</a></div></div><div class="row"><table class="ui small celled unstackable table"><thead><tr><th class="sorted ascending">Filename</th><th>Percent</th><th>Total</th><th>Covered</th><th>Uncovered</th></tr></thead><tbody><tr class="positive"><td class="">src/utils/quick-open.js</td><td> 99 %</td><td> 175 </td><td> 174 </td><td> 1 </td></tr></tbody></table></div><div class="row green" style="padding:0;height:12px;"></div><div class="row ui one column centered grid"><div class="column" style="text-align:left;"><div class="row"><div class="ui form"><div class="fields"><div class="sixteen wide inline field"><select class="ui search dropdown uncovered-locations"><option value="">Uncovered Locations</option><option value="31">Start: 31,12 - End: 31,30</option></select></div><div class="four wide inline field"><select class="ui search dropdown syntax-highlighting"><option value="es">ES6/ES7</option><option value="js">JavaScript</option><option value="no">None</option></select></div></div></div></div><textarea id="file-content" readonly="">/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at &lt;http://mozilla.org/MPL/2.0/&gt;. */
+
+// @flow
+
+import { endTruncateStr } from &quot;./utils&quot;;
+import { isPretty, getFilename } from &quot;./source&quot;;
+
+import type { Location as BabelLocation } from &quot;@babel/types&quot;;
+import type { Symbols } from &quot;../reducers/ast&quot;;
+import type { QuickOpenType } from &quot;../reducers/quick-open&quot;;
+import type { RelativeSource } from &quot;../selectors/getRelativeSources&quot;;
+import type { SymbolDeclaration } from &quot;../workers/parser&quot;;
+
+export const MODIFIERS = {
+  &quot;@&quot;: &quot;functions&quot;,
+  &quot;#&quot;: &quot;variables&quot;,
+  &quot;:&quot;: &quot;goto&quot;,
+  &quot;?&quot;: &quot;shortcuts&quot;
+};
+
+export function parseQuickOpenQuery(query: string): QuickOpenType {
+  const modifierPattern = /^@|#|:|\?$/;
+  const gotoSourcePattern = /^(\w+)\:/;
+  const startsWithModifier = modifierPattern.test(query[0]);
+  const isGotoSource = gotoSourcePattern.test(query);
+
+  if (startsWithModifier) {
+    const modifier = query[0];
+    return MODIFIERS[modifier];
+  }
+
+  if (isGotoSource) {
+    return &quot;gotoSource&quot;;
+  }
+
+  return &quot;sources&quot;;
+}
+
+export function parseLineColumn(query: string) {
+  const [, line, column] = query.split(&quot;:&quot;);
+  const lineNumber = parseInt(line, 10);
+  const columnNumber = parseInt(column, 10);
+  if (!isNaN(lineNumber)) {
+    return {
+      line: lineNumber,
+      ...(!isNaN(columnNumber) ? { column: columnNumber } : null)
+    };
+  }
+}
+
+export function formatSourcesForList(source: RelativeSource) {
+  const title = getFilename(source);
+  const subtitle = endTruncateStr(source.relativeUrl, 100);
+
+  return {
+    value: source.relativeUrl,
+    title,
+    subtitle,
+    id: source.id,
+    url: source.url
+  };
+}
+
+export type QuickOpenResult = {|
+  id: string,
+  value: string,
+  title: string,
+  subtitle?: string,
+  location?: BabelLocation,
+  url?: string
+|};
+
+export type FormattedSymbolDeclarations = {|
+  variables: Array&lt;QuickOpenResult&gt;,
+  functions: Array&lt;QuickOpenResult&gt;
+|};
+
+export function formatSymbol(symbol: SymbolDeclaration): QuickOpenResult {
+  return {
+    id: `${symbol.name}:${symbol.location.start.line}`,
+    title: symbol.name,
+    subtitle: `${symbol.location.start.line}`,
+    value: symbol.name,
+    location: symbol.location
+  };
+}
+
+export function formatSymbols(symbols: ?Symbols): FormattedSymbolDeclarations {
+  if (!symbols || symbols.loading) {
+    return { variables: [], functions: [] };
+  }
+
+  const { variables, functions } = symbols;
+
+  return {
+    variables: variables.map(formatSymbol),
+    functions: functions.map(formatSymbol)
+  };
+}
+
+export function formatShortcutResults(): Array&lt;QuickOpenResult&gt; {
+  return [
+    {
+      value: L10N.getStr(&quot;symbolSearch.search.functionsPlaceholder.title&quot;),
+      title: `@ ${L10N.getStr(&quot;symbolSearch.search.functionsPlaceholder&quot;)}`,
+      id: &quot;@&quot;
+    },
+    {
+      value: L10N.getStr(&quot;symbolSearch.search.variablesPlaceholder.title&quot;),
+      title: `# ${L10N.getStr(&quot;symbolSearch.search.variablesPlaceholder&quot;)}`,
+      id: &quot;#&quot;
+    },
+    {
+      value: L10N.getStr(&quot;gotoLineModal.title&quot;),
+      title: `: ${L10N.getStr(&quot;gotoLineModal.placeholder&quot;)}`,
+      id: &quot;:&quot;
+    }
+  ];
+}
+
+export function formatSources(
+  sources: RelativeSource[]
+): Array&lt;QuickOpenResult&gt; {
+  return sources
+    .filter(source =&gt; !isPretty(source))
+    .map(source =&gt; formatSourcesForList(source))
+    .filter(({ value }) =&gt; value != &quot;&quot;);
+}
+</textarea></div></div><div class="row centered"><footer>Flow Coverage Report generated by<a href="https://flowtype.org"> flow </a>and<a href="https://github.com/rpl/flow-coverage-report"> flow-coverage-report </a>at Tue Apr 03 2018 15:58:53 GMT-0400 (EDT)</footer></div></div><pre id="file-coverage-data" style="display:none;">{&quot;expressions&quot;:{&quot;covered_count&quot;:174,&quot;uncovered_count&quot;:1,&quot;uncovered_locs&quot;:[{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/quick-open.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:31,&quot;column&quot;:12,&quot;offset&quot;:1054},&quot;end&quot;:{&quot;line&quot;:31,&quot;column&quot;:30,&quot;offset&quot;:1073}}]},&quot;percent&quot;:99}</pre></body></html>

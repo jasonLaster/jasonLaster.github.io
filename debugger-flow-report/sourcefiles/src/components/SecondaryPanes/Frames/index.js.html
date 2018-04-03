@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"/><link rel="stylesheet" href="../../../../../assets/semantic.min.css"/><link rel="stylesheet" href="../../../../../assets/codemirror.css"/><link rel="stylesheet" href="../../../../../assets/flow-highlight-source.css"/><link rel="stylesheet" href="../../../../../assets/flow-coverage-report.css"/><link rel="stylesheet" href="../../../../../assets/codemirror-simplescrollbars-addon.css"/><script src="../../../../../assets/jquery-3.1.0.min.js"></script><script src="../../../../../assets/semantic.min.js"></script><script src="../../../../../assets/semantic-tablesort.js"></script><script src="../../../../../assets/codemirror.js"></script><script src="../../../../../assets/codemirror-javascript-mode.js"></script><script src="../../../../../assets/codemirror-annotatescrollbar-addon.js"></script><script src="../../../../../assets/codemirror-simplescrollbars-addon.js"></script><script src="../../../../../assets/flow-highlight-source.js"></script></head><body><div class="ui grid container"><div class="row"><h1 class="twelve wide column">Flow Coverage Report - src/components/SecondaryPanes/Frames/index.js</h1><div class="four wide column" style="height:32px;"><a href="../../../../../index.html" id="link-to-summary">Go back to all files summary.</a></div></div><div class="row"><table class="ui small celled unstackable table"><thead><tr><th class="sorted ascending">Filename</th><th>Percent</th><th>Total</th><th>Covered</th><th>Uncovered</th></tr></thead><tbody><tr class="positive"><td class="">src/components/SecondaryPanes/Frames/index.js</td><td> 81 %</td><td> 216 </td><td> 177 </td><td> 39 </td></tr></tbody></table></div><div class="row green" style="padding:0;height:12px;"></div><div class="row ui one column centered grid"><div class="column" style="text-align:left;"><div class="row"><div class="ui form"><div class="fields"><div class="sixteen wide inline field"><select class="ui search dropdown uncovered-locations"><option value="">Uncovered Locations</option><option value="58">Start: 58,15 - End: 58,19</option><option value="59">Start: 59,11 - End: 59,15</option><option value="89">Start: 89,12 - End: 89,25</option><option value="89">Start: 89,12 - End: 89,33</option><option value="92">Start: 92,18 - End: 92,23</option><option value="94">Start: 94,9 - End: 94,14</option><option value="94">Start: 94,9 - End: 94,21</option><option value="97">Start: 97,12 - End: 97,17</option><option value="97">Start: 97,12 - End: 97,43</option><option value="102">Start: 102,42 - End: 102,55</option><option value="102">Start: 102,42 - End: 102,58</option><option value="103">Start: 103,5 - End: 103,22</option><option value="103">Start: 103,5 - End: 103,36</option><option value="108">Start: 108,5 - End: 108,49</option><option value="119">Start: 119,11 - End: 119,24</option><option value="119">Start: 119,28 - End: 119,75</option><option value="124">Start: 124,10 - End: 124,23</option><option value="124">Start: 124,10 - End: 149,9</option><option value="146">Start: 146,22 - End: 146,39</option><option value="188">Start: 188,10 - End: 188,34</option><option value="190">Start: 190,10 - End: 190,40</option><option value="196">Start: 196,16 - End: 196,22</option><option value="196">Start: 196,16 - End: 205,1</option><option value="196">Start: 196,16 - End: 205,9</option><option value="197">Start: 197,3 - End: 197,7</option><option value="198">Start: 198,13 - End: 198,30</option><option value="198">Start: 198,13 - End: 198,37</option><option value="198">Start: 198,32 - End: 198,36</option><option value="199">Start: 199,25 - End: 199,29</option><option value="200">Start: 200,52 - End: 200,56</option><option value="201">Start: 201,20 - End: 201,35</option><option value="201">Start: 201,20 - End: 201,42</option><option value="201">Start: 201,37 - End: 201,41</option><option value="202">Start: 202,24 - End: 202,28</option><option value="204">Start: 204,3 - End: 204,10</option><option value="204">Start: 204,15 - End: 204,32</option><option value="204">Start: 204,15 - End: 204,51</option><option value="204">Start: 204,34 - End: 204,40</option><option value="204">Start: 204,43 - End: 204,50</option></select></div><div class="four wide inline field"><select class="ui search dropdown syntax-highlighting"><option value="es">ES6/ES7</option><option value="js">JavaScript</option><option value="no">None</option></select></div></div></div></div><textarea id="file-content" readonly="">/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at &lt;http://mozilla.org/MPL/2.0/&gt;. */
+
+// @flow
+
+import React, { Component } from &quot;react&quot;;
+import { bindActionCreators } from &quot;redux&quot;;
+import { connect } from &quot;react-redux&quot;;
+
+import type { Frame, Why } from &quot;../../../types&quot;;
+
+import FrameComponent from &quot;./Frame&quot;;
+import Group from &quot;./Group&quot;;
+
+import renderWhyPaused from &quot;./WhyPaused&quot;;
+
+import actions from &quot;../../../actions&quot;;
+import { collapseFrames, formatCopyName } from &quot;../../../utils/pause/frames&quot;;
+import { copyToTheClipboard } from &quot;../../../utils/clipboard&quot;;
+
+import {
+  getFrameworkGroupingState,
+  getSelectedFrame,
+  isPaused as getIsPaused,
+  getCallStackFrames,
+  getPauseReason
+} from &quot;../../../selectors&quot;;
+
+import type { LocalFrame } from &quot;./types&quot;;
+
+import &quot;./Frames.css&quot;;
+
+const NUM_FRAMES_SHOWN = 7;
+
+type Props = {
+  frames: Array&lt;Frame&gt;,
+  frameworkGroupingOn: boolean,
+  toggleFrameworkGrouping: Function,
+  selectedFrame: Object,
+  selectFrame: Function,
+  toggleBlackBox: Function,
+  why: Why
+};
+
+type State = {
+  showAllFrames: boolean
+};
+
+class Frames extends Component&lt;Props, State&gt; {
+  renderFrames: Function;
+  toggleFramesDisplay: Function;
+  truncateFrames: Function;
+  copyStackTrace: Function;
+  toggleFrameworkGrouping: Function;
+  renderToggleButton: Function;
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      showAllFrames: false
+    };
+  }
+
+  shouldComponentUpdate(nextProps, nextState): boolean {
+    const { frames, selectedFrame, frameworkGroupingOn } = this.props;
+    const { showAllFrames } = this.state;
+    return (
+      frames !== nextProps.frames ||
+      selectedFrame !== nextProps.selectedFrame ||
+      showAllFrames !== nextState.showAllFrames ||
+      frameworkGroupingOn !== nextProps.frameworkGroupingOn
+    );
+  }
+
+  toggleFramesDisplay = (): void =&gt; {
+    this.setState(prevState =&gt; ({
+      showAllFrames: !prevState.showAllFrames
+    }));
+  };
+
+  collapseFrames(frames) {
+    const { frameworkGroupingOn } = this.props;
+    if (!frameworkGroupingOn) {
+      return frames;
+    }
+
+    return collapseFrames(frames);
+  }
+
+  truncateFrames(frames) {
+    const numFramesToShow = this.state.showAllFrames
+      ? frames.length
+      : NUM_FRAMES_SHOWN;
+
+    return frames.slice(0, numFramesToShow);
+  }
+
+  copyStackTrace = () =&gt; {
+    const { frames } = this.props;
+    const framesToCopy = frames.map(f =&gt; formatCopyName(f)).join(&quot;\n&quot;);
+    copyToTheClipboard(framesToCopy);
+  };
+
+  toggleFrameworkGrouping = () =&gt; {
+    const { toggleFrameworkGrouping, frameworkGroupingOn } = this.props;
+    toggleFrameworkGrouping(!frameworkGroupingOn);
+  };
+
+  renderFrames(frames: LocalFrame[]) {
+    const {
+      selectFrame,
+      selectedFrame,
+      toggleBlackBox,
+      frameworkGroupingOn
+    } = this.props;
+
+    const framesOrGroups = this.truncateFrames(this.collapseFrames(frames));
+    type FrameOrGroup = LocalFrame | LocalFrame[];
+
+    return (
+      &lt;ul&gt;
+        {framesOrGroups.map(
+          (frameOrGroup: FrameOrGroup) =&gt;
+            frameOrGroup.id ? (
+              &lt;FrameComponent
+                frame={frameOrGroup}
+                toggleFrameworkGrouping={this.toggleFrameworkGrouping}
+                copyStackTrace={this.copyStackTrace}
+                frameworkGroupingOn={frameworkGroupingOn}
+                selectFrame={selectFrame}
+                selectedFrame={selectedFrame}
+                toggleBlackBox={toggleBlackBox}
+                key={String(frameOrGroup.id)}
+              /&gt;
+            ) : (
+              &lt;Group
+                group={frameOrGroup}
+                toggleFrameworkGrouping={this.toggleFrameworkGrouping}
+                copyStackTrace={this.copyStackTrace}
+                frameworkGroupingOn={frameworkGroupingOn}
+                selectFrame={selectFrame}
+                selectedFrame={selectedFrame}
+                toggleBlackBox={toggleBlackBox}
+                key={frameOrGroup[0].id}
+              /&gt;
+            )
+        )}
+      &lt;/ul&gt;
+    );
+  }
+
+  renderToggleButton(frames: LocalFrame[]) {
+    const buttonMessage = this.state.showAllFrames
+      ? L10N.getStr(&quot;callStack.collapse&quot;)
+      : L10N.getStr(&quot;callStack.expand&quot;);
+
+    frames = this.collapseFrames(frames);
+    if (frames.length &lt;= NUM_FRAMES_SHOWN) {
+      return null;
+    }
+
+    return (
+      &lt;div className=&quot;show-more-container&quot;&gt;
+        &lt;button className=&quot;show-more&quot; onClick={this.toggleFramesDisplay}&gt;
+          {buttonMessage}
+        &lt;/button&gt;
+      &lt;/div&gt;
+    );
+  }
+
+  render() {
+    const { frames, why } = this.props;
+
+    if (!frames) {
+      return (
+        &lt;div className=&quot;pane frames&quot;&gt;
+          &lt;div className=&quot;pane-info empty&quot;&gt;
+            {L10N.getStr(&quot;callStack.notPaused&quot;)}
+          &lt;/div&gt;
+        &lt;/div&gt;
+      );
+    }
+
+    return (
+      &lt;div className=&quot;pane frames&quot;&gt;
+        {this.renderFrames(frames)}
+        {renderWhyPaused(why)}
+        {this.renderToggleButton(frames)}
+      &lt;/div&gt;
+    );
+  }
+}
+
+export default connect(
+  state =&gt; ({
+    frames: getCallStackFrames(state),
+    why: getPauseReason(state),
+    frameworkGroupingOn: getFrameworkGroupingState(state),
+    selectedFrame: getSelectedFrame(state),
+    pause: getIsPaused(state)
+  }),
+  dispatch =&gt; bindActionCreators(actions, dispatch)
+)(Frames);
+</textarea></div></div><div class="row centered"><footer>Flow Coverage Report generated by<a href="https://flowtype.org"> flow </a>and<a href="https://github.com/rpl/flow-coverage-report"> flow-coverage-report </a>at Tue Apr 03 2018 15:58:53 GMT-0400 (EDT)</footer></div></div><pre id="file-coverage-data" style="display:none;">{&quot;expressions&quot;:{&quot;covered_count&quot;:177,&quot;uncovered_count&quot;:39,&quot;uncovered_locs&quot;:[{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/index.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:58,&quot;column&quot;:15,&quot;offset&quot;:1431},&quot;end&quot;:{&quot;line&quot;:58,&quot;column&quot;:19,&quot;offset&quot;:1436}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/index.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:59,&quot;column&quot;:11,&quot;offset&quot;:1450},&quot;end&quot;:{&quot;line&quot;:59,&quot;column&quot;:15,&quot;offset&quot;:1455}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/index.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:89,&quot;column&quot;:12,&quot;offset&quot;:2190},&quot;end&quot;:{&quot;line&quot;:89,&quot;column&quot;:25,&quot;offset&quot;:2204}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/index.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:89,&quot;column&quot;:12,&quot;offset&quot;:2190},&quot;end&quot;:{&quot;line&quot;:89,&quot;column&quot;:33,&quot;offset&quot;:2212}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/index.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:92,&quot;column&quot;:18,&quot;offset&quot;:2236},&quot;end&quot;:{&quot;line&quot;:92,&quot;column&quot;:23,&quot;offset&quot;:2242}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/index.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:94,&quot;column&quot;:9,&quot;offset&quot;:2307},&quot;end&quot;:{&quot;line&quot;:94,&quot;column&quot;:14,&quot;offset&quot;:2313}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/index.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:94,&quot;column&quot;:9,&quot;offset&quot;:2307},&quot;end&quot;:{&quot;line&quot;:94,&quot;column&quot;:21,&quot;offset&quot;:2320}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/index.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:97,&quot;column&quot;:12,&quot;offset&quot;:2359},&quot;end&quot;:{&quot;line&quot;:97,&quot;column&quot;:17,&quot;offset&quot;:2365}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/index.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:97,&quot;column&quot;:12,&quot;offset&quot;:2359},&quot;end&quot;:{&quot;line&quot;:97,&quot;column&quot;:43,&quot;offset&quot;:2391}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/index.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:102,&quot;column&quot;:42,&quot;offset&quot;:2501},&quot;end&quot;:{&quot;line&quot;:102,&quot;column&quot;:55,&quot;offset&quot;:2515}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/index.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:102,&quot;column&quot;:42,&quot;offset&quot;:2501},&quot;end&quot;:{&quot;line&quot;:102,&quot;column&quot;:58,&quot;offset&quot;:2518}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/index.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:103,&quot;column&quot;:5,&quot;offset&quot;:2536},&quot;end&quot;:{&quot;line&quot;:103,&quot;column&quot;:22,&quot;offset&quot;:2554}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/index.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:103,&quot;column&quot;:5,&quot;offset&quot;:2536},&quot;end&quot;:{&quot;line&quot;:103,&quot;column&quot;:36,&quot;offset&quot;:2568}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/index.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:108,&quot;column&quot;:5,&quot;offset&quot;:2689},&quot;end&quot;:{&quot;line&quot;:108,&quot;column&quot;:49,&quot;offset&quot;:2734}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/index.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:119,&quot;column&quot;:11,&quot;offset&quot;:2912},&quot;end&quot;:{&quot;line&quot;:119,&quot;column&quot;:24,&quot;offset&quot;:2926}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/index.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:119,&quot;column&quot;:28,&quot;offset&quot;:2929},&quot;end&quot;:{&quot;line&quot;:119,&quot;column&quot;:75,&quot;offset&quot;:2977}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/index.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:124,&quot;column&quot;:10,&quot;offset&quot;:3064},&quot;end&quot;:{&quot;line&quot;:124,&quot;column&quot;:23,&quot;offset&quot;:3078}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/index.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:124,&quot;column&quot;:10,&quot;offset&quot;:3064},&quot;end&quot;:{&quot;line&quot;:149,&quot;column&quot;:9,&quot;offset&quot;:4081}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/index.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:146,&quot;column&quot;:22,&quot;offset&quot;:4021},&quot;end&quot;:{&quot;line&quot;:146,&quot;column&quot;:39,&quot;offset&quot;:4039}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/index.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:188,&quot;column&quot;:10,&quot;offset&quot;:4925},&quot;end&quot;:{&quot;line&quot;:188,&quot;column&quot;:34,&quot;offset&quot;:4950}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/index.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:190,&quot;column&quot;:10,&quot;offset&quot;:4992},&quot;end&quot;:{&quot;line&quot;:190,&quot;column&quot;:40,&quot;offset&quot;:5023}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/index.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:196,&quot;column&quot;:16,&quot;offset&quot;:5067},&quot;end&quot;:{&quot;line&quot;:196,&quot;column&quot;:22,&quot;offset&quot;:5074}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/index.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:196,&quot;column&quot;:16,&quot;offset&quot;:5067},&quot;end&quot;:{&quot;line&quot;:205,&quot;column&quot;:1,&quot;offset&quot;:5353}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/index.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:196,&quot;column&quot;:16,&quot;offset&quot;:5067},&quot;end&quot;:{&quot;line&quot;:205,&quot;column&quot;:9,&quot;offset&quot;:5361}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/index.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:197,&quot;column&quot;:3,&quot;offset&quot;:5078},&quot;end&quot;:{&quot;line&quot;:197,&quot;column&quot;:7,&quot;offset&quot;:5083}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/index.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:198,&quot;column&quot;:13,&quot;offset&quot;:5102},&quot;end&quot;:{&quot;line&quot;:198,&quot;column&quot;:30,&quot;offset&quot;:5120}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/index.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:198,&quot;column&quot;:13,&quot;offset&quot;:5102},&quot;end&quot;:{&quot;line&quot;:198,&quot;column&quot;:37,&quot;offset&quot;:5127}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/index.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:198,&quot;column&quot;:32,&quot;offset&quot;:5121},&quot;end&quot;:{&quot;line&quot;:198,&quot;column&quot;:36,&quot;offset&quot;:5126}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/index.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:199,&quot;column&quot;:25,&quot;offset&quot;:5153},&quot;end&quot;:{&quot;line&quot;:199,&quot;column&quot;:29,&quot;offset&quot;:5158}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/index.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:200,&quot;column&quot;:52,&quot;offset&quot;:5212},&quot;end&quot;:{&quot;line&quot;:200,&quot;column&quot;:56,&quot;offset&quot;:5217}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/index.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:201,&quot;column&quot;:20,&quot;offset&quot;:5239},&quot;end&quot;:{&quot;line&quot;:201,&quot;column&quot;:35,&quot;offset&quot;:5255}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/index.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:201,&quot;column&quot;:20,&quot;offset&quot;:5239},&quot;end&quot;:{&quot;line&quot;:201,&quot;column&quot;:42,&quot;offset&quot;:5262}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/index.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:201,&quot;column&quot;:37,&quot;offset&quot;:5256},&quot;end&quot;:{&quot;line&quot;:201,&quot;column&quot;:41,&quot;offset&quot;:5261}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/index.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:202,&quot;column&quot;:24,&quot;offset&quot;:5287},&quot;end&quot;:{&quot;line&quot;:202,&quot;column&quot;:28,&quot;offset&quot;:5292}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/index.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:204,&quot;column&quot;:3,&quot;offset&quot;:5302},&quot;end&quot;:{&quot;line&quot;:204,&quot;column&quot;:10,&quot;offset&quot;:5310}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/index.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:204,&quot;column&quot;:15,&quot;offset&quot;:5314},&quot;end&quot;:{&quot;line&quot;:204,&quot;column&quot;:32,&quot;offset&quot;:5332}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/index.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:204,&quot;column&quot;:15,&quot;offset&quot;:5314},&quot;end&quot;:{&quot;line&quot;:204,&quot;column&quot;:51,&quot;offset&quot;:5351}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/index.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:204,&quot;column&quot;:34,&quot;offset&quot;:5333},&quot;end&quot;:{&quot;line&quot;:204,&quot;column&quot;:40,&quot;offset&quot;:5340}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/SecondaryPanes/Frames/index.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:204,&quot;column&quot;:43,&quot;offset&quot;:5342},&quot;end&quot;:{&quot;line&quot;:204,&quot;column&quot;:50,&quot;offset&quot;:5350}}]},&quot;percent&quot;:81}</pre></body></html>

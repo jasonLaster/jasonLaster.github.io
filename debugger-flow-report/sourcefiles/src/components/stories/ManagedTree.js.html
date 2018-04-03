@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"/><link rel="stylesheet" href="../../../../assets/semantic.min.css"/><link rel="stylesheet" href="../../../../assets/codemirror.css"/><link rel="stylesheet" href="../../../../assets/flow-highlight-source.css"/><link rel="stylesheet" href="../../../../assets/flow-coverage-report.css"/><link rel="stylesheet" href="../../../../assets/codemirror-simplescrollbars-addon.css"/><script src="../../../../assets/jquery-3.1.0.min.js"></script><script src="../../../../assets/semantic.min.js"></script><script src="../../../../assets/semantic-tablesort.js"></script><script src="../../../../assets/codemirror.js"></script><script src="../../../../assets/codemirror-javascript-mode.js"></script><script src="../../../../assets/codemirror-annotatescrollbar-addon.js"></script><script src="../../../../assets/codemirror-simplescrollbars-addon.js"></script><script src="../../../../assets/flow-highlight-source.js"></script></head><body><div class="ui grid container"><div class="row"><h1 class="twelve wide column">Flow Coverage Report - src/components/stories/ManagedTree.js</h1><div class="four wide column" style="height:32px;"><a href="../../../../index.html" id="link-to-summary">Go back to all files summary.</a></div></div><div class="row"><table class="ui small celled unstackable table"><thead><tr><th class="sorted ascending">Filename</th><th>Percent</th><th>Total</th><th>Covered</th><th>Uncovered</th></tr></thead><tbody><tr class="negative"><td class="">src/components/stories/ManagedTree.js</td><td> 72 %</td><td> 150 </td><td> 108 </td><td> 42 </td></tr></tbody></table></div><div class="row red" style="padding:0;height:12px;"></div><div class="row ui one column centered grid"><div class="column" style="text-align:left;"><div class="row"><div class="ui form"><div class="fields"><div class="sixteen wide inline field"><select class="ui search dropdown uncovered-locations"><option value="">Uncovered Locations</option><option value="4">Start: 4,7 - End: 4,17</option><option value="13">Start: 13,12 - End: 13,17</option><option value="14">Start: 14,3 - End: 14,8</option><option value="14">Start: 14,3 - End: 14,20</option><option value="14">Start: 14,17 - End: 14,20</option><option value="15">Start: 15,3 - End: 15,13</option><option value="15">Start: 15,3 - End: 15,77</option><option value="15">Start: 15,25 - End: 15,76</option><option value="18">Start: 18,29 - End: 18,35</option><option value="19">Start: 19,9 - End: 19,18</option><option value="25">Start: 25,10 - End: 25,12</option><option value="25">Start: 25,10 - End: 68,3</option><option value="36">Start: 36,5 - End: 36,7</option><option value="36">Start: 36,5 - End: 67,5</option><option value="45">Start: 45,19 - End: 66,7</option><option value="48">Start: 48,22 - End: 48,25</option><option value="57">Start: 57,24 - End: 57,27</option><option value="57">Start: 57,30 - End: 57,34</option><option value="58">Start: 58,13 - End: 58,15</option><option value="58">Start: 58,13 - End: 63,13</option><option value="60">Start: 60,38 - End: 60,42</option><option value="62">Start: 62,15 - End: 62,18</option><option value="62">Start: 62,15 - End: 62,23</option><option value="65">Start: 65,12 - End: 65,18</option><option value="71">Start: 71,1 - End: 71,9</option><option value="71">Start: 71,1 - End: 71,32</option><option value="71">Start: 71,1 - End: 94,4</option><option value="71">Start: 71,1 - End: 123,4</option><option value="73">Start: 73,11 - End: 73,14</option><option value="87">Start: 87,12 - End: 93,6</option><option value="91">Start: 91,20 - End: 91,23</option><option value="91">Start: 91,28 - End: 91,31</option><option value="92">Start: 92,16 - End: 92,19</option><option value="92">Start: 92,24 - End: 92,27</option><option value="92">Start: 92,24 - End: 92,32</option><option value="96">Start: 96,11 - End: 96,14</option><option value="116">Start: 116,12 - End: 122,6</option><option value="120">Start: 120,20 - End: 120,23</option><option value="120">Start: 120,28 - End: 120,31</option><option value="121">Start: 121,16 - End: 121,19</option><option value="121">Start: 121,24 - End: 121,27</option><option value="121">Start: 121,24 - End: 121,32</option></select></div><div class="four wide inline field"><select class="ui search dropdown syntax-highlighting"><option value="es">ES6/ES7</option><option value="js">JavaScript</option><option value="no">None</option></select></div></div></div></div><textarea id="file-content" readonly="">import React, { DOM as dom } from &quot;react&quot;;
+import { storiesOf } from &quot;@storybook/react&quot;;
+import _ManagedTree from &quot;../shared/ManagedTree&quot;;
+const ManagedTree = React.createFactory(_ManagedTree);
+import { L10N } from &quot;devtools-launchpad&quot;;
+import prefs from &quot;../../utils/prefs&quot;;
+
+import &quot;../App.css&quot;;
+import &quot;devtools-launchpad/src/lib/themes/dark-theme.css&quot;;
+
+// NOTE: we need this for supporting L10N in storybook
+// we can move this to a shared helper as we add additional stories
+if (typeof window == &quot;object&quot;) {
+  window.L10N = L10N;
+  window.L10N.setBundle(require(&quot;../../../assets/panel/debugger.properties&quot;));
+}
+
+function ManagedTreeFactory(options, { dir = &quot;ltr&quot;, theme = &quot;light&quot; } = {}) {
+  const themeClass = `theme-${theme}`;
+  document.dir = dir;
+  document.body.parentNode.className = themeClass;
+
+  prefs.searchNav = true;
+
+  return dom.div(
+    {
+      className: &quot;&quot;,
+      style: {
+        width: &quot;calc(100vw - 100px)&quot;,
+        height: &quot;calc(100vh - 100px)&quot;,
+        margin: &quot;auto&quot;,
+        display: &quot;flex&quot;,
+        &quot;flex-direction&quot;: &quot;row&quot;
+      }
+    },
+    dom.div(
+      {
+        className: `search-bar ${themeClass}`,
+        dir,
+        style: {
+          width: &quot;100vw&quot;,
+          &quot;align-self&quot;: &quot;center&quot;
+        }
+      },
+      ManagedTree({
+        ...{
+          itemHeight: 20,
+          getParent: item =&gt; null,
+          getChildren: () =&gt; {},
+          getRoots: () =&gt; {},
+          getPath: () =&gt; {},
+          autoExpand: 0,
+          autoExpandDepth: 0,
+          autoExpandAll: false,
+          disabledFocus: true,
+          onExpand: () =&gt; {},
+          renderItem: (item, depth) =&gt;
+            dom.div(
+              {
+                style: { marginLeft: depth * 15 }
+              },
+              item.name
+            )
+        },
+        ...options
+      })
+    )
+  );
+}
+
+storiesOf(&quot;ManagedTree&quot;, module)
+  .add(&quot;simple&quot;, () =&gt; {
+    const root = {
+      name: &quot;foo&quot;,
+      path: &quot;foo&quot;,
+      children: [
+        {
+          name: &quot;bar&quot;,
+          path: &quot;foo/bar&quot;
+        },
+        {
+          name: &quot;bazz&quot;,
+          path: &quot;foo/bazz&quot;
+        }
+      ]
+    };
+    return ManagedTreeFactory({
+      autoExpand: 1,
+      autoExpandDepth: 1,
+      getRoots: () =&gt; [root],
+      getChildren: item =&gt; item.children || [],
+      getPath: item =&gt; item.path
+    });
+  })
+  .add(&quot;2 deep tree&quot;, () =&gt; {
+    const root = {
+      name: &quot;foo&quot;,
+      path: &quot;foo&quot;,
+      children: [
+        {
+          name: &quot;bar&quot;,
+          path: &quot;foo/bar&quot;,
+          children: [
+            {
+              name: &quot;barry&quot;,
+              path: &quot;foo/bar/bar&quot;
+            }
+          ]
+        },
+        {
+          name: &quot;bazz&quot;,
+          path: &quot;foo/bazz&quot;
+        }
+      ]
+    };
+    return ManagedTreeFactory({
+      autoExpand: 1,
+      autoExpandDepth: 1,
+      getRoots: () =&gt; [root],
+      getChildren: item =&gt; item.children || [],
+      getPath: item =&gt; item.path
+    });
+  });
+</textarea></div></div><div class="row centered"><footer>Flow Coverage Report generated by<a href="https://flowtype.org"> flow </a>and<a href="https://github.com/rpl/flow-coverage-report"> flow-coverage-report </a>at Tue Aug 15 2017 09:36:51 GMT-0400 (EDT)</footer></div></div><pre id="file-coverage-data" style="display:none;">{&quot;expressions&quot;:{&quot;covered_count&quot;:108,&quot;uncovered_count&quot;:42,&quot;uncovered_locs&quot;:[{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ManagedTree.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:4,&quot;column&quot;:7,&quot;offset&quot;:145},&quot;end&quot;:{&quot;line&quot;:4,&quot;column&quot;:17,&quot;offset&quot;:156}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ManagedTree.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:13,&quot;column&quot;:12,&quot;offset&quot;:492},&quot;end&quot;:{&quot;line&quot;:13,&quot;column&quot;:17,&quot;offset&quot;:498}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ManagedTree.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:14,&quot;column&quot;:3,&quot;offset&quot;:516},&quot;end&quot;:{&quot;line&quot;:14,&quot;column&quot;:8,&quot;offset&quot;:522}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ManagedTree.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:14,&quot;column&quot;:3,&quot;offset&quot;:516},&quot;end&quot;:{&quot;line&quot;:14,&quot;column&quot;:20,&quot;offset&quot;:534}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ManagedTree.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:14,&quot;column&quot;:17,&quot;offset&quot;:530},&quot;end&quot;:{&quot;line&quot;:14,&quot;column&quot;:20,&quot;offset&quot;:534}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ManagedTree.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:15,&quot;column&quot;:3,&quot;offset&quot;:538},&quot;end&quot;:{&quot;line&quot;:15,&quot;column&quot;:13,&quot;offset&quot;:549}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ManagedTree.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:15,&quot;column&quot;:3,&quot;offset&quot;:538},&quot;end&quot;:{&quot;line&quot;:15,&quot;column&quot;:77,&quot;offset&quot;:613}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ManagedTree.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:15,&quot;column&quot;:25,&quot;offset&quot;:560},&quot;end&quot;:{&quot;line&quot;:15,&quot;column&quot;:76,&quot;offset&quot;:612}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ManagedTree.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:18,&quot;column&quot;:29,&quot;offset&quot;:646},&quot;end&quot;:{&quot;line&quot;:18,&quot;column&quot;:35,&quot;offset&quot;:653}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ManagedTree.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:19,&quot;column&quot;:9,&quot;offset&quot;:704},&quot;end&quot;:{&quot;line&quot;:19,&quot;column&quot;:18,&quot;offset&quot;:714}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ManagedTree.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:25,&quot;column&quot;:10,&quot;offset&quot;:845},&quot;end&quot;:{&quot;line&quot;:25,&quot;column&quot;:12,&quot;offset&quot;:848}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ManagedTree.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:25,&quot;column&quot;:10,&quot;offset&quot;:845},&quot;end&quot;:{&quot;line&quot;:68,&quot;column&quot;:3,&quot;offset&quot;:1808}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ManagedTree.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:36,&quot;column&quot;:5,&quot;offset&quot;:1073},&quot;end&quot;:{&quot;line&quot;:36,&quot;column&quot;:7,&quot;offset&quot;:1076}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ManagedTree.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:36,&quot;column&quot;:5,&quot;offset&quot;:1073},&quot;end&quot;:{&quot;line&quot;:67,&quot;column&quot;:5,&quot;offset&quot;:1804}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ManagedTree.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:45,&quot;column&quot;:19,&quot;offset&quot;:1263},&quot;end&quot;:{&quot;line&quot;:66,&quot;column&quot;:7,&quot;offset&quot;:1797}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ManagedTree.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:48,&quot;column&quot;:22,&quot;offset&quot;:1325},&quot;end&quot;:{&quot;line&quot;:48,&quot;column&quot;:25,&quot;offset&quot;:1329}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ManagedTree.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:57,&quot;column&quot;:24,&quot;offset&quot;:1602},&quot;end&quot;:{&quot;line&quot;:57,&quot;column&quot;:27,&quot;offset&quot;:1606}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ManagedTree.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:57,&quot;column&quot;:30,&quot;offset&quot;:1608},&quot;end&quot;:{&quot;line&quot;:57,&quot;column&quot;:34,&quot;offset&quot;:1613}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ManagedTree.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:58,&quot;column&quot;:13,&quot;offset&quot;:1630},&quot;end&quot;:{&quot;line&quot;:58,&quot;column&quot;:15,&quot;offset&quot;:1633}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ManagedTree.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:58,&quot;column&quot;:13,&quot;offset&quot;:1630},&quot;end&quot;:{&quot;line&quot;:63,&quot;column&quot;:13,&quot;offset&quot;:1759}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ManagedTree.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:60,&quot;column&quot;:38,&quot;offset&quot;:1692},&quot;end&quot;:{&quot;line&quot;:60,&quot;column&quot;:42,&quot;offset&quot;:1697}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ManagedTree.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:62,&quot;column&quot;:15,&quot;offset&quot;:1736},&quot;end&quot;:{&quot;line&quot;:62,&quot;column&quot;:18,&quot;offset&quot;:1740}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ManagedTree.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:62,&quot;column&quot;:15,&quot;offset&quot;:1736},&quot;end&quot;:{&quot;line&quot;:62,&quot;column&quot;:23,&quot;offset&quot;:1745}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ManagedTree.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:65,&quot;column&quot;:12,&quot;offset&quot;:1782},&quot;end&quot;:{&quot;line&quot;:65,&quot;column&quot;:18,&quot;offset&quot;:1789}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ManagedTree.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:71,&quot;column&quot;:1,&quot;offset&quot;:1813},&quot;end&quot;:{&quot;line&quot;:71,&quot;column&quot;:9,&quot;offset&quot;:1822}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ManagedTree.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:71,&quot;column&quot;:1,&quot;offset&quot;:1813},&quot;end&quot;:{&quot;line&quot;:71,&quot;column&quot;:32,&quot;offset&quot;:1845}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ManagedTree.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:71,&quot;column&quot;:1,&quot;offset&quot;:1813},&quot;end&quot;:{&quot;line&quot;:94,&quot;column&quot;:4,&quot;offset&quot;:2304}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ManagedTree.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:71,&quot;column&quot;:1,&quot;offset&quot;:1813},&quot;end&quot;:{&quot;line&quot;:123,&quot;column&quot;:4,&quot;offset&quot;:2894}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ManagedTree.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:73,&quot;column&quot;:11,&quot;offset&quot;:1881},&quot;end&quot;:{&quot;line&quot;:73,&quot;column&quot;:14,&quot;offset&quot;:1885}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ManagedTree.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:87,&quot;column&quot;:12,&quot;offset&quot;:2113},&quot;end&quot;:{&quot;line&quot;:93,&quot;column&quot;:6,&quot;offset&quot;:2298}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ManagedTree.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:91,&quot;column&quot;:20,&quot;offset&quot;:2230},&quot;end&quot;:{&quot;line&quot;:91,&quot;column&quot;:23,&quot;offset&quot;:2234}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ManagedTree.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:91,&quot;column&quot;:28,&quot;offset&quot;:2238},&quot;end&quot;:{&quot;line&quot;:91,&quot;column&quot;:31,&quot;offset&quot;:2242}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ManagedTree.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:92,&quot;column&quot;:16,&quot;offset&quot;:2274},&quot;end&quot;:{&quot;line&quot;:92,&quot;column&quot;:19,&quot;offset&quot;:2278}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ManagedTree.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:92,&quot;column&quot;:24,&quot;offset&quot;:2282},&quot;end&quot;:{&quot;line&quot;:92,&quot;column&quot;:27,&quot;offset&quot;:2286}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ManagedTree.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:92,&quot;column&quot;:24,&quot;offset&quot;:2282},&quot;end&quot;:{&quot;line&quot;:92,&quot;column&quot;:32,&quot;offset&quot;:2291}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ManagedTree.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:96,&quot;column&quot;:11,&quot;offset&quot;:2345},&quot;end&quot;:{&quot;line&quot;:96,&quot;column&quot;:14,&quot;offset&quot;:2349}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ManagedTree.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:116,&quot;column&quot;:12,&quot;offset&quot;:2703},&quot;end&quot;:{&quot;line&quot;:122,&quot;column&quot;:6,&quot;offset&quot;:2888}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ManagedTree.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:120,&quot;column&quot;:20,&quot;offset&quot;:2820},&quot;end&quot;:{&quot;line&quot;:120,&quot;column&quot;:23,&quot;offset&quot;:2824}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ManagedTree.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:120,&quot;column&quot;:28,&quot;offset&quot;:2828},&quot;end&quot;:{&quot;line&quot;:120,&quot;column&quot;:31,&quot;offset&quot;:2832}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ManagedTree.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:121,&quot;column&quot;:16,&quot;offset&quot;:2864},&quot;end&quot;:{&quot;line&quot;:121,&quot;column&quot;:19,&quot;offset&quot;:2868}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ManagedTree.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:121,&quot;column&quot;:24,&quot;offset&quot;:2872},&quot;end&quot;:{&quot;line&quot;:121,&quot;column&quot;:27,&quot;offset&quot;:2876}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/stories/ManagedTree.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:121,&quot;column&quot;:24,&quot;offset&quot;:2872},&quot;end&quot;:{&quot;line&quot;:121,&quot;column&quot;:32,&quot;offset&quot;:2881}}]},&quot;percent&quot;:72}</pre></body></html>

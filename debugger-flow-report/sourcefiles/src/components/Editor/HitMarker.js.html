@@ -1,75 +1,61 @@
 <!DOCTYPE html>
-<html><head><meta charset="utf-8"/><link rel="stylesheet" href="../../../../assets/semantic.min.css"/><link rel="stylesheet" href="../../../../assets/codemirror.css"/><link rel="stylesheet" href="../../../../assets/flow-highlight-source.css"/><link rel="stylesheet" href="../../../../assets/flow-coverage-report.css"/><link rel="stylesheet" href="../../../../assets/codemirror-simplescrollbars-addon.css"/><script src="../../../../assets/jquery-3.1.0.min.js"></script><script src="../../../../assets/semantic.min.js"></script><script src="../../../../assets/semantic-tablesort.js"></script><script src="../../../../assets/codemirror.js"></script><script src="../../../../assets/codemirror-javascript-mode.js"></script><script src="../../../../assets/codemirror-annotatescrollbar-addon.js"></script><script src="../../../../assets/codemirror-simplescrollbars-addon.js"></script><script src="../../../../assets/flow-highlight-source.js"></script><script src="../../../../assets/index.js"></script><style>
-.ui .CodeMirror {
-  border: 1px solid rgba(34,36,38,.15);
-  height: auto;
-}
-</style></head><body><div class="ui grid container"><div class="row"><div class="twelve wide column"><h2 class="ui header"><a href="../../../../index.html" id="link-to-summary">Flow Coverage Report</a></h2></div></div><div class="row"><table class="ui small celled unstackable table"><thead><tr><th class="sorted ascending">Filename</th><th>Percent</th><th>Total</th><th>Covered</th><th>Uncovered</th></tr></thead><tbody><tr class="positive"><td class="">src/components/Editor/HitMarker.js</td><td><span>88 %</span></td><td> 93 </td><td> 82 </td><td> 11 </td></tr></tbody></table></div><div class="row ui one column centered grid"><div class="column" style="text-align:left;"><div class="row"><div class="ui form"><div class="fields"><div class="sixteen wide inline field"><select class="ui search dropdown uncovered-locations"><option value="">Uncovered Locations</option><option value="23">Start: 23,18 - End: 23,29</option><option value="25">Start: 25,5 - End: 29,5</option><option value="31">Start: 31,5 - End: 31,62</option><option value="34">Start: 34,25 - End: 34,38</option><option value="35">Start: 35,34 - End: 35,42</option><option value="35">Start: 35,34 - End: 35,49</option><option value="36">Start: 36,30 - End: 36,38</option><option value="36">Start: 36,30 - End: 36,46</option><option value="57">Start: 57,18 - End: 57,29</option><option value="59">Start: 59,5 - End: 59,64</option><option value="60">Start: 60,5 - End: 60,65</option></select></div><div class="four wide inline field"><select class="ui search dropdown syntax-highlighting"><option value="es">ES6/ES7</option><option value="js">JavaScript</option><option value="no">None</option></select></div></div></div></div><textarea id="file-content" readonly="">// @flow
-const React = require(&quot;react&quot;);
-const { PropTypes } = React;
+<html><head><meta charset="utf-8"/><link rel="stylesheet" href="../../../../assets/semantic.min.css"/><link rel="stylesheet" href="../../../../assets/codemirror.css"/><link rel="stylesheet" href="../../../../assets/flow-highlight-source.css"/><link rel="stylesheet" href="../../../../assets/flow-coverage-report.css"/><link rel="stylesheet" href="../../../../assets/codemirror-simplescrollbars-addon.css"/><script src="../../../../assets/jquery-3.1.0.min.js"></script><script src="../../../../assets/semantic.min.js"></script><script src="../../../../assets/semantic-tablesort.js"></script><script src="../../../../assets/codemirror.js"></script><script src="../../../../assets/codemirror-javascript-mode.js"></script><script src="../../../../assets/codemirror-annotatescrollbar-addon.js"></script><script src="../../../../assets/codemirror-simplescrollbars-addon.js"></script><script src="../../../../assets/flow-highlight-source.js"></script></head><body><div class="ui grid container"><div class="row"><h1 class="twelve wide column">Flow Coverage Report - src/components/Editor/HitMarker.js</h1><div class="four wide column" style="height:32px;"><a href="../../../../index.html" id="link-to-summary">Go back to all files summary.</a></div></div><div class="row"><table class="ui small celled unstackable table"><thead><tr><th class="sorted ascending">Filename</th><th>Percent</th><th>Total</th><th>Covered</th><th>Uncovered</th></tr></thead><tbody><tr class="positive"><td class="">src/components/Editor/HitMarker.js</td><td> 80 %</td><td> 82 </td><td> 66 </td><td> 16 </td></tr></tbody></table></div><div class="row green" style="padding:0;height:12px;"></div><div class="row ui one column centered grid"><div class="column" style="text-align:left;"><div class="row"><div class="ui form"><div class="fields"><div class="sixteen wide inline field"><select class="ui search dropdown uncovered-locations"><option value="">Uncovered Locations</option><option value="24">Start: 24,18 - End: 24,29</option><option value="26">Start: 26,5 - End: 26,21</option><option value="26">Start: 26,5 - End: 26,72</option><option value="28">Start: 28,5 - End: 28,21</option><option value="28">Start: 28,5 - End: 28,62</option><option value="31">Start: 31,25 - End: 31,38</option><option value="33">Start: 33,7 - End: 33,23</option><option value="33">Start: 33,29 - End: 33,37</option><option value="33">Start: 33,29 - End: 33,44</option><option value="34">Start: 34,30 - End: 34,38</option><option value="34">Start: 34,30 - End: 34,46</option><option value="48">Start: 48,18 - End: 48,29</option><option value="50">Start: 50,5 - End: 50,21</option><option value="50">Start: 50,5 - End: 50,64</option><option value="51">Start: 51,5 - End: 51,21</option><option value="51">Start: 51,5 - End: 51,65</option></select></div><div class="four wide inline field"><select class="ui search dropdown syntax-highlighting"><option value="es">ES6/ES7</option><option value="js">JavaScript</option><option value="no">None</option></select></div></div></div></div><textarea id="file-content" readonly="">/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at &lt;http://mozilla.org/MPL/2.0/&gt;. */
 
-let markerEl = document.createElement(&quot;div&quot;);
+// @flow
+import { Component } from &quot;react&quot;;
+
+const markerEl = document.createElement(&quot;div&quot;);
 
 function makeMarker() {
-  let marker = markerEl.cloneNode(true);
+  const marker = markerEl.cloneNode(true);
   marker.className = &quot;editor hit-marker&quot;;
   return marker;
 }
 
-const HitMarker = React.createClass({
-  propTypes: {
-    hitData: PropTypes.object.isRequired,
-    editor: PropTypes.object.isRequired
-  },
+type Props = {
+  hitData: { [string]: any },
+  editor: any
+};
 
-  displayName: &quot;HitMarker&quot;,
-
+class HitMarker extends Component&lt;Props&gt; {
   addMarker() {
     const hitData = this.props.hitData;
     const line = hitData.line - 1;
 
-    this.props.editor.setGutterMarker(
-      line,
-      &quot;hit-markers&quot;,
-      makeMarker()
-    );
+    this.props.editor.setGutterMarker(line, &quot;hit-markers&quot;, makeMarker());
 
     this.props.editor.addLineClass(line, &quot;line&quot;, &quot;hit-marker&quot;);
-  },
+  }
 
   shouldComponentUpdate(nextProps: any) {
-    return this.props.editor !== nextProps.editor ||
-      this.props.hitData !== nextProps.hitData;
-  },
+    return (
+      this.props.editor !== nextProps.editor ||
+      this.props.hitData !== nextProps.hitData
+    );
+  }
 
   componentDidMount() {
-    if (!this.props.editor) {
-      return;
-    }
-
     this.addMarker();
-  },
+  }
 
   componentDidUpdate() {
     this.addMarker();
-  },
+  }
 
   componentWillUnmount() {
-    if (!this.props.editor) {
-      return;
-    }
-
     const hitData = this.props.hitData;
     const line = hitData.line - 1;
 
     this.props.editor.setGutterMarker(line, &quot;hit-markers&quot;, null);
     this.props.editor.removeLineClass(line, &quot;line&quot;, &quot;hit-marker&quot;);
-  },
+  }
 
   render() {
     return null;
   }
-});
+}
 
-module.exports = HitMarker;
-</textarea></div></div><div class="row centered"><footer>Flow Coverage Report generated by<a href="https://flowtype.org"> flow </a>and<a href="https://github.com/rpl/flow-coverage-report"> flow-coverage-report </a>at Tue Feb 21 2017 17:31:46 GMT-0500 (EST)</footer></div></div><pre id="file-coverage-data" style="display:none;">{&quot;expressions&quot;:{&quot;covered_count&quot;:82,&quot;uncovered_count&quot;:11,&quot;uncovered_locs&quot;:[{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/HitMarker.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:23,&quot;column&quot;:18,&quot;offset&quot;:488},&quot;end&quot;:{&quot;line&quot;:23,&quot;column&quot;:29,&quot;offset&quot;:500}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/HitMarker.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:25,&quot;column&quot;:5,&quot;offset&quot;:511},&quot;end&quot;:{&quot;line&quot;:29,&quot;column&quot;:5,&quot;offset&quot;:603}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/HitMarker.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:31,&quot;column&quot;:5,&quot;offset&quot;:610},&quot;end&quot;:{&quot;line&quot;:31,&quot;column&quot;:62,&quot;offset&quot;:668}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/HitMarker.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:34,&quot;column&quot;:25,&quot;offset&quot;:700},&quot;end&quot;:{&quot;line&quot;:34,&quot;column&quot;:38,&quot;offset&quot;:714}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/HitMarker.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:35,&quot;column&quot;:34,&quot;offset&quot;:751},&quot;end&quot;:{&quot;line&quot;:35,&quot;column&quot;:42,&quot;offset&quot;:760}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/HitMarker.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:35,&quot;column&quot;:34,&quot;offset&quot;:751},&quot;end&quot;:{&quot;line&quot;:35,&quot;column&quot;:49,&quot;offset&quot;:767}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/HitMarker.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:36,&quot;column&quot;:30,&quot;offset&quot;:800},&quot;end&quot;:{&quot;line&quot;:36,&quot;column&quot;:38,&quot;offset&quot;:809}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/HitMarker.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:36,&quot;column&quot;:30,&quot;offset&quot;:800},&quot;end&quot;:{&quot;line&quot;:36,&quot;column&quot;:46,&quot;offset&quot;:817}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/HitMarker.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:57,&quot;column&quot;:18,&quot;offset&quot;:1116},&quot;end&quot;:{&quot;line&quot;:57,&quot;column&quot;:29,&quot;offset&quot;:1128}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/HitMarker.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:59,&quot;column&quot;:5,&quot;offset&quot;:1139},&quot;end&quot;:{&quot;line&quot;:59,&quot;column&quot;:64,&quot;offset&quot;:1199}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/HitMarker.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:60,&quot;column&quot;:5,&quot;offset&quot;:1205},&quot;end&quot;:{&quot;line&quot;:60,&quot;column&quot;:65,&quot;offset&quot;:1266}}]},&quot;filename&quot;:&quot;src/components/Editor/HitMarker.js&quot;,&quot;percent&quot;:88}</pre></body></html>
+export default HitMarker;
+</textarea></div></div><div class="row centered"><footer>Flow Coverage Report generated by<a href="https://flowtype.org"> flow </a>and<a href="https://github.com/rpl/flow-coverage-report"> flow-coverage-report </a>at Tue Apr 03 2018 15:58:53 GMT-0400 (EDT)</footer></div></div><pre id="file-coverage-data" style="display:none;">{&quot;expressions&quot;:{&quot;covered_count&quot;:66,&quot;uncovered_count&quot;:16,&quot;uncovered_locs&quot;:[{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/HitMarker.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:24,&quot;column&quot;:18,&quot;offset&quot;:610},&quot;end&quot;:{&quot;line&quot;:24,&quot;column&quot;:29,&quot;offset&quot;:622}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/HitMarker.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:26,&quot;column&quot;:5,&quot;offset&quot;:633},&quot;end&quot;:{&quot;line&quot;:26,&quot;column&quot;:21,&quot;offset&quot;:650}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/HitMarker.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:26,&quot;column&quot;:5,&quot;offset&quot;:633},&quot;end&quot;:{&quot;line&quot;:26,&quot;column&quot;:72,&quot;offset&quot;:701}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/HitMarker.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:28,&quot;column&quot;:5,&quot;offset&quot;:708},&quot;end&quot;:{&quot;line&quot;:28,&quot;column&quot;:21,&quot;offset&quot;:725}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/HitMarker.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:28,&quot;column&quot;:5,&quot;offset&quot;:708},&quot;end&quot;:{&quot;line&quot;:28,&quot;column&quot;:62,&quot;offset&quot;:766}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/HitMarker.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:31,&quot;column&quot;:25,&quot;offset&quot;:797},&quot;end&quot;:{&quot;line&quot;:31,&quot;column&quot;:38,&quot;offset&quot;:811}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/HitMarker.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:33,&quot;column&quot;:7,&quot;offset&quot;:834},&quot;end&quot;:{&quot;line&quot;:33,&quot;column&quot;:23,&quot;offset&quot;:851}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/HitMarker.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:33,&quot;column&quot;:29,&quot;offset&quot;:856},&quot;end&quot;:{&quot;line&quot;:33,&quot;column&quot;:37,&quot;offset&quot;:865}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/HitMarker.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:33,&quot;column&quot;:29,&quot;offset&quot;:856},&quot;end&quot;:{&quot;line&quot;:33,&quot;column&quot;:44,&quot;offset&quot;:872}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/HitMarker.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:34,&quot;column&quot;:30,&quot;offset&quot;:905},&quot;end&quot;:{&quot;line&quot;:34,&quot;column&quot;:38,&quot;offset&quot;:914}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/HitMarker.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:34,&quot;column&quot;:30,&quot;offset&quot;:905},&quot;end&quot;:{&quot;line&quot;:34,&quot;column&quot;:46,&quot;offset&quot;:922}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/HitMarker.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:48,&quot;column&quot;:18,&quot;offset&quot;:1122},&quot;end&quot;:{&quot;line&quot;:48,&quot;column&quot;:29,&quot;offset&quot;:1134}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/HitMarker.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:50,&quot;column&quot;:5,&quot;offset&quot;:1145},&quot;end&quot;:{&quot;line&quot;:50,&quot;column&quot;:21,&quot;offset&quot;:1162}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/HitMarker.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:50,&quot;column&quot;:5,&quot;offset&quot;:1145},&quot;end&quot;:{&quot;line&quot;:50,&quot;column&quot;:64,&quot;offset&quot;:1205}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/HitMarker.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:51,&quot;column&quot;:5,&quot;offset&quot;:1211},&quot;end&quot;:{&quot;line&quot;:51,&quot;column&quot;:21,&quot;offset&quot;:1228}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/HitMarker.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:51,&quot;column&quot;:5,&quot;offset&quot;:1211},&quot;end&quot;:{&quot;line&quot;:51,&quot;column&quot;:65,&quot;offset&quot;:1272}}]},&quot;percent&quot;:80}</pre></body></html>

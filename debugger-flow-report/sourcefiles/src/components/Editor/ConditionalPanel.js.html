@@ -1,46 +1,205 @@
 <!DOCTYPE html>
-<html><head><meta charset="utf-8"/><link rel="stylesheet" href="../../../../assets/semantic.min.css"/><link rel="stylesheet" href="../../../../assets/codemirror.css"/><link rel="stylesheet" href="../../../../assets/flow-highlight-source.css"/><link rel="stylesheet" href="../../../../assets/flow-coverage-report.css"/><link rel="stylesheet" href="../../../../assets/codemirror-simplescrollbars-addon.css"/><script src="../../../../assets/jquery-3.1.0.min.js"></script><script src="../../../../assets/semantic.min.js"></script><script src="../../../../assets/semantic-tablesort.js"></script><script src="../../../../assets/codemirror.js"></script><script src="../../../../assets/codemirror-javascript-mode.js"></script><script src="../../../../assets/codemirror-annotatescrollbar-addon.js"></script><script src="../../../../assets/codemirror-simplescrollbars-addon.js"></script><script src="../../../../assets/flow-highlight-source.js"></script><script src="../../../../assets/index.js"></script><style>
-.ui .CodeMirror {
-  border: 1px solid rgba(34,36,38,.15);
-  height: auto;
-}
-</style></head><body><div class="ui grid container"><div class="row"><div class="twelve wide column"><h2 class="ui header"><a href="../../../../index.html" id="link-to-summary">Flow Coverage Report</a></h2></div></div><div class="row"><table class="ui small celled unstackable table"><thead><tr><th class="sorted ascending">Filename</th><th>Percent</th><th>Total</th><th>Covered</th><th>Uncovered</th></tr></thead><tbody><tr class="positive"><td class="">src/components/Editor/ConditionalPanel.js</td><td><span>80 %</span></td><td> 45 </td><td> 36 </td><td> 9 </td></tr></tbody></table></div><div class="row ui one column centered grid"><div class="column" style="text-align:left;"><div class="row"><div class="ui form"><div class="fields"><div class="sixteen wide inline field"><select class="ui search dropdown uncovered-locations"><option value="">Uncovered Locations</option><option value="3">Start: 3,14 - End: 3,16</option><option value="17">Start: 17,7 - End: 17,35</option><option value="18">Start: 18,7 - End: 18,18</option><option value="23">Start: 23,5 - End: 23,7</option><option value="23">Start: 23,5 - End: 30,5</option><option value="25">Start: 25,7 - End: 25,9</option><option value="25">Start: 25,7 - End: 29,8</option><option value="27">Start: 27,22 - End: 27,25</option><option value="27">Start: 27,22 - End: 27,71</option></select></div><div class="four wide inline field"><select class="ui search dropdown syntax-highlighting"><option value="es">ES6/ES7</option><option value="js">JavaScript</option><option value="no">None</option></select></div></div></div></div><textarea id="file-content" readonly="">// @flow
-const React = require(&quot;react&quot;);
-const { DOM: dom } = React;
+<html><head><meta charset="utf-8"/><link rel="stylesheet" href="../../../../assets/semantic.min.css"/><link rel="stylesheet" href="../../../../assets/codemirror.css"/><link rel="stylesheet" href="../../../../assets/flow-highlight-source.css"/><link rel="stylesheet" href="../../../../assets/flow-coverage-report.css"/><link rel="stylesheet" href="../../../../assets/codemirror-simplescrollbars-addon.css"/><script src="../../../../assets/jquery-3.1.0.min.js"></script><script src="../../../../assets/semantic.min.js"></script><script src="../../../../assets/semantic-tablesort.js"></script><script src="../../../../assets/codemirror.js"></script><script src="../../../../assets/codemirror-javascript-mode.js"></script><script src="../../../../assets/codemirror-annotatescrollbar-addon.js"></script><script src="../../../../assets/codemirror-simplescrollbars-addon.js"></script><script src="../../../../assets/flow-highlight-source.js"></script></head><body><div class="ui grid container"><div class="row"><h1 class="twelve wide column">Flow Coverage Report - src/components/Editor/ConditionalPanel.js</h1><div class="four wide column" style="height:32px;"><a href="../../../../index.html" id="link-to-summary">Go back to all files summary.</a></div></div><div class="row"><table class="ui small celled unstackable table"><thead><tr><th class="sorted ascending">Filename</th><th>Percent</th><th>Total</th><th>Covered</th><th>Uncovered</th></tr></thead><tbody><tr class="positive"><td class="">src/components/Editor/ConditionalPanel.js</td><td> 88 %</td><td> 253 </td><td> 224 </td><td> 29 </td></tr></tbody></table></div><div class="row green" style="padding:0;height:12px;"></div><div class="row ui one column centered grid"><div class="column" style="text-align:left;"><div class="row"><div class="ui form"><div class="fields"><div class="sixteen wide inline field"><select class="ui search dropdown uncovered-locations"><option value="">Uncovered Locations</option><option value="48">Start: 48,7 - End: 48,42</option><option value="64">Start: 64,41 - End: 64,65</option><option value="66">Start: 66,12 - End: 66,69</option><option value="71">Start: 71,7 - End: 71,26</option><option value="119">Start: 119,41 - End: 119,65</option><option value="122">Start: 122,5 - End: 129,5</option><option value="122">Start: 122,20 - End: 122,36</option><option value="122">Start: 122,20 - End: 129,5</option><option value="152">Start: 152,36 - End: 152,55</option><option value="183">Start: 183,3 - End: 183,24</option><option value="184">Start: 184,3 - End: 184,22</option><option value="185">Start: 185,3 - End: 185,23</option><option value="186">Start: 186,5 - End: 186,11</option><option value="188">Start: 188,16 - End: 188,22</option><option value="188">Start: 188,16 - End: 203,1</option><option value="188">Start: 188,16 - End: 203,19</option><option value="189">Start: 189,3 - End: 189,7</option><option value="190">Start: 190,42 - End: 190,46</option><option value="191">Start: 191,11 - End: 191,26</option><option value="191">Start: 191,30 - End: 191,48</option><option value="191">Start: 191,30 - End: 191,55</option><option value="191">Start: 191,50 - End: 191,54</option><option value="193">Start: 193,7 - End: 193,22</option><option value="194">Start: 194,40 - End: 194,44</option><option value="194">Start: 194,47 - End: 194,62</option><option value="194">Start: 194,47 - End: 194,71</option><option value="199">Start: 199,5 - End: 199,26</option><option value="200">Start: 200,5 - End: 200,24</option><option value="201">Start: 201,5 - End: 201,25</option></select></div><div class="four wide inline field"><select class="ui search dropdown syntax-highlighting"><option value="es">ES6/ES7</option><option value="js">JavaScript</option><option value="no">None</option></select></div></div></div></div><textarea id="file-content" readonly="">/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at &lt;http://mozilla.org/MPL/2.0/&gt;. */
 
-const ReactDOM = require(&quot;react-dom&quot;);
+// @flow
+import React, { PureComponent } from &quot;react&quot;;
+import ReactDOM from &quot;react-dom&quot;;
+import { connect } from &quot;react-redux&quot;;
+import &quot;./ConditionalPanel.css&quot;;
+import { toEditorLine } from &quot;../../utils/editor&quot;;
+import actions from &quot;../../actions&quot;;
 
-function renderConditionalPanel({ condition, closePanel, setBreakpoint }:
-  { condition: boolean, closePanel: Function, setBreakpoint: Function }) {
-  let panel = document.createElement(&quot;div&quot;);
+import {
+  getSelectedLocation,
+  getBreakpointForLine,
+  getConditionalPanelLine
+} from &quot;../../selectors&quot;;
 
-  function onKey(e: SyntheticKeyboardEvent) {
-    if (e.key != &quot;Enter&quot;) {
-      return;
-    }
+type Props = {
+  breakpoint: ?Object,
+  selectedLocation: Object,
+  setBreakpointCondition: Function,
+  line: number,
+  editor: Object,
+  openConditionalPanel: () =&gt; void,
+  closeConditionalPanel: () =&gt; void
+};
 
-    if (e.target &amp;&amp; e.target.value) {
-      setBreakpoint(e.target.value);
-      closePanel();
+export class ConditionalPanel extends PureComponent&lt;Props&gt; {
+  cbPanel: null | Object;
+  input: ?HTMLInputElement;
+  panelNode: ?HTMLDivElement;
+  scrollParent: ?HTMLElement;
+
+  constructor() {
+    super();
+    this.cbPanel = null;
+  }
+
+  keepFocusOnInput() {
+    if (this.input) {
+      this.input.focus();
     }
   }
 
-  ReactDOM.render(
-    dom.div(
-      { className: &quot;conditional-breakpoint-panel&quot; },
-      dom.input({
-        defaultValue: condition,
-        placeholder: L10N.getStr(&quot;editor.conditionalPanel.placeholder&quot;),
-        onKeyPress: onKey
-      })
-    ),
-    panel
-  );
+  saveAndClose = () =&gt; {
+    if (this.input) {
+      this.setBreakpoint(this.input.value);
+    }
 
-  return panel;
+    this.props.closeConditionalPanel();
+  };
+
+  onKey = (e: SyntheticKeyboardEvent&lt;HTMLInputElement&gt;) =&gt; {
+    if (e.key === &quot;Enter&quot;) {
+      this.saveAndClose();
+    } else if (e.key === &quot;Escape&quot;) {
+      this.props.closeConditionalPanel();
+    }
+  };
+
+  setBreakpoint(condition: string) {
+    const { selectedLocation, line } = this.props;
+    const sourceId = selectedLocation ? selectedLocation.sourceId : &quot;&quot;;
+    const location = { sourceId, line };
+    return this.props.setBreakpointCondition(location, { condition });
+  }
+
+  clearConditionalPanel() {
+    if (this.cbPanel) {
+      this.cbPanel.clear();
+      this.cbPanel = null;
+    }
+    if (this.scrollParent) {
+      this.scrollParent.removeEventListener(&quot;scroll&quot;, this.repositionOnScroll);
+    }
+  }
+
+  repositionOnScroll = () =&gt; {
+    if (this.panelNode &amp;&amp; this.scrollParent) {
+      const { scrollLeft } = this.scrollParent;
+      this.panelNode.style.transform = `translateX(${scrollLeft}px)`;
+    }
+  };
+
+  componentWillMount() {
+    if (this.props.line) {
+      return this.renderToWidget(this.props);
+    }
+  }
+
+  componentWillUpdate(nextProps: Props) {
+    if (nextProps.line) {
+      return this.renderToWidget(nextProps);
+    }
+    return this.clearConditionalPanel();
+  }
+
+  componentDidUpdate(prevProps: Props) {
+    this.keepFocusOnInput();
+  }
+
+  componentWillUnmount() {
+    // This is called if CodeMirror is re-initializing itself before the
+    // user closes the conditional panel. Clear the widget, and re-render it
+    // as soon as this component gets remounted
+    return this.clearConditionalPanel();
+  }
+
+  renderToWidget(props: Props) {
+    if (this.cbPanel) {
+      if (this.props.line &amp;&amp; this.props.line == props.line) {
+        return props.closeConditionalPanel();
+      }
+      this.clearConditionalPanel();
+    }
+
+    const { selectedLocation, line, editor } = props;
+    const sourceId = selectedLocation ? selectedLocation.sourceId : &quot;&quot;;
+
+    const editorLine = toEditorLine(sourceId, line);
+    this.cbPanel = editor.codeMirror.addLineWidget(
+      editorLine,
+      this.renderConditionalPanel(props),
+      {
+        coverGutter: true,
+        noHScroll: false
+      }
+    );
+    if (this.input) {
+      let parent: ?Node = this.input.parentNode;
+      while (parent) {
+        if (
+          parent instanceof HTMLElement &amp;&amp;
+          parent.classList.contains(&quot;CodeMirror-scroll&quot;)
+        ) {
+          this.scrollParent = parent;
+          break;
+        }
+        parent = (parent.parentNode: ?Node);
+      }
+
+      if (this.scrollParent) {
+        this.scrollParent.addEventListener(&quot;scroll&quot;, this.repositionOnScroll);
+        this.repositionOnScroll();
+      }
+    }
+  }
+
+  renderConditionalPanel(props: Props) {
+    const { breakpoint } = props;
+    const condition = breakpoint ? breakpoint.condition : &quot;&quot;;
+    const panel = document.createElement(&quot;div&quot;);
+    ReactDOM.render(
+      &lt;div
+        className=&quot;conditional-breakpoint-panel&quot;
+        onClick={() =&gt; this.keepFocusOnInput()}
+        onBlur={this.props.closeConditionalPanel}
+        ref={node =&gt; (this.panelNode = node)}
+      &gt;
+        &lt;div className=&quot;prompt&quot;&gt;»&lt;/div&gt;
+        &lt;input
+          defaultValue={condition}
+          placeholder={L10N.getStr(&quot;editor.conditionalPanel.placeholder&quot;)}
+          onKeyDown={this.onKey}
+          ref={input =&gt; {
+            this.input = input;
+            this.keepFocusOnInput();
+          }}
+        /&gt;
+      &lt;/div&gt;,
+      panel
+    );
+    return panel;
+  }
+
+  render() {
+    return null;
+  }
 }
 
-module.exports = {
-  renderConditionalPanel
-};
-</textarea></div></div><div class="row centered"><footer>Flow Coverage Report generated by<a href="https://flowtype.org"> flow </a>and<a href="https://github.com/rpl/flow-coverage-report"> flow-coverage-report </a>at Tue Feb 21 2017 17:31:46 GMT-0500 (EST)</footer></div></div><pre id="file-coverage-data" style="display:none;">{&quot;expressions&quot;:{&quot;covered_count&quot;:36,&quot;uncovered_count&quot;:9,&quot;uncovered_locs&quot;:[{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/ConditionalPanel.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:3,&quot;column&quot;:14,&quot;offset&quot;:54},&quot;end&quot;:{&quot;line&quot;:3,&quot;column&quot;:16,&quot;offset&quot;:57}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/ConditionalPanel.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:17,&quot;column&quot;:7,&quot;offset&quot;:444},&quot;end&quot;:{&quot;line&quot;:17,&quot;column&quot;:35,&quot;offset&quot;:473}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/ConditionalPanel.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:18,&quot;column&quot;:7,&quot;offset&quot;:481},&quot;end&quot;:{&quot;line&quot;:18,&quot;column&quot;:18,&quot;offset&quot;:493}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/ConditionalPanel.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:23,&quot;column&quot;:5,&quot;offset&quot;:529},&quot;end&quot;:{&quot;line&quot;:23,&quot;column&quot;:7,&quot;offset&quot;:532}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/ConditionalPanel.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:23,&quot;column&quot;:5,&quot;offset&quot;:529},&quot;end&quot;:{&quot;line&quot;:30,&quot;column&quot;:5,&quot;offset&quot;:755}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/ConditionalPanel.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:25,&quot;column&quot;:7,&quot;offset&quot;:597},&quot;end&quot;:{&quot;line&quot;:25,&quot;column&quot;:9,&quot;offset&quot;:600}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/ConditionalPanel.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:25,&quot;column&quot;:7,&quot;offset&quot;:597},&quot;end&quot;:{&quot;line&quot;:29,&quot;column&quot;:8,&quot;offset&quot;:749}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/ConditionalPanel.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:27,&quot;column&quot;:22,&quot;offset&quot;:663},&quot;end&quot;:{&quot;line&quot;:27,&quot;column&quot;:25,&quot;offset&quot;:667}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/ConditionalPanel.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:27,&quot;column&quot;:22,&quot;offset&quot;:663},&quot;end&quot;:{&quot;line&quot;:27,&quot;column&quot;:71,&quot;offset&quot;:713}}]},&quot;filename&quot;:&quot;src/components/Editor/ConditionalPanel.js&quot;,&quot;percent&quot;:80}</pre></body></html>
+const {
+  setBreakpointCondition,
+  openConditionalPanel,
+  closeConditionalPanel
+} = actions;
+
+export default connect(
+  state =&gt; {
+    const line = getConditionalPanelLine(state);
+    const selectedLocation = getSelectedLocation(state);
+    return {
+      selectedLocation,
+      breakpoint: getBreakpointForLine(state, selectedLocation.sourceId, line),
+      line
+    };
+  },
+  {
+    setBreakpointCondition,
+    openConditionalPanel,
+    closeConditionalPanel
+  }
+)(ConditionalPanel);
+</textarea></div></div><div class="row centered"><footer>Flow Coverage Report generated by<a href="https://flowtype.org"> flow </a>and<a href="https://github.com/rpl/flow-coverage-report"> flow-coverage-report </a>at Tue Apr 03 2018 15:58:53 GMT-0400 (EDT)</footer></div></div><pre id="file-coverage-data" style="display:none;">{&quot;expressions&quot;:{&quot;covered_count&quot;:224,&quot;uncovered_count&quot;:29,&quot;uncovered_locs&quot;:[{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/ConditionalPanel.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:48,&quot;column&quot;:7,&quot;offset&quot;:1151},&quot;end&quot;:{&quot;line&quot;:48,&quot;column&quot;:42,&quot;offset&quot;:1187}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/ConditionalPanel.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:64,&quot;column&quot;:41,&quot;offset&quot;:1578},&quot;end&quot;:{&quot;line&quot;:64,&quot;column&quot;:65,&quot;offset&quot;:1603}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/ConditionalPanel.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:66,&quot;column&quot;:12,&quot;offset&quot;:1662},&quot;end&quot;:{&quot;line&quot;:66,&quot;column&quot;:69,&quot;offset&quot;:1720}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/ConditionalPanel.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:71,&quot;column&quot;:7,&quot;offset&quot;:1785},&quot;end&quot;:{&quot;line&quot;:71,&quot;column&quot;:26,&quot;offset&quot;:1805}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/ConditionalPanel.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:119,&quot;column&quot;:41,&quot;offset&quot;:3098},&quot;end&quot;:{&quot;line&quot;:119,&quot;column&quot;:65,&quot;offset&quot;:3123}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/ConditionalPanel.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:122,&quot;column&quot;:5,&quot;offset&quot;:3188},&quot;end&quot;:{&quot;line&quot;:129,&quot;column&quot;:5,&quot;offset&quot;:3369}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/ConditionalPanel.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:122,&quot;column&quot;:20,&quot;offset&quot;:3203},&quot;end&quot;:{&quot;line&quot;:122,&quot;column&quot;:36,&quot;offset&quot;:3220}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/ConditionalPanel.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:122,&quot;column&quot;:20,&quot;offset&quot;:3203},&quot;end&quot;:{&quot;line&quot;:129,&quot;column&quot;:5,&quot;offset&quot;:3369}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/ConditionalPanel.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:152,&quot;column&quot;:36,&quot;offset&quot;:3983},&quot;end&quot;:{&quot;line&quot;:152,&quot;column&quot;:55,&quot;offset&quot;:4003}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/ConditionalPanel.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:183,&quot;column&quot;:3,&quot;offset&quot;:4712},&quot;end&quot;:{&quot;line&quot;:183,&quot;column&quot;:24,&quot;offset&quot;:4734}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/ConditionalPanel.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:184,&quot;column&quot;:3,&quot;offset&quot;:4738},&quot;end&quot;:{&quot;line&quot;:184,&quot;column&quot;:22,&quot;offset&quot;:4758}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/ConditionalPanel.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:185,&quot;column&quot;:3,&quot;offset&quot;:4762},&quot;end&quot;:{&quot;line&quot;:185,&quot;column&quot;:23,&quot;offset&quot;:4783}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/ConditionalPanel.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:186,&quot;column&quot;:5,&quot;offset&quot;:4788},&quot;end&quot;:{&quot;line&quot;:186,&quot;column&quot;:11,&quot;offset&quot;:4795}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/ConditionalPanel.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:188,&quot;column&quot;:16,&quot;offset&quot;:4813},&quot;end&quot;:{&quot;line&quot;:188,&quot;column&quot;:22,&quot;offset&quot;:4820}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/ConditionalPanel.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:188,&quot;column&quot;:16,&quot;offset&quot;:4813},&quot;end&quot;:{&quot;line&quot;:203,&quot;column&quot;:1,&quot;offset&quot;:5170}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/ConditionalPanel.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:188,&quot;column&quot;:16,&quot;offset&quot;:4813},&quot;end&quot;:{&quot;line&quot;:203,&quot;column&quot;:19,&quot;offset&quot;:5188}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/ConditionalPanel.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:189,&quot;column&quot;:3,&quot;offset&quot;:4824},&quot;end&quot;:{&quot;line&quot;:189,&quot;column&quot;:7,&quot;offset&quot;:4829}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/ConditionalPanel.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:190,&quot;column&quot;:42,&quot;offset&quot;:4876},&quot;end&quot;:{&quot;line&quot;:190,&quot;column&quot;:46,&quot;offset&quot;:4881}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/ConditionalPanel.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:191,&quot;column&quot;:11,&quot;offset&quot;:4894},&quot;end&quot;:{&quot;line&quot;:191,&quot;column&quot;:26,&quot;offset&quot;:4910}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/ConditionalPanel.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:191,&quot;column&quot;:30,&quot;offset&quot;:4913},&quot;end&quot;:{&quot;line&quot;:191,&quot;column&quot;:48,&quot;offset&quot;:4932}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/ConditionalPanel.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:191,&quot;column&quot;:30,&quot;offset&quot;:4913},&quot;end&quot;:{&quot;line&quot;:191,&quot;column&quot;:55,&quot;offset&quot;:4939}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/ConditionalPanel.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:191,&quot;column&quot;:50,&quot;offset&quot;:4933},&quot;end&quot;:{&quot;line&quot;:191,&quot;column&quot;:54,&quot;offset&quot;:4938}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/ConditionalPanel.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:193,&quot;column&quot;:7,&quot;offset&quot;:4960},&quot;end&quot;:{&quot;line&quot;:193,&quot;column&quot;:22,&quot;offset&quot;:4976}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/ConditionalPanel.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:194,&quot;column&quot;:40,&quot;offset&quot;:5017},&quot;end&quot;:{&quot;line&quot;:194,&quot;column&quot;:44,&quot;offset&quot;:5022}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/ConditionalPanel.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:194,&quot;column&quot;:47,&quot;offset&quot;:5024},&quot;end&quot;:{&quot;line&quot;:194,&quot;column&quot;:62,&quot;offset&quot;:5040}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/ConditionalPanel.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:194,&quot;column&quot;:47,&quot;offset&quot;:5024},&quot;end&quot;:{&quot;line&quot;:194,&quot;column&quot;:71,&quot;offset&quot;:5049}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/ConditionalPanel.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:199,&quot;column&quot;:5,&quot;offset&quot;:5089},&quot;end&quot;:{&quot;line&quot;:199,&quot;column&quot;:26,&quot;offset&quot;:5111}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/ConditionalPanel.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:200,&quot;column&quot;:5,&quot;offset&quot;:5117},&quot;end&quot;:{&quot;line&quot;:200,&quot;column&quot;:24,&quot;offset&quot;:5137}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/ConditionalPanel.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:201,&quot;column&quot;:5,&quot;offset&quot;:5143},&quot;end&quot;:{&quot;line&quot;:201,&quot;column&quot;:25,&quot;offset&quot;:5164}}]},&quot;percent&quot;:88}</pre></body></html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"/><link rel="stylesheet" href="../../../assets/semantic.min.css"/><link rel="stylesheet" href="../../../assets/codemirror.css"/><link rel="stylesheet" href="../../../assets/flow-highlight-source.css"/><link rel="stylesheet" href="../../../assets/flow-coverage-report.css"/><link rel="stylesheet" href="../../../assets/codemirror-simplescrollbars-addon.css"/><script src="../../../assets/jquery-3.1.0.min.js"></script><script src="../../../assets/semantic.min.js"></script><script src="../../../assets/semantic-tablesort.js"></script><script src="../../../assets/codemirror.js"></script><script src="../../../assets/codemirror-javascript-mode.js"></script><script src="../../../assets/codemirror-annotatescrollbar-addon.js"></script><script src="../../../assets/codemirror-simplescrollbars-addon.js"></script><script src="../../../assets/flow-highlight-source.js"></script></head><body><div class="ui grid container"><div class="row"><h1 class="twelve wide column">Flow Coverage Report - src/actions/file-search.js</h1><div class="four wide column" style="height:32px;"><a href="../../../index.html" id="link-to-summary">Go back to all files summary.</a></div></div><div class="row"><table class="ui small celled unstackable table"><thead><tr><th class="sorted ascending">Filename</th><th>Percent</th><th>Total</th><th>Covered</th><th>Uncovered</th></tr></thead><tbody><tr class="positive"><td class="">src/actions/file-search.js</td><td> 84 %</td><td> 218 </td><td> 184 </td><td> 34 </td></tr></tbody></table></div><div class="row green" style="padding:0;height:12px;"></div><div class="row ui one column centered grid"><div class="column" style="text-align:left;"><div class="row"><div class="ui form"><div class="fields"><div class="sixteen wide inline field"><select class="ui search dropdown uncovered-locations"><option value="">Uncovered Locations</option><option value="28">Start: 28,11 - End: 28,24</option><option value="28">Start: 28,28 - End: 28,44</option><option value="28">Start: 28,28 - End: 28,56</option><option value="29">Start: 29,10 - End: 29,23</option><option value="29">Start: 29,29 - End: 29,42</option><option value="29">Start: 29,29 - End: 29,47</option><option value="55">Start: 55,12 - End: 55,19</option><option value="55">Start: 55,33 - End: 55,38</option><option value="72">Start: 72,11 - End: 72,24</option><option value="72">Start: 72,28 - End: 72,44</option><option value="72">Start: 72,28 - End: 72,56</option><option value="77">Start: 77,8 - End: 77,21</option><option value="78">Start: 78,8 - End: 78,21</option><option value="78">Start: 78,8 - End: 78,26</option><option value="84">Start: 84,35 - End: 84,51</option><option value="86">Start: 86,11 - End: 86,17</option><option value="86">Start: 86,21 - End: 86,76</option><option value="86">Start: 86,27 - End: 86,36</option><option value="86">Start: 86,27 - End: 86,76</option><option value="86">Start: 86,45 - End: 86,58</option><option value="86">Start: 86,45 - End: 86,63</option><option value="93">Start: 93,13 - End: 93,14</option><option value="93">Start: 93,17 - End: 93,20</option><option value="93">Start: 93,26 - End: 93,28</option><option value="95">Start: 95,34 - End: 95,35</option><option value="95">Start: 95,38 - End: 95,41</option><option value="95">Start: 95,44 - End: 95,50</option><option value="105">Start: 105,35 - End: 105,51</option><option value="124">Start: 124,15 - End: 124,16</option><option value="124">Start: 124,19 - End: 124,22</option><option value="124">Start: 124,28 - End: 124,34</option><option value="125">Start: 125,36 - End: 125,37</option><option value="125">Start: 125,40 - End: 125,43</option><option value="135">Start: 135,37 - End: 135,53</option></select></div><div class="four wide inline field"><select class="ui search dropdown syntax-highlighting"><option value="es">ES6/ES7</option><option value="js">JavaScript</option><option value="no">None</option></select></div></div></div></div><textarea id="file-content" readonly="">/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at &lt;http://mozilla.org/MPL/2.0/&gt;. */
+
+// @flow
+
+import { find, findNext, findPrev, removeOverlay } from &quot;../utils/editor&quot;;
+import { getMatches } from &quot;../workers/search&quot;;
+import type { ThunkArgs } from &quot;./types&quot;;
+
+import {
+  getSelectedSource,
+  getFileSearchModifiers,
+  getFileSearchQuery,
+  getFileSearchResults
+} from &quot;../selectors&quot;;
+
+import {
+  closeActiveSearch,
+  clearHighlightLineRange,
+  setActiveSearch
+} from &quot;./ui&quot;;
+type Editor = Object;
+type Match = Object;
+
+export function doSearch(query: string, editor: Editor) {
+  return ({ getState, dispatch }: ThunkArgs) =&gt; {
+    const selectedSource = getSelectedSource(getState());
+    if (!selectedSource || !selectedSource.text) {
+      return;
+    }
+
+    dispatch(setFileSearchQuery(query));
+    dispatch(searchContents(query, editor));
+  };
+}
+
+export function setFileSearchQuery(query: string) {
+  return {
+    type: &quot;UPDATE_FILE_SEARCH_QUERY&quot;,
+    query
+  };
+}
+
+export function toggleFileSearchModifier(modifier: string) {
+  return { type: &quot;TOGGLE_FILE_SEARCH_MODIFIER&quot;, modifier };
+}
+
+export function updateSearchResults(
+  characterIndex: number,
+  line: number,
+  matches: Match[]
+) {
+  const matchIndex = matches.findIndex(
+    elm =&gt; elm.line === line &amp;&amp; elm.ch === characterIndex
+  );
+
+  return {
+    type: &quot;UPDATE_SEARCH_RESULTS&quot;,
+    results: {
+      matches,
+      matchIndex,
+      count: matches.length,
+      index: characterIndex
+    }
+  };
+}
+
+export function searchContents(query: string, editor: Object) {
+  return async ({ getState, dispatch }: ThunkArgs) =&gt; {
+    const modifiers = getFileSearchModifiers(getState());
+    const selectedSource = getSelectedSource(getState());
+
+    if (
+      !query ||
+      !editor ||
+      !selectedSource ||
+      !selectedSource.text ||
+      !modifiers
+    ) {
+      return;
+    }
+
+    const ctx = { ed: editor, cm: editor.codeMirror };
+    const _modifiers = modifiers.toJS();
+    const matches = await getMatches(query, selectedSource.text, _modifiers);
+
+    const res = find(ctx, query, true, _modifiers);
+    if (!res) {
+      return;
+    }
+
+    const { ch, line } = res;
+
+    dispatch(updateSearchResults(ch, line, matches));
+  };
+}
+
+export function traverseResults(rev: boolean, editor: Editor) {
+  return async ({ getState, dispatch }: ThunkArgs) =&gt; {
+    if (!editor) {
+      return;
+    }
+
+    const ctx = { ed: editor, cm: editor.codeMirror };
+
+    const query = getFileSearchQuery(getState());
+    const modifiers = getFileSearchModifiers(getState());
+    const { matches } = getFileSearchResults(getState());
+
+    if (query === &quot;&quot;) {
+      dispatch(setActiveSearch(&quot;file&quot;));
+    }
+
+    if (modifiers) {
+      const matchedLocations = matches || [];
+      const results = rev
+        ? findPrev(ctx, query, true, modifiers.toJS())
+        : findNext(ctx, query, true, modifiers.toJS());
+
+      if (!results) {
+        return;
+      }
+      const { ch, line } = results;
+      dispatch(updateSearchResults(ch, line, matchedLocations));
+    }
+  };
+}
+
+export function closeFileSearch(editor: Editor) {
+  return ({ getState, dispatch }: ThunkArgs) =&gt; {
+    const query = getFileSearchQuery(getState());
+
+    if (editor) {
+      const ctx = { ed: editor, cm: editor.codeMirror };
+      removeOverlay(ctx, query);
+    }
+
+    dispatch(setFileSearchQuery(&quot;&quot;));
+    dispatch(closeActiveSearch());
+    dispatch(clearHighlightLineRange());
+  };
+}
+</textarea></div></div><div class="row centered"><footer>Flow Coverage Report generated by<a href="https://flowtype.org"> flow </a>and<a href="https://github.com/rpl/flow-coverage-report"> flow-coverage-report </a>at Tue Apr 03 2018 15:58:53 GMT-0400 (EDT)</footer></div></div><pre id="file-coverage-data" style="display:none;">{&quot;expressions&quot;:{&quot;covered_count&quot;:184,&quot;uncovered_count&quot;:34,&quot;uncovered_locs&quot;:[{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/file-search.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:28,&quot;column&quot;:11,&quot;offset&quot;:761},&quot;end&quot;:{&quot;line&quot;:28,&quot;column&quot;:24,&quot;offset&quot;:775}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/file-search.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:28,&quot;column&quot;:28,&quot;offset&quot;:778},&quot;end&quot;:{&quot;line&quot;:28,&quot;column&quot;:44,&quot;offset&quot;:795}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/file-search.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:28,&quot;column&quot;:28,&quot;offset&quot;:778},&quot;end&quot;:{&quot;line&quot;:28,&quot;column&quot;:56,&quot;offset&quot;:807}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/file-search.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:29,&quot;column&quot;:10,&quot;offset&quot;:818},&quot;end&quot;:{&quot;line&quot;:29,&quot;column&quot;:23,&quot;offset&quot;:832}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/file-search.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:29,&quot;column&quot;:29,&quot;offset&quot;:837},&quot;end&quot;:{&quot;line&quot;:29,&quot;column&quot;:42,&quot;offset&quot;:851}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/file-search.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:29,&quot;column&quot;:29,&quot;offset&quot;:837},&quot;end&quot;:{&quot;line&quot;:29,&quot;column&quot;:47,&quot;offset&quot;:856}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/file-search.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:55,&quot;column&quot;:12,&quot;offset&quot;:1371},&quot;end&quot;:{&quot;line&quot;:55,&quot;column&quot;:19,&quot;offset&quot;:1379}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/file-search.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:55,&quot;column&quot;:33,&quot;offset&quot;:1392},&quot;end&quot;:{&quot;line&quot;:55,&quot;column&quot;:38,&quot;offset&quot;:1398}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/file-search.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:72,&quot;column&quot;:11,&quot;offset&quot;:1777},&quot;end&quot;:{&quot;line&quot;:72,&quot;column&quot;:24,&quot;offset&quot;:1791}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/file-search.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:72,&quot;column&quot;:28,&quot;offset&quot;:1794},&quot;end&quot;:{&quot;line&quot;:72,&quot;column&quot;:44,&quot;offset&quot;:1811}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/file-search.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:72,&quot;column&quot;:28,&quot;offset&quot;:1794},&quot;end&quot;:{&quot;line&quot;:72,&quot;column&quot;:56,&quot;offset&quot;:1823}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/file-search.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:77,&quot;column&quot;:8,&quot;offset&quot;:1875},&quot;end&quot;:{&quot;line&quot;:77,&quot;column&quot;:21,&quot;offset&quot;:1889}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/file-search.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:78,&quot;column&quot;:8,&quot;offset&quot;:1900},&quot;end&quot;:{&quot;line&quot;:78,&quot;column&quot;:21,&quot;offset&quot;:1914}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/file-search.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:78,&quot;column&quot;:8,&quot;offset&quot;:1900},&quot;end&quot;:{&quot;line&quot;:78,&quot;column&quot;:26,&quot;offset&quot;:1919}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/file-search.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:84,&quot;column&quot;:35,&quot;offset&quot;:2003},&quot;end&quot;:{&quot;line&quot;:84,&quot;column&quot;:51,&quot;offset&quot;:2020}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/file-search.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:86,&quot;column&quot;:11,&quot;offset&quot;:2075},&quot;end&quot;:{&quot;line&quot;:86,&quot;column&quot;:17,&quot;offset&quot;:2082}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/file-search.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:86,&quot;column&quot;:21,&quot;offset&quot;:2085},&quot;end&quot;:{&quot;line&quot;:86,&quot;column&quot;:76,&quot;offset&quot;:2141}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/file-search.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:86,&quot;column&quot;:27,&quot;offset&quot;:2091},&quot;end&quot;:{&quot;line&quot;:86,&quot;column&quot;:36,&quot;offset&quot;:2101}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/file-search.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:86,&quot;column&quot;:27,&quot;offset&quot;:2091},&quot;end&quot;:{&quot;line&quot;:86,&quot;column&quot;:76,&quot;offset&quot;:2141}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/file-search.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:86,&quot;column&quot;:45,&quot;offset&quot;:2109},&quot;end&quot;:{&quot;line&quot;:86,&quot;column&quot;:58,&quot;offset&quot;:2123}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/file-search.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:86,&quot;column&quot;:45,&quot;offset&quot;:2109},&quot;end&quot;:{&quot;line&quot;:86,&quot;column&quot;:63,&quot;offset&quot;:2128}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/file-search.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:93,&quot;column&quot;:13,&quot;offset&quot;:2245},&quot;end&quot;:{&quot;line&quot;:93,&quot;column&quot;:14,&quot;offset&quot;:2247}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/file-search.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:93,&quot;column&quot;:17,&quot;offset&quot;:2249},&quot;end&quot;:{&quot;line&quot;:93,&quot;column&quot;:20,&quot;offset&quot;:2253}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/file-search.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:93,&quot;column&quot;:26,&quot;offset&quot;:2258},&quot;end&quot;:{&quot;line&quot;:93,&quot;column&quot;:28,&quot;offset&quot;:2261}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/file-search.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:95,&quot;column&quot;:34,&quot;offset&quot;:2297},&quot;end&quot;:{&quot;line&quot;:95,&quot;column&quot;:35,&quot;offset&quot;:2299}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/file-search.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:95,&quot;column&quot;:38,&quot;offset&quot;:2301},&quot;end&quot;:{&quot;line&quot;:95,&quot;column&quot;:41,&quot;offset&quot;:2305}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/file-search.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:95,&quot;column&quot;:44,&quot;offset&quot;:2307},&quot;end&quot;:{&quot;line&quot;:95,&quot;column&quot;:50,&quot;offset&quot;:2314}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/file-search.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:105,&quot;column&quot;:35,&quot;offset&quot;:2520},&quot;end&quot;:{&quot;line&quot;:105,&quot;column&quot;:51,&quot;offset&quot;:2537}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/file-search.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:124,&quot;column&quot;:15,&quot;offset&quot;:3046},&quot;end&quot;:{&quot;line&quot;:124,&quot;column&quot;:16,&quot;offset&quot;:3048}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/file-search.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:124,&quot;column&quot;:19,&quot;offset&quot;:3050},&quot;end&quot;:{&quot;line&quot;:124,&quot;column&quot;:22,&quot;offset&quot;:3054}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/file-search.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:124,&quot;column&quot;:28,&quot;offset&quot;:3059},&quot;end&quot;:{&quot;line&quot;:124,&quot;column&quot;:34,&quot;offset&quot;:3066}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/file-search.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:125,&quot;column&quot;:36,&quot;offset&quot;:3103},&quot;end&quot;:{&quot;line&quot;:125,&quot;column&quot;:37,&quot;offset&quot;:3105}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/file-search.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:125,&quot;column&quot;:40,&quot;offset&quot;:3107},&quot;end&quot;:{&quot;line&quot;:125,&quot;column&quot;:43,&quot;offset&quot;:3111}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/actions/file-search.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:135,&quot;column&quot;:37,&quot;offset&quot;:3352},&quot;end&quot;:{&quot;line&quot;:135,&quot;column&quot;:53,&quot;offset&quot;:3369}}]},&quot;percent&quot;:84}</pre></body></html>

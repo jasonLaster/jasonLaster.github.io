@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"/><link rel="stylesheet" href="../../../../assets/semantic.min.css"/><link rel="stylesheet" href="../../../../assets/codemirror.css"/><link rel="stylesheet" href="../../../../assets/flow-highlight-source.css"/><link rel="stylesheet" href="../../../../assets/flow-coverage-report.css"/><link rel="stylesheet" href="../../../../assets/codemirror-simplescrollbars-addon.css"/><script src="../../../../assets/jquery-3.1.0.min.js"></script><script src="../../../../assets/semantic.min.js"></script><script src="../../../../assets/semantic-tablesort.js"></script><script src="../../../../assets/codemirror.js"></script><script src="../../../../assets/codemirror-javascript-mode.js"></script><script src="../../../../assets/codemirror-annotatescrollbar-addon.js"></script><script src="../../../../assets/codemirror-simplescrollbars-addon.js"></script><script src="../../../../assets/flow-highlight-source.js"></script></head><body><div class="ui grid container"><div class="row"><h1 class="twelve wide column">Flow Coverage Report - src/components/Editor/CallSite.js</h1><div class="four wide column" style="height:32px;"><a href="../../../../index.html" id="link-to-summary">Go back to all files summary.</a></div></div><div class="row"><table class="ui small celled unstackable table"><thead><tr><th class="sorted ascending">Filename</th><th>Percent</th><th>Total</th><th>Covered</th><th>Uncovered</th></tr></thead><tbody><tr class="positive"><td class="">src/components/Editor/CallSite.js</td><td> 92 %</td><td> 101 </td><td> 93 </td><td> 8 </td></tr></tbody></table></div><div class="row green" style="padding:0;height:12px;"></div><div class="row ui one column centered grid"><div class="column" style="text-align:left;"><div class="row"><div class="ui form"><div class="fields"><div class="sixteen wide inline field"><select class="ui search dropdown uncovered-locations"><option value="">Uncovered Locations</option><option value="36">Start: 36,11 - End: 36,18</option><option value="36">Start: 36,22 - End: 36,37</option><option value="37">Start: 37,39 - End: 37,46</option><option value="37">Start: 37,49 - End: 37,65</option><option value="38">Start: 38,5 - End: 38,58</option><option value="38">Start: 38,19 - End: 38,58</option><option value="43">Start: 43,7 - End: 43,25</option><option value="89">Start: 89,5 - End: 89,23</option></select></div><div class="four wide inline field"><select class="ui search dropdown syntax-highlighting"><option value="es">ES6/ES7</option><option value="js">JavaScript</option><option value="no">None</option></select></div></div></div></div><textarea id="file-content" readonly="">/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at &lt;http://mozilla.org/MPL/2.0/&gt;. */
+
+// @flow
+import { Component } from &quot;react&quot;;
+
+import { markText, toEditorRange } from &quot;../../utils/editor&quot;;
+require(&quot;./CallSite.css&quot;);
+
+type MarkerType = {
+  clear: Function
+};
+
+type Props = {
+  callSite: Object,
+  editor: Object,
+  source: Object,
+  breakpoint: Object,
+  showCallSite: boolean
+};
+
+export default class CallSite extends Component&lt;Props&gt; {
+  addCallSite: Function;
+  marker: ?MarkerType;
+
+  constructor() {
+    super();
+
+    this.marker = undefined;
+  }
+
+  addCallSite = (nextProps: ?Props) =&gt; {
+    const { editor, callSite, breakpoint, source } = nextProps || this.props;
+    const className = !breakpoint ? &quot;call-site&quot; : &quot;call-site-bp&quot;;
+    const sourceId = source.get(&quot;id&quot;);
+    const editorRange = toEditorRange(sourceId, callSite.location);
+    this.marker = markText(editor, className, editorRange);
+  };
+
+  clearCallSite = () =&gt; {
+    if (this.marker) {
+      this.marker.clear();
+      this.marker = null;
+    }
+  };
+
+  shouldComponentUpdate(nextProps: Props) {
+    return this.props.editor !== nextProps.editor;
+  }
+
+  componentDidMount() {
+    const { breakpoint, showCallSite } = this.props;
+
+    if (!breakpoint &amp;&amp; !showCallSite) {
+      return;
+    }
+
+    this.addCallSite();
+  }
+
+  componentWillReceiveProps(nextProps: Props) {
+    const { breakpoint, showCallSite } = this.props;
+
+    if (nextProps.breakpoint !== breakpoint) {
+      if (this.marker) {
+        this.clearCallSite();
+      }
+      if (nextProps.showCallSite) {
+        this.addCallSite(nextProps);
+      }
+    }
+
+    if (nextProps.showCallSite !== showCallSite) {
+      if (nextProps.showCallSite) {
+        if (!this.marker) {
+          this.addCallSite();
+        }
+      } else if (!nextProps.breakpoint) {
+        this.clearCallSite();
+      }
+    }
+  }
+
+  componentWillUnmount() {
+    if (!this.marker) {
+      return;
+    }
+    this.marker.clear();
+  }
+
+  render() {
+    return null;
+  }
+}
+</textarea></div></div><div class="row centered"><footer>Flow Coverage Report generated by<a href="https://flowtype.org"> flow </a>and<a href="https://github.com/rpl/flow-coverage-report"> flow-coverage-report </a>at Tue Apr 03 2018 15:58:53 GMT-0400 (EDT)</footer></div></div><pre id="file-coverage-data" style="display:none;">{&quot;expressions&quot;:{&quot;covered_count&quot;:93,&quot;uncovered_count&quot;:8,&quot;uncovered_locs&quot;:[{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/CallSite.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:36,&quot;column&quot;:11,&quot;offset&quot;:873},&quot;end&quot;:{&quot;line&quot;:36,&quot;column&quot;:18,&quot;offset&quot;:881}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/CallSite.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:36,&quot;column&quot;:22,&quot;offset&quot;:884},&quot;end&quot;:{&quot;line&quot;:36,&quot;column&quot;:37,&quot;offset&quot;:900}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/CallSite.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:37,&quot;column&quot;:39,&quot;offset&quot;:940},&quot;end&quot;:{&quot;line&quot;:37,&quot;column&quot;:46,&quot;offset&quot;:948}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/CallSite.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:37,&quot;column&quot;:49,&quot;offset&quot;:950},&quot;end&quot;:{&quot;line&quot;:37,&quot;column&quot;:65,&quot;offset&quot;:967}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/CallSite.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:38,&quot;column&quot;:5,&quot;offset&quot;:974},&quot;end&quot;:{&quot;line&quot;:38,&quot;column&quot;:58,&quot;offset&quot;:1028}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/CallSite.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:38,&quot;column&quot;:19,&quot;offset&quot;:988},&quot;end&quot;:{&quot;line&quot;:38,&quot;column&quot;:58,&quot;offset&quot;:1028}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/CallSite.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:43,&quot;column&quot;:7,&quot;offset&quot;:1091},&quot;end&quot;:{&quot;line&quot;:43,&quot;column&quot;:25,&quot;offset&quot;:1110}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/CallSite.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:89,&quot;column&quot;:5,&quot;offset&quot;:2039},&quot;end&quot;:{&quot;line&quot;:89,&quot;column&quot;:23,&quot;offset&quot;:2058}}]},&quot;percent&quot;:92}</pre></body></html>

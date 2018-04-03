@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"/><link rel="stylesheet" href="../../../assets/semantic.min.css"/><link rel="stylesheet" href="../../../assets/codemirror.css"/><link rel="stylesheet" href="../../../assets/flow-highlight-source.css"/><link rel="stylesheet" href="../../../assets/flow-coverage-report.css"/><link rel="stylesheet" href="../../../assets/codemirror-simplescrollbars-addon.css"/><script src="../../../assets/jquery-3.1.0.min.js"></script><script src="../../../assets/semantic.min.js"></script><script src="../../../assets/semantic-tablesort.js"></script><script src="../../../assets/codemirror.js"></script><script src="../../../assets/codemirror-javascript-mode.js"></script><script src="../../../assets/codemirror-annotatescrollbar-addon.js"></script><script src="../../../assets/codemirror-simplescrollbars-addon.js"></script><script src="../../../assets/flow-highlight-source.js"></script></head><body><div class="ui grid container"><div class="row"><h1 class="twelve wide column">Flow Coverage Report - src/utils/frame.js</h1><div class="four wide column" style="height:32px;"><a href="../../../index.html" id="link-to-summary">Go back to all files summary.</a></div></div><div class="row"><table class="ui small celled unstackable table"><thead><tr><th class="sorted ascending">Filename</th><th>Percent</th><th>Total</th><th>Covered</th><th>Uncovered</th></tr></thead><tbody><tr class="positive"><td class="">src/utils/frame.js</td><td> 88 %</td><td> 404 </td><td> 359 </td><td> 45 </td></tr></tbody></table></div><div class="row green" style="padding:0;height:12px;"></div><div class="row ui one column centered grid"><div class="column" style="text-align:left;"><div class="row"><div class="ui form"><div class="fields"><div class="sixteen wide inline field"><select class="ui search dropdown uncovered-locations"><option value="">Uncovered Locations</option><option value="13">Start: 13,10 - End: 13,12</option><option value="13">Start: 13,10 - End: 13,37</option><option value="174">Start: 174,26 - End: 174,30</option><option value="174">Start: 174,33 - End: 174,39</option><option value="175">Start: 175,9 - End: 175,11</option><option value="175">Start: 175,15 - End: 175,37</option><option value="175">Start: 175,30 - End: 175,36</option><option value="176">Start: 176,11 - End: 176,21</option><option value="176">Start: 176,27 - End: 176,31</option><option value="177">Start: 177,10 - End: 177,49</option><option value="177">Start: 177,11 - End: 177,13</option><option value="177">Start: 177,18 - End: 177,20</option><option value="177">Start: 177,18 - End: 177,33</option><option value="177">Start: 177,22 - End: 177,32</option><option value="177">Start: 177,39 - End: 177,49</option><option value="181">Start: 181,8 - End: 181,16</option><option value="181">Start: 181,8 - End: 181,33</option><option value="203">Start: 203,7 - End: 203,28</option><option value="215">Start: 215,9 - End: 215,13</option><option value="215">Start: 215,17 - End: 215,37</option><option value="216">Start: 216,9 - End: 216,13</option><option value="217">Start: 217,14 - End: 217,18</option><option value="217">Start: 217,14 - End: 217,21</option><option value="229">Start: 229,22 - End: 229,28</option><option value="230">Start: 230,7 - End: 230,13</option><option value="231">Start: 231,5 - End: 231,49</option><option value="231">Start: 231,19 - End: 231,49</option><option value="231">Start: 231,42 - End: 231,48</option><option value="234">Start: 234,37 - End: 234,47</option><option value="240">Start: 240,32 - End: 240,43</option><option value="241">Start: 241,9 - End: 241,21</option><option value="241">Start: 241,25 - End: 241,38</option><option value="241">Start: 241,25 - End: 241,43</option><option value="243">Start: 243,41 - End: 243,53</option><option value="268">Start: 268,11 - End: 268,21</option><option value="268">Start: 268,25 - End: 268,27</option><option value="268">Start: 268,25 - End: 268,48</option><option value="272">Start: 272,16 - End: 272,26</option><option value="272">Start: 272,31 - End: 272,41</option><option value="288">Start: 288,9 - End: 288,13</option><option value="288">Start: 288,17 - End: 288,25</option><option value="288">Start: 288,17 - End: 288,44</option><option value="290">Start: 290,7 - End: 290,11</option><option value="294">Start: 294,37 - End: 294,41</option><option value="295">Start: 295,34 - End: 295,38</option></select></div><div class="four wide inline field"><select class="ui search dropdown syntax-highlighting"><option value="es">ES6/ES7</option><option value="js">JavaScript</option><option value="no">None</option></select></div></div></div></div><textarea id="file-content" readonly="">// @flow
+
+import get from &quot;lodash/get&quot;;
+import { isEnabled } from &quot;devtools-config&quot;;
+import { endTruncateStr } from &quot;./utils&quot;;
+import { getFilename } from &quot;./source&quot;;
+import findIndex from &quot;lodash/findIndex&quot;;
+
+import type { Frame } from &quot;debugger-html&quot;;
+import type { LocalFrame } from &quot;../components/SecondaryPanes/Frames/types&quot;;
+
+function getFrameUrl(frame) {
+  return get(frame, &quot;source.url&quot;, &quot;&quot;) || &quot;&quot;;
+}
+
+function isBackbone(frame) {
+  return getFrameUrl(frame).match(/backbone/i);
+}
+
+function isJQuery(frame) {
+  return getFrameUrl(frame).match(/jquery/i);
+}
+
+function isReact(frame) {
+  return getFrameUrl(frame).match(/react/i);
+}
+
+function isImmutable(frame) {
+  return getFrameUrl(frame).match(/immutable/i);
+}
+
+function isWebpack(frame) {
+  return getFrameUrl(frame).match(/webpack\/bootstrap/i);
+}
+
+function isNodeInternal(frame) {
+  // starts with &quot;internal/&quot; OR no path, just &quot;timers.js&quot;, &quot;url.js&quot; etc
+  // (normally frameUrl will be a FQ pathname)
+  return /(^internal\/|^[^.\/]+\.js)/.test(getFrameUrl(frame));
+}
+
+function isExpress(frame) {
+  return /node_modules\/express/.test(getFrameUrl(frame));
+}
+
+function isPug(frame) {
+  return /node_modules\/pug/.test(getFrameUrl(frame));
+}
+
+function isExtJs(frame) {
+  return /\/ext-all[\.\-]/.test(getFrameUrl(frame));
+}
+
+function isUnderscore(frame) {
+  return getFrameUrl(frame).match(/underscore/i);
+}
+
+function isLodash(frame) {
+  return getFrameUrl(frame).match(/lodash/i);
+}
+
+function isEmber(frame) {
+  return getFrameUrl(frame).match(/ember/i);
+}
+
+function isVueJS(frame) {
+  return getFrameUrl(frame).match(/vue\.js/i);
+}
+
+function isRxJs(frame) {
+  return getFrameUrl(frame).match(/rxjs/i);
+}
+
+function isAngular(frame) {
+  return getFrameUrl(frame).match(/angular/i);
+}
+
+function isRedux(frame) {
+  return getFrameUrl(frame).match(/redux/i);
+}
+
+export function getLibraryFromUrl(frame: Frame) {
+  // @TODO each of these fns calls getFrameUrl, just call it once
+  // (assuming there&#x27;s not more complex logic to identify a lib)
+
+  if (isBackbone(frame)) {
+    return &quot;Backbone&quot;;
+  }
+
+  if (isJQuery(frame)) {
+    return &quot;jQuery&quot;;
+  }
+
+  if (isReact(frame)) {
+    return &quot;React&quot;;
+  }
+
+  if (isWebpack(frame)) {
+    return &quot;Webpack&quot;;
+  }
+
+  if (isNodeInternal(frame)) {
+    return &quot;Node&quot;;
+  }
+
+  if (isExpress(frame)) {
+    return &quot;Express&quot;;
+  }
+
+  if (isPug(frame)) {
+    return &quot;Pug&quot;;
+  }
+
+  if (isExtJs(frame)) {
+    return &quot;ExtJS&quot;;
+  }
+
+  if (isUnderscore(frame)) {
+    return &quot;Underscore&quot;;
+  }
+
+  if (isLodash(frame)) {
+    return &quot;Lodash&quot;;
+  }
+
+  if (isEmber(frame)) {
+    return &quot;Ember&quot;;
+  }
+
+  if (isVueJS(frame)) {
+    return &quot;VueJS&quot;;
+  }
+
+  if (isRxJs(frame)) {
+    return &quot;RxJS&quot;;
+  }
+
+  if (isAngular(frame)) {
+    return &quot;Angular&quot;;
+  }
+
+  if (isRedux(frame)) {
+    return &quot;Redux&quot;;
+  }
+
+  if (isImmutable(frame)) {
+    return &quot;Immutable&quot;;
+  }
+}
+
+const displayNameMap = {
+  Backbone: {
+    &quot;extend/child&quot;: &quot;Create Class&quot;,
+    &quot;.create&quot;: &quot;Create Model&quot;
+  },
+  jQuery: {
+    &quot;jQuery.event.dispatch&quot;: &quot;Dispatch Event&quot;
+  },
+  React: {
+    // eslint-disable-next-line max-len
+    &quot;ReactCompositeComponent._renderValidatedComponentWithoutOwnerOrContext/renderedElement&lt;&quot;:
+      &quot;Render&quot;,
+    _renderValidatedComponentWithoutOwnerOrContext: &quot;Render&quot;
+  },
+  VueJS: {
+    &quot;renderMixin/Vue.prototype._render&quot;: &quot;Render&quot;
+  },
+  Webpack: {
+    // eslint-disable-next-line camelcase
+    __webpack_require__: &quot;Bootstrap&quot;
+  }
+};
+
+function mapDisplayNames(frame, library) {
+  const map = displayNameMap[library];
+  const { displayName } = frame;
+  return (map &amp;&amp; map[displayName]) || displayName;
+}
+
+export function annotateFrame(frame: Frame) {
+  if (!isEnabled(&quot;collapseFrame&quot;)) {
+    return frame;
+  }
+
+  const library = getLibraryFromUrl(frame);
+  if (library) {
+    return Object.assign({}, frame, { library });
+  }
+
+  return frame;
+}
+
+// Decodes an anonymous naming scheme that
+// spider monkey implements based on &quot;Naming Anonymous JavaScript Functions&quot;
+// http://johnjbarton.github.io/nonymous/index.html
+const objectProperty = /([\w\d]+)$/;
+const arrayProperty = /\[(.*?)\]$/;
+const functionProperty = /([\w\d]+)[\/\.&lt;]*?$/;
+const annonymousProperty = /([\w\d]+)\(\^\)$/;
+
+export function simplifyDisplayName(displayName: string) {
+  // if the display name has a space it has already been mapped
+  if (/\s/.exec(displayName)) {
+    return displayName;
+  }
+
+  const scenarios = [
+    objectProperty,
+    arrayProperty,
+    functionProperty,
+    annonymousProperty
+  ];
+
+  for (let reg of scenarios) {
+    let match = reg.exec(displayName);
+    if (match) {
+      return match[1];
+    }
+  }
+
+  return displayName;
+}
+
+type formatDisplayNameParams = { shouldMapDisplayName: boolean };
+export function formatDisplayName(
+  frame: LocalFrame,
+  { shouldMapDisplayName = true }: formatDisplayNameParams = {}
+) {
+  let { displayName, library } = frame;
+  if (library &amp;&amp; shouldMapDisplayName) {
+    displayName = mapDisplayNames(frame, library);
+  }
+
+  displayName = simplifyDisplayName(displayName);
+  return endTruncateStr(displayName, 25);
+}
+
+export function formatCopyName(frame: LocalFrame) {
+  const displayName = formatDisplayName(frame);
+  const fileName = getFilename(frame.source);
+  const frameLocation = frame.location.line;
+
+  return `${displayName} (${fileName}#${frameLocation})`;
+}
+
+export function collapseFrames(frames: Frame[]) {
+  // We collapse groups of one so that user frames
+  // are not in a group of one
+  function addGroupToList(group, list) {
+    if (!group) {
+      return list;
+    }
+
+    if (group.length &gt; 1) {
+      list.push(group);
+    } else {
+      list = list.concat(group);
+    }
+
+    return list;
+  }
+  const { newFrames, lastGroup } = collapseLastFrames(frames);
+  frames = newFrames;
+  let items = [];
+  let currentGroup = null;
+  let prevItem = null;
+  for (const frame of frames) {
+    const prevLibrary = get(prevItem, &quot;library&quot;);
+
+    if (!currentGroup) {
+      currentGroup = [frame];
+    } else if (prevLibrary &amp;&amp; prevLibrary == frame.library) {
+      currentGroup.push(frame);
+    } else {
+      items = addGroupToList(currentGroup, items);
+      currentGroup = [frame];
+    }
+
+    prevItem = frame;
+  }
+
+  items = addGroupToList(currentGroup, items);
+  items = addGroupToList(lastGroup, items);
+  return items;
+}
+
+function collapseLastFrames(frames) {
+  const index = findIndex(frames, isWebpack);
+
+  if (index == -1) {
+    return { newFrames: frames, lastGroup: [] };
+  }
+
+  const newFrames = frames.slice(0, index);
+  const lastGroup = frames.slice(index);
+  return { newFrames, lastGroup };
+}
+</textarea></div></div><div class="row centered"><footer>Flow Coverage Report generated by<a href="https://flowtype.org"> flow </a>and<a href="https://github.com/rpl/flow-coverage-report"> flow-coverage-report </a>at Tue Aug 15 2017 09:36:51 GMT-0400 (EDT)</footer></div></div><pre id="file-coverage-data" style="display:none;">{&quot;expressions&quot;:{&quot;covered_count&quot;:359,&quot;uncovered_count&quot;:45,&quot;uncovered_locs&quot;:[{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:13,&quot;column&quot;:10,&quot;offset&quot;:371},&quot;end&quot;:{&quot;line&quot;:13,&quot;column&quot;:12,&quot;offset&quot;:374}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:13,&quot;column&quot;:10,&quot;offset&quot;:371},&quot;end&quot;:{&quot;line&quot;:13,&quot;column&quot;:37,&quot;offset&quot;:399}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:174,&quot;column&quot;:26,&quot;offset&quot;:3418},&quot;end&quot;:{&quot;line&quot;:174,&quot;column&quot;:30,&quot;offset&quot;:3423}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:174,&quot;column&quot;:33,&quot;offset&quot;:3425},&quot;end&quot;:{&quot;line&quot;:174,&quot;column&quot;:39,&quot;offset&quot;:3432}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:175,&quot;column&quot;:9,&quot;offset&quot;:3444},&quot;end&quot;:{&quot;line&quot;:175,&quot;column&quot;:11,&quot;offset&quot;:3447}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:175,&quot;column&quot;:15,&quot;offset&quot;:3450},&quot;end&quot;:{&quot;line&quot;:175,&quot;column&quot;:37,&quot;offset&quot;:3473}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:175,&quot;column&quot;:30,&quot;offset&quot;:3465},&quot;end&quot;:{&quot;line&quot;:175,&quot;column&quot;:36,&quot;offset&quot;:3472}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:176,&quot;column&quot;:11,&quot;offset&quot;:3485},&quot;end&quot;:{&quot;line&quot;:176,&quot;column&quot;:21,&quot;offset&quot;:3496}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:176,&quot;column&quot;:27,&quot;offset&quot;:3501},&quot;end&quot;:{&quot;line&quot;:176,&quot;column&quot;:31,&quot;offset&quot;:3506}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:177,&quot;column&quot;:10,&quot;offset&quot;:3517},&quot;end&quot;:{&quot;line&quot;:177,&quot;column&quot;:49,&quot;offset&quot;:3557}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:177,&quot;column&quot;:11,&quot;offset&quot;:3518},&quot;end&quot;:{&quot;line&quot;:177,&quot;column&quot;:13,&quot;offset&quot;:3521}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:177,&quot;column&quot;:18,&quot;offset&quot;:3525},&quot;end&quot;:{&quot;line&quot;:177,&quot;column&quot;:20,&quot;offset&quot;:3528}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:177,&quot;column&quot;:18,&quot;offset&quot;:3525},&quot;end&quot;:{&quot;line&quot;:177,&quot;column&quot;:33,&quot;offset&quot;:3541}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:177,&quot;column&quot;:22,&quot;offset&quot;:3529},&quot;end&quot;:{&quot;line&quot;:177,&quot;column&quot;:32,&quot;offset&quot;:3540}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:177,&quot;column&quot;:39,&quot;offset&quot;:3546},&quot;end&quot;:{&quot;line&quot;:177,&quot;column&quot;:49,&quot;offset&quot;:3557}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:181,&quot;column&quot;:8,&quot;offset&quot;:3615},&quot;end&quot;:{&quot;line&quot;:181,&quot;column&quot;:16,&quot;offset&quot;:3624}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:181,&quot;column&quot;:8,&quot;offset&quot;:3615},&quot;end&quot;:{&quot;line&quot;:181,&quot;column&quot;:33,&quot;offset&quot;:3641}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:203,&quot;column&quot;:7,&quot;offset&quot;:4273},&quot;end&quot;:{&quot;line&quot;:203,&quot;column&quot;:28,&quot;offset&quot;:4295}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:215,&quot;column&quot;:9,&quot;offset&quot;:4479},&quot;end&quot;:{&quot;line&quot;:215,&quot;column&quot;:13,&quot;offset&quot;:4484}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:215,&quot;column&quot;:17,&quot;offset&quot;:4487},&quot;end&quot;:{&quot;line&quot;:215,&quot;column&quot;:37,&quot;offset&quot;:4508}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:216,&quot;column&quot;:9,&quot;offset&quot;:4518},&quot;end&quot;:{&quot;line&quot;:216,&quot;column&quot;:13,&quot;offset&quot;:4523}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:217,&quot;column&quot;:14,&quot;offset&quot;:4540},&quot;end&quot;:{&quot;line&quot;:217,&quot;column&quot;:18,&quot;offset&quot;:4545}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:217,&quot;column&quot;:14,&quot;offset&quot;:4540},&quot;end&quot;:{&quot;line&quot;:217,&quot;column&quot;:21,&quot;offset&quot;:4548}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:229,&quot;column&quot;:22,&quot;offset&quot;:4797},&quot;end&quot;:{&quot;line&quot;:229,&quot;column&quot;:28,&quot;offset&quot;:4804}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:230,&quot;column&quot;:7,&quot;offset&quot;:4822},&quot;end&quot;:{&quot;line&quot;:230,&quot;column&quot;:13,&quot;offset&quot;:4829}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:231,&quot;column&quot;:5,&quot;offset&quot;:4861},&quot;end&quot;:{&quot;line&quot;:231,&quot;column&quot;:49,&quot;offset&quot;:4906}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:231,&quot;column&quot;:19,&quot;offset&quot;:4875},&quot;end&quot;:{&quot;line&quot;:231,&quot;column&quot;:49,&quot;offset&quot;:4906}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:231,&quot;column&quot;:42,&quot;offset&quot;:4898},&quot;end&quot;:{&quot;line&quot;:231,&quot;column&quot;:48,&quot;offset&quot;:4905}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:234,&quot;column&quot;:37,&quot;offset&quot;:4949},&quot;end&quot;:{&quot;line&quot;:234,&quot;column&quot;:47,&quot;offset&quot;:4960}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:240,&quot;column&quot;:32,&quot;offset&quot;:5139},&quot;end&quot;:{&quot;line&quot;:240,&quot;column&quot;:43,&quot;offset&quot;:5151}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:241,&quot;column&quot;:9,&quot;offset&quot;:5162},&quot;end&quot;:{&quot;line&quot;:241,&quot;column&quot;:21,&quot;offset&quot;:5175}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:241,&quot;column&quot;:25,&quot;offset&quot;:5178},&quot;end&quot;:{&quot;line&quot;:241,&quot;column&quot;:38,&quot;offset&quot;:5192}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:241,&quot;column&quot;:25,&quot;offset&quot;:5178},&quot;end&quot;:{&quot;line&quot;:241,&quot;column&quot;:43,&quot;offset&quot;:5197}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:243,&quot;column&quot;:41,&quot;offset&quot;:5240},&quot;end&quot;:{&quot;line&quot;:243,&quot;column&quot;:53,&quot;offset&quot;:5253}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:268,&quot;column&quot;:11,&quot;offset&quot;:5799},&quot;end&quot;:{&quot;line&quot;:268,&quot;column&quot;:21,&quot;offset&quot;:5810}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:268,&quot;column&quot;:25,&quot;offset&quot;:5813},&quot;end&quot;:{&quot;line&quot;:268,&quot;column&quot;:27,&quot;offset&quot;:5816}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:268,&quot;column&quot;:25,&quot;offset&quot;:5813},&quot;end&quot;:{&quot;line&quot;:268,&quot;column&quot;:48,&quot;offset&quot;:5837}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:272,&quot;column&quot;:16,&quot;offset&quot;:5910},&quot;end&quot;:{&quot;line&quot;:272,&quot;column&quot;:26,&quot;offset&quot;:5921}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:272,&quot;column&quot;:31,&quot;offset&quot;:5925},&quot;end&quot;:{&quot;line&quot;:272,&quot;column&quot;:41,&quot;offset&quot;:5936}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:288,&quot;column&quot;:9,&quot;offset&quot;:6273},&quot;end&quot;:{&quot;line&quot;:288,&quot;column&quot;:13,&quot;offset&quot;:6278}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:288,&quot;column&quot;:17,&quot;offset&quot;:6281},&quot;end&quot;:{&quot;line&quot;:288,&quot;column&quot;:25,&quot;offset&quot;:6290}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:288,&quot;column&quot;:17,&quot;offset&quot;:6281},&quot;end&quot;:{&quot;line&quot;:288,&quot;column&quot;:44,&quot;offset&quot;:6309}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:290,&quot;column&quot;:7,&quot;offset&quot;:6318},&quot;end&quot;:{&quot;line&quot;:290,&quot;column&quot;:11,&quot;offset&quot;:6323}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:294,&quot;column&quot;:37,&quot;offset&quot;:6423},&quot;end&quot;:{&quot;line&quot;:294,&quot;column&quot;:41,&quot;offset&quot;:6428}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/frame.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:295,&quot;column&quot;:34,&quot;offset&quot;:6464},&quot;end&quot;:{&quot;line&quot;:295,&quot;column&quot;:38,&quot;offset&quot;:6469}}]},&quot;percent&quot;:88}</pre></body></html>

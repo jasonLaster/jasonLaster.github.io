@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"/><link rel="stylesheet" href="../../../../assets/semantic.min.css"/><link rel="stylesheet" href="../../../../assets/codemirror.css"/><link rel="stylesheet" href="../../../../assets/flow-highlight-source.css"/><link rel="stylesheet" href="../../../../assets/flow-coverage-report.css"/><link rel="stylesheet" href="../../../../assets/codemirror-simplescrollbars-addon.css"/><script src="../../../../assets/jquery-3.1.0.min.js"></script><script src="../../../../assets/semantic.min.js"></script><script src="../../../../assets/semantic-tablesort.js"></script><script src="../../../../assets/codemirror.js"></script><script src="../../../../assets/codemirror-javascript-mode.js"></script><script src="../../../../assets/codemirror-annotatescrollbar-addon.js"></script><script src="../../../../assets/codemirror-simplescrollbars-addon.js"></script><script src="../../../../assets/flow-highlight-source.js"></script></head><body><div class="ui grid container"><div class="row"><h1 class="twelve wide column">Flow Coverage Report - src/components/Editor/Preview.js</h1><div class="four wide column" style="height:32px;"><a href="../../../../index.html" id="link-to-summary">Go back to all files summary.</a></div></div><div class="row"><table class="ui small celled unstackable table"><thead><tr><th class="sorted ascending">Filename</th><th>Percent</th><th>Total</th><th>Covered</th><th>Uncovered</th></tr></thead><tbody><tr class="negative"><td class="">src/components/Editor/Preview.js</td><td> 70 %</td><td> 237 </td><td> 167 </td><td> 70 </td></tr></tbody></table></div><div class="row red" style="padding:0;height:12px;"></div><div class="row ui one column centered grid"><div class="column" style="text-align:left;"><div class="row"><div class="ui form"><div class="fields"><div class="sixteen wide inline field"><select class="ui search dropdown uncovered-locations"><option value="">Uncovered Locations</option><option value="12">Start: 12,31 - End: 12,38</option><option value="47">Start: 47,7 - End: 47,12</option><option value="48">Start: 48,7 - End: 48,11</option><option value="51">Start: 51,5 - End: 51,54</option><option value="51">Start: 51,19 - End: 51,26</option><option value="51">Start: 51,19 - End: 51,54</option><option value="51">Start: 51,28 - End: 51,33</option><option value="51">Start: 51,49 - End: 51,53</option><option value="53">Start: 53,19 - End: 53,29</option><option value="53">Start: 53,20 - End: 53,29</option><option value="57">Start: 57,25 - End: 57,50</option><option value="57">Start: 57,39 - End: 57,49</option><option value="64">Start: 64,7 - End: 64,17</option><option value="64">Start: 64,7 - End: 64,25</option><option value="71">Start: 71,11 - End: 71,18</option><option value="71">Start: 71,22 - End: 71,32</option><option value="71">Start: 71,22 - End: 75,6</option><option value="77">Start: 77,9 - End: 77,16</option><option value="77">Start: 77,9 - End: 77,23</option><option value="78">Start: 78,14 - End: 78,21</option><option value="86">Start: 86,13 - End: 86,20</option><option value="88">Start: 88,12 - End: 88,14</option><option value="88">Start: 88,12 - End: 94,5</option><option value="91">Start: 91,40 - End: 91,47</option><option value="91">Start: 91,40 - End: 91,51</option><option value="91">Start: 91,62 - End: 91,69</option><option value="91">Start: 91,62 - End: 91,74</option><option value="93">Start: 93,7 - End: 93,28</option><option value="98">Start: 98,12 - End: 98,14</option><option value="98">Start: 98,12 - End: 98,78</option><option value="102">Start: 102,12 - End: 102,14</option><option value="102">Start: 102,12 - End: 105,5</option><option value="104">Start: 104,34 - End: 104,37</option><option value="104">Start: 104,34 - End: 104,42</option><option value="111">Start: 111,33 - End: 111,34</option><option value="111">Start: 111,39 - End: 111,55</option><option value="111">Start: 111,53 - End: 111,54</option><option value="124">Start: 124,10 - End: 124,18</option><option value="124">Start: 124,10 - End: 124,34</option><option value="129">Start: 129,12 - End: 129,14</option><option value="129">Start: 129,12 - End: 142,5</option><option value="131">Start: 131,7 - End: 131,9</option><option value="131">Start: 131,7 - End: 131,43</option><option value="132">Start: 132,7 - End: 132,9</option><option value="132">Start: 132,7 - End: 132,68</option><option value="133">Start: 133,7 - End: 133,9</option><option value="133">Start: 133,7 - End: 141,7</option><option value="136">Start: 136,20 - End: 136,24</option><option value="140">Start: 140,9 - End: 140,12</option><option value="140">Start: 140,9 - End: 140,47</option><option value="153">Start: 153,14 - End: 153,52</option><option value="157">Start: 157,14 - End: 157,16</option><option value="157">Start: 157,14 - End: 161,7</option><option value="159">Start: 159,9 - End: 159,50</option><option value="164">Start: 164,12 - End: 164,42</option><option value="170">Start: 170,7 - End: 170,16</option><option value="171">Start: 171,7 - End: 171,16</option><option value="191">Start: 191,7 - End: 191,43</option><option value="198">Start: 198,16 - End: 198,22</option><option value="198">Start: 198,16 - End: 203,1</option><option value="198">Start: 198,16 - End: 203,10</option><option value="199">Start: 199,3 - End: 199,7</option><option value="200">Start: 200,20 - End: 200,35</option><option value="200">Start: 200,20 - End: 200,42</option><option value="200">Start: 200,37 - End: 200,41</option><option value="202">Start: 202,3 - End: 202,10</option><option value="202">Start: 202,15 - End: 202,32</option><option value="202">Start: 202,15 - End: 202,51</option><option value="202">Start: 202,34 - End: 202,40</option><option value="202">Start: 202,43 - End: 202,50</option></select></div><div class="four wide inline field"><select class="ui search dropdown syntax-highlighting"><option value="es">ES6/ES7</option><option value="js">JavaScript</option><option value="no">None</option></select></div></div></div></div><textarea id="file-content" readonly="">// @flow
+
+import { createFactory, DOM as dom, Component } from &quot;react&quot;;
+import { connect } from &quot;react-redux&quot;;
+import { bindActionCreators } from &quot;redux&quot;;
+import { isEnabled } from &quot;devtools-config&quot;;
+
+import _ObjectInspector from &quot;../shared/ObjectInspector&quot;;
+const ObjectInspector = createFactory(_ObjectInspector);
+
+import _Popover from &quot;../shared/Popover&quot;;
+const Popover = createFactory(_Popover);
+
+import previewFunction from &quot;../shared/previewFunction&quot;;
+import { getLoadedObjects } from &quot;../../selectors&quot;;
+import actions from &quot;../../actions&quot;;
+import { getChildren } from &quot;../../utils/object-inspector&quot;;
+import { markText } from &quot;../../utils/editor&quot;;
+import Rep from &quot;../shared/Rep&quot;;
+import { MODE } from &quot;devtools-reps&quot;;
+
+import type { EditorRange } from &quot;../../utils/editor/types&quot;;
+
+import &quot;./Preview.css&quot;;
+
+class Preview extends Component {
+  marker: any;
+  pos: any;
+  props: {
+    loadObjectProperties: Object =&gt; void,
+    addExpression: (string, ?Object) =&gt; void,
+    loadedObjects: Object,
+    popoverPos: Object,
+    value: Object,
+    expression: string,
+    onClose: () =&gt; void,
+    range: EditorRange,
+    editor: any,
+    selectSourceURL: (string, Object) =&gt; void
+  };
+
+  componentDidMount() {
+    const {
+      loadObjectProperties,
+      loadedObjects,
+      value,
+      editor,
+      range
+    } = this.props;
+
+    this.marker = markText(editor, &quot;selection&quot;, range);
+
+    if (!value || !value.type == &quot;object&quot;) {
+      return;
+    }
+
+    if (value.actor &amp;&amp; !loadedObjects[value.actor]) {
+      loadObjectProperties(value);
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.marker) {
+      this.marker.clear();
+    }
+  }
+
+  getChildren(root, getObjectProperties) {
+    const actors = {};
+
+    const children = getChildren({
+      getObjectProperties,
+      actors,
+      item: root
+    });
+
+    if (children.length &gt; 0) {
+      return children;
+    }
+
+    return [root];
+  }
+
+  renderFunctionPreview(value: Object, root: Object) {
+    const { selectSourceURL } = this.props;
+    const { location } = value;
+
+    return dom.div(
+      {
+        className: &quot;preview&quot;,
+        onClick: () =&gt; selectSourceURL(location.url, { line: location.line })
+      },
+      previewFunction(value)
+    );
+  }
+
+  renderObjectPreview(expression: string, root: Object) {
+    return dom.div({ className: &quot;preview&quot; }, this.renderObjectInspector(root));
+  }
+
+  renderSimplePreview(value: Object) {
+    return dom.div(
+      { className: &quot;preview&quot; },
+      Rep({ object: value, mode: MODE.LONG })
+    );
+  }
+
+  renderObjectInspector(root) {
+    const { loadObjectProperties, loadedObjects } = this.props;
+
+    const getObjectProperties = id =&gt; loadedObjects[id];
+    const roots = this.getChildren(root, getObjectProperties);
+
+    return ObjectInspector({
+      roots,
+      getObjectProperties,
+      autoExpandDepth: 0,
+      onDoubleClick: () =&gt; {},
+      loadObjectProperties
+    });
+  }
+
+  renderAddToExpressionBar(expression: string) {
+    if (!isEnabled(&quot;previewWatch&quot;)) {
+      return null;
+    }
+
+    const { addExpression } = this.props;
+    return dom.div(
+      { className: &quot;add-to-expression-bar&quot; },
+      dom.div({ className: &quot;prompt&quot; }, &quot;»&quot;),
+      dom.div({ className: &quot;expression-to-save-label&quot; }, expression),
+      dom.div(
+        {
+          className: &quot;expression-to-save-button&quot;,
+          onClick: event =&gt; {
+            addExpression(expression);
+          }
+        },
+        L10N.getStr(&quot;addWatchExpressionButton&quot;)
+      )
+    );
+  }
+
+  renderPreview(expression: string, value: Object) {
+    const root = {
+      name: expression,
+      path: expression,
+      contents: { value }
+    };
+
+    if (value.class === &quot;Function&quot;) {
+      return this.renderFunctionPreview(value, root);
+    }
+
+    if (value.type === &quot;object&quot;) {
+      return dom.div(
+        {},
+        this.renderObjectPreview(expression, root),
+        this.renderAddToExpressionBar(expression)
+      );
+    }
+
+    return this.renderSimplePreview(value);
+  }
+
+  getPreviewType(value) {
+    if (
+      typeof value == &quot;boolean&quot; ||
+      value.type == &quot;null&quot; ||
+      value.type == &quot;undefined&quot; ||
+      value.class === &quot;Function&quot;
+    ) {
+      return &quot;tooltip&quot;;
+    }
+
+    return &quot;popover&quot;;
+  }
+
+  render() {
+    const { popoverPos, onClose, value, expression } = this.props;
+
+    let type = this.getPreviewType(value);
+
+    return Popover(
+      {
+        targetPosition: popoverPos,
+        onMouseLeave: onClose,
+        type
+      },
+      this.renderPreview(expression, value)
+    );
+  }
+}
+
+Preview.displayName = &quot;Preview&quot;;
+
+export default connect(
+  state =&gt; ({
+    loadedObjects: getLoadedObjects(state)
+  }),
+  dispatch =&gt; bindActionCreators(actions, dispatch)
+)(Preview);
+</textarea></div></div><div class="row centered"><footer>Flow Coverage Report generated by<a href="https://flowtype.org"> flow </a>and<a href="https://github.com/rpl/flow-coverage-report"> flow-coverage-report </a>at Tue Aug 15 2017 09:36:51 GMT-0400 (EDT)</footer></div></div><pre id="file-coverage-data" style="display:none;">{&quot;expressions&quot;:{&quot;covered_count&quot;:167,&quot;uncovered_count&quot;:70,&quot;uncovered_locs&quot;:[{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:12,&quot;column&quot;:31,&quot;offset&quot;:389},&quot;end&quot;:{&quot;line&quot;:12,&quot;column&quot;:38,&quot;offset&quot;:397}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:47,&quot;column&quot;:7,&quot;offset&quot;:1289},&quot;end&quot;:{&quot;line&quot;:47,&quot;column&quot;:12,&quot;offset&quot;:1295}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:48,&quot;column&quot;:7,&quot;offset&quot;:1303},&quot;end&quot;:{&quot;line&quot;:48,&quot;column&quot;:11,&quot;offset&quot;:1308}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:51,&quot;column&quot;:5,&quot;offset&quot;:1334},&quot;end&quot;:{&quot;line&quot;:51,&quot;column&quot;:54,&quot;offset&quot;:1384}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:51,&quot;column&quot;:19,&quot;offset&quot;:1348},&quot;end&quot;:{&quot;line&quot;:51,&quot;column&quot;:26,&quot;offset&quot;:1356}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:51,&quot;column&quot;:19,&quot;offset&quot;:1348},&quot;end&quot;:{&quot;line&quot;:51,&quot;column&quot;:54,&quot;offset&quot;:1384}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:51,&quot;column&quot;:28,&quot;offset&quot;:1357},&quot;end&quot;:{&quot;line&quot;:51,&quot;column&quot;:33,&quot;offset&quot;:1363}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:51,&quot;column&quot;:49,&quot;offset&quot;:1378},&quot;end&quot;:{&quot;line&quot;:51,&quot;column&quot;:53,&quot;offset&quot;:1383}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:53,&quot;column&quot;:19,&quot;offset&quot;:1405},&quot;end&quot;:{&quot;line&quot;:53,&quot;column&quot;:29,&quot;offset&quot;:1416}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:53,&quot;column&quot;:20,&quot;offset&quot;:1406},&quot;end&quot;:{&quot;line&quot;:53,&quot;column&quot;:29,&quot;offset&quot;:1416}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:57,&quot;column&quot;:25,&quot;offset&quot;:1477},&quot;end&quot;:{&quot;line&quot;:57,&quot;column&quot;:50,&quot;offset&quot;:1503}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:57,&quot;column&quot;:39,&quot;offset&quot;:1491},&quot;end&quot;:{&quot;line&quot;:57,&quot;column&quot;:49,&quot;offset&quot;:1502}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:64,&quot;column&quot;:7,&quot;offset&quot;:1609},&quot;end&quot;:{&quot;line&quot;:64,&quot;column&quot;:17,&quot;offset&quot;:1620}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:64,&quot;column&quot;:7,&quot;offset&quot;:1609},&quot;end&quot;:{&quot;line&quot;:64,&quot;column&quot;:25,&quot;offset&quot;:1628}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:71,&quot;column&quot;:11,&quot;offset&quot;:1718},&quot;end&quot;:{&quot;line&quot;:71,&quot;column&quot;:18,&quot;offset&quot;:1726}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:71,&quot;column&quot;:22,&quot;offset&quot;:1729},&quot;end&quot;:{&quot;line&quot;:71,&quot;column&quot;:32,&quot;offset&quot;:1740}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:71,&quot;column&quot;:22,&quot;offset&quot;:1729},&quot;end&quot;:{&quot;line&quot;:75,&quot;column&quot;:6,&quot;offset&quot;:1807}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:77,&quot;column&quot;:9,&quot;offset&quot;:1818},&quot;end&quot;:{&quot;line&quot;:77,&quot;column&quot;:16,&quot;offset&quot;:1826}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:77,&quot;column&quot;:9,&quot;offset&quot;:1818},&quot;end&quot;:{&quot;line&quot;:77,&quot;column&quot;:23,&quot;offset&quot;:1833}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:78,&quot;column&quot;:14,&quot;offset&quot;:1854},&quot;end&quot;:{&quot;line&quot;:78,&quot;column&quot;:21,&quot;offset&quot;:1862}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:86,&quot;column&quot;:13,&quot;offset&quot;:2006},&quot;end&quot;:{&quot;line&quot;:86,&quot;column&quot;:20,&quot;offset&quot;:2014}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:88,&quot;column&quot;:12,&quot;offset&quot;:2038},&quot;end&quot;:{&quot;line&quot;:88,&quot;column&quot;:14,&quot;offset&quot;:2041}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:88,&quot;column&quot;:12,&quot;offset&quot;:2038},&quot;end&quot;:{&quot;line&quot;:94,&quot;column&quot;:5,&quot;offset&quot;:2206}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:91,&quot;column&quot;:40,&quot;offset&quot;:2124},&quot;end&quot;:{&quot;line&quot;:91,&quot;column&quot;:47,&quot;offset&quot;:2132}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:91,&quot;column&quot;:40,&quot;offset&quot;:2124},&quot;end&quot;:{&quot;line&quot;:91,&quot;column&quot;:51,&quot;offset&quot;:2136}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:91,&quot;column&quot;:62,&quot;offset&quot;:2146},&quot;end&quot;:{&quot;line&quot;:91,&quot;column&quot;:69,&quot;offset&quot;:2154}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:91,&quot;column&quot;:62,&quot;offset&quot;:2146},&quot;end&quot;:{&quot;line&quot;:91,&quot;column&quot;:74,&quot;offset&quot;:2159}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:93,&quot;column&quot;:7,&quot;offset&quot;:2178},&quot;end&quot;:{&quot;line&quot;:93,&quot;column&quot;:28,&quot;offset&quot;:2200}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:98,&quot;column&quot;:12,&quot;offset&quot;:2282},&quot;end&quot;:{&quot;line&quot;:98,&quot;column&quot;:14,&quot;offset&quot;:2285}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:98,&quot;column&quot;:12,&quot;offset&quot;:2282},&quot;end&quot;:{&quot;line&quot;:98,&quot;column&quot;:78,&quot;offset&quot;:2349}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:102,&quot;column&quot;:12,&quot;offset&quot;:2406},&quot;end&quot;:{&quot;line&quot;:102,&quot;column&quot;:14,&quot;offset&quot;:2409}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:102,&quot;column&quot;:12,&quot;offset&quot;:2406},&quot;end&quot;:{&quot;line&quot;:105,&quot;column&quot;:5,&quot;offset&quot;:2498}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:104,&quot;column&quot;:34,&quot;offset&quot;:2480},&quot;end&quot;:{&quot;line&quot;:104,&quot;column&quot;:37,&quot;offset&quot;:2484}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:104,&quot;column&quot;:34,&quot;offset&quot;:2480},&quot;end&quot;:{&quot;line&quot;:104,&quot;column&quot;:42,&quot;offset&quot;:2489}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:111,&quot;column&quot;:33,&quot;offset&quot;:2634},&quot;end&quot;:{&quot;line&quot;:111,&quot;column&quot;:34,&quot;offset&quot;:2636}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:111,&quot;column&quot;:39,&quot;offset&quot;:2640},&quot;end&quot;:{&quot;line&quot;:111,&quot;column&quot;:55,&quot;offset&quot;:2657}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:111,&quot;column&quot;:53,&quot;offset&quot;:2654},&quot;end&quot;:{&quot;line&quot;:111,&quot;column&quot;:54,&quot;offset&quot;:2656}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:124,&quot;column&quot;:10,&quot;offset&quot;:2947},&quot;end&quot;:{&quot;line&quot;:124,&quot;column&quot;:18,&quot;offset&quot;:2956}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:124,&quot;column&quot;:10,&quot;offset&quot;:2947},&quot;end&quot;:{&quot;line&quot;:124,&quot;column&quot;:34,&quot;offset&quot;:2972}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:129,&quot;column&quot;:12,&quot;offset&quot;:3055},&quot;end&quot;:{&quot;line&quot;:129,&quot;column&quot;:14,&quot;offset&quot;:3058}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:129,&quot;column&quot;:12,&quot;offset&quot;:3055},&quot;end&quot;:{&quot;line&quot;:142,&quot;column&quot;:5,&quot;offset&quot;:3453}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:131,&quot;column&quot;:7,&quot;offset&quot;:3116},&quot;end&quot;:{&quot;line&quot;:131,&quot;column&quot;:9,&quot;offset&quot;:3119}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:131,&quot;column&quot;:7,&quot;offset&quot;:3116},&quot;end&quot;:{&quot;line&quot;:131,&quot;column&quot;:43,&quot;offset&quot;:3153}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:132,&quot;column&quot;:7,&quot;offset&quot;:3161},&quot;end&quot;:{&quot;line&quot;:132,&quot;column&quot;:9,&quot;offset&quot;:3164}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:132,&quot;column&quot;:7,&quot;offset&quot;:3161},&quot;end&quot;:{&quot;line&quot;:132,&quot;column&quot;:68,&quot;offset&quot;:3223}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:133,&quot;column&quot;:7,&quot;offset&quot;:3231},&quot;end&quot;:{&quot;line&quot;:133,&quot;column&quot;:9,&quot;offset&quot;:3234}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:133,&quot;column&quot;:7,&quot;offset&quot;:3231},&quot;end&quot;:{&quot;line&quot;:141,&quot;column&quot;:7,&quot;offset&quot;:3447}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:136,&quot;column&quot;:20,&quot;offset&quot;:3319},&quot;end&quot;:{&quot;line&quot;:136,&quot;column&quot;:24,&quot;offset&quot;:3324}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:140,&quot;column&quot;:9,&quot;offset&quot;:3400},&quot;end&quot;:{&quot;line&quot;:140,&quot;column&quot;:12,&quot;offset&quot;:3404}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:140,&quot;column&quot;:9,&quot;offset&quot;:3400},&quot;end&quot;:{&quot;line&quot;:140,&quot;column&quot;:47,&quot;offset&quot;:3439}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:153,&quot;column&quot;:14,&quot;offset&quot;:3665},&quot;end&quot;:{&quot;line&quot;:153,&quot;column&quot;:52,&quot;offset&quot;:3704}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:157,&quot;column&quot;:14,&quot;offset&quot;:3761},&quot;end&quot;:{&quot;line&quot;:157,&quot;column&quot;:16,&quot;offset&quot;:3764}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:157,&quot;column&quot;:14,&quot;offset&quot;:3761},&quot;end&quot;:{&quot;line&quot;:161,&quot;column&quot;:7,&quot;offset&quot;:3891}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:159,&quot;column&quot;:9,&quot;offset&quot;:3790},&quot;end&quot;:{&quot;line&quot;:159,&quot;column&quot;:50,&quot;offset&quot;:3832}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:164,&quot;column&quot;:12,&quot;offset&quot;:3911},&quot;end&quot;:{&quot;line&quot;:164,&quot;column&quot;:42,&quot;offset&quot;:3942}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:170,&quot;column&quot;:7,&quot;offset&quot;:4025},&quot;end&quot;:{&quot;line&quot;:170,&quot;column&quot;:16,&quot;offset&quot;:4035}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:171,&quot;column&quot;:7,&quot;offset&quot;:4055},&quot;end&quot;:{&quot;line&quot;:171,&quot;column&quot;:16,&quot;offset&quot;:4065}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:191,&quot;column&quot;:7,&quot;offset&quot;:4431},&quot;end&quot;:{&quot;line&quot;:191,&quot;column&quot;:43,&quot;offset&quot;:4468}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:198,&quot;column&quot;:16,&quot;offset&quot;:4532},&quot;end&quot;:{&quot;line&quot;:198,&quot;column&quot;:22,&quot;offset&quot;:4539}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:198,&quot;column&quot;:16,&quot;offset&quot;:4532},&quot;end&quot;:{&quot;line&quot;:203,&quot;column&quot;:1,&quot;offset&quot;:4657}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:198,&quot;column&quot;:16,&quot;offset&quot;:4532},&quot;end&quot;:{&quot;line&quot;:203,&quot;column&quot;:10,&quot;offset&quot;:4666}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:199,&quot;column&quot;:3,&quot;offset&quot;:4543},&quot;end&quot;:{&quot;line&quot;:199,&quot;column&quot;:7,&quot;offset&quot;:4548}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:200,&quot;column&quot;:20,&quot;offset&quot;:4574},&quot;end&quot;:{&quot;line&quot;:200,&quot;column&quot;:35,&quot;offset&quot;:4590}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:200,&quot;column&quot;:20,&quot;offset&quot;:4574},&quot;end&quot;:{&quot;line&quot;:200,&quot;column&quot;:42,&quot;offset&quot;:4597}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:200,&quot;column&quot;:37,&quot;offset&quot;:4591},&quot;end&quot;:{&quot;line&quot;:200,&quot;column&quot;:41,&quot;offset&quot;:4596}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:202,&quot;column&quot;:3,&quot;offset&quot;:4606},&quot;end&quot;:{&quot;line&quot;:202,&quot;column&quot;:10,&quot;offset&quot;:4614}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:202,&quot;column&quot;:15,&quot;offset&quot;:4618},&quot;end&quot;:{&quot;line&quot;:202,&quot;column&quot;:32,&quot;offset&quot;:4636}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:202,&quot;column&quot;:15,&quot;offset&quot;:4618},&quot;end&quot;:{&quot;line&quot;:202,&quot;column&quot;:51,&quot;offset&quot;:4655}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:202,&quot;column&quot;:34,&quot;offset&quot;:4637},&quot;end&quot;:{&quot;line&quot;:202,&quot;column&quot;:40,&quot;offset&quot;:4644}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/components/Editor/Preview.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:202,&quot;column&quot;:43,&quot;offset&quot;:4646},&quot;end&quot;:{&quot;line&quot;:202,&quot;column&quot;:50,&quot;offset&quot;:4654}}]},&quot;percent&quot;:70}</pre></body></html>

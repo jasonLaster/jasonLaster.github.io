@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"/><link rel="stylesheet" href="../../../assets/semantic.min.css"/><link rel="stylesheet" href="../../../assets/codemirror.css"/><link rel="stylesheet" href="../../../assets/flow-highlight-source.css"/><link rel="stylesheet" href="../../../assets/flow-coverage-report.css"/><link rel="stylesheet" href="../../../assets/codemirror-simplescrollbars-addon.css"/><script src="../../../assets/jquery-3.1.0.min.js"></script><script src="../../../assets/semantic.min.js"></script><script src="../../../assets/semantic-tablesort.js"></script><script src="../../../assets/codemirror.js"></script><script src="../../../assets/codemirror-javascript-mode.js"></script><script src="../../../assets/codemirror-annotatescrollbar-addon.js"></script><script src="../../../assets/codemirror-simplescrollbars-addon.js"></script><script src="../../../assets/flow-highlight-source.js"></script></head><body><div class="ui grid container"><div class="row"><h1 class="twelve wide column">Flow Coverage Report - src/utils/expressions.js</h1><div class="four wide column" style="height:32px;"><a href="../../../index.html" id="link-to-summary">Go back to all files summary.</a></div></div><div class="row"><table class="ui small celled unstackable table"><thead><tr><th class="sorted ascending">Filename</th><th>Percent</th><th>Total</th><th>Covered</th><th>Uncovered</th></tr></thead><tbody><tr class="negative"><td class="">src/utils/expressions.js</td><td> 67 %</td><td> 76 </td><td> 51 </td><td> 25 </td></tr></tbody></table></div><div class="row red" style="padding:0;height:12px;"></div><div class="row ui one column centered grid"><div class="column" style="text-align:left;"><div class="row"><div class="ui form"><div class="fields"><div class="sixteen wide inline field"><select class="ui search dropdown uncovered-locations"><option value="">Uncovered Locations</option><option value="22">Start: 22,10 - End: 22,27</option><option value="22">Start: 22,10 - End: 28,4</option><option value="40">Start: 40,7 - End: 40,21</option><option value="42">Start: 42,13 - End: 42,22</option><option value="43">Start: 43,14 - End: 43,28</option><option value="47">Start: 47,7 - End: 47,17</option><option value="49">Start: 49,13 - End: 49,22</option><option value="50">Start: 50,14 - End: 50,24</option><option value="54">Start: 54,7 - End: 54,18</option><option value="54">Start: 54,23 - End: 54,34</option><option value="54">Start: 54,23 - End: 54,40</option><option value="55">Start: 55,13 - End: 55,16</option><option value="55">Start: 55,19 - End: 55,25</option><option value="55">Start: 55,31 - End: 55,42</option><option value="55">Start: 55,31 - End: 55,50</option><option value="57">Start: 57,7 - End: 57,10</option><option value="57">Start: 57,62 - End: 57,65</option><option value="57">Start: 57,71 - End: 57,77</option><option value="59">Start: 59,20 - End: 59,30</option><option value="62">Start: 62,14 - End: 62,25</option><option value="64">Start: 64,13 - End: 64,24</option><option value="64">Start: 64,13 - End: 64,30</option><option value="65">Start: 65,14 - End: 65,25</option><option value="70">Start: 70,11 - End: 70,21</option><option value="71">Start: 71,12 - End: 71,23</option></select></div><div class="four wide inline field"><select class="ui search dropdown syntax-highlighting"><option value="es">ES6/ES7</option><option value="js">JavaScript</option><option value="no">None</option></select></div></div></div></div><textarea id="file-content" readonly="">/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at &lt;http://mozilla.org/MPL/2.0/&gt;. */
+
+// @flow
+
+import { correctIndentation } from &quot;./indentation&quot;;
+import type { Expression } from &quot;../types&quot;;
+
+// replace quotes that could interfere with the evaluation.
+export function sanitizeInput(input: string) {
+  return input.replace(/&quot;/g, &#x27;&quot;&#x27;);
+}
+
+/*
+ * wrap the expression input in a try/catch so that it can be safely
+ * evaluated.
+ *
+ * NOTE: we add line after the expression to protect against comments.
+*/
+export function wrapExpression(input: string) {
+  return correctIndentation(`
+    try {
+      ${sanitizeInput(input)}
+    } catch (e) {
+      e
+    }
+  `);
+}
+
+export function getValue(expression: Expression) {
+  const value = expression.value;
+  if (!value) {
+    return {
+      path: expression.from,
+      value: { unavailable: true }
+    };
+  }
+
+  if (value.exception) {
+    return {
+      path: value.from,
+      value: value.exception
+    };
+  }
+
+  if (value.error) {
+    return {
+      path: value.from,
+      value: value.error
+    };
+  }
+
+  if (value.result &amp;&amp; value.result.class == &quot;Error&quot;) {
+    const { name, message } = value.result.preview;
+    const newValue =
+      name === &quot;ReferenceError&quot; ? { unavailable: true } : `${name}: ${message}`;
+
+    return { path: value.input, value: newValue };
+  }
+
+  if (typeof value.result == &quot;object&quot;) {
+    return {
+      path: value.result.actor,
+      value: value.result
+    };
+  }
+
+  return {
+    path: value.input,
+    value: value.result
+  };
+}
+</textarea></div></div><div class="row centered"><footer>Flow Coverage Report generated by<a href="https://flowtype.org"> flow </a>and<a href="https://github.com/rpl/flow-coverage-report"> flow-coverage-report </a>at Tue Apr 03 2018 15:58:53 GMT-0400 (EDT)</footer></div></div><pre id="file-coverage-data" style="display:none;">{&quot;expressions&quot;:{&quot;covered_count&quot;:51,&quot;uncovered_count&quot;:25,&quot;uncovered_locs&quot;:[{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/expressions.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:22,&quot;column&quot;:10,&quot;offset&quot;:680},&quot;end&quot;:{&quot;line&quot;:22,&quot;column&quot;:27,&quot;offset&quot;:698}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/expressions.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:22,&quot;column&quot;:10,&quot;offset&quot;:680},&quot;end&quot;:{&quot;line&quot;:28,&quot;column&quot;:4,&quot;offset&quot;:777}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/expressions.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:40,&quot;column&quot;:7,&quot;offset&quot;:978},&quot;end&quot;:{&quot;line&quot;:40,&quot;column&quot;:21,&quot;offset&quot;:993}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/expressions.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:42,&quot;column&quot;:13,&quot;offset&quot;:1022},&quot;end&quot;:{&quot;line&quot;:42,&quot;column&quot;:22,&quot;offset&quot;:1032}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/expressions.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:43,&quot;column&quot;:14,&quot;offset&quot;:1047},&quot;end&quot;:{&quot;line&quot;:43,&quot;column&quot;:28,&quot;offset&quot;:1062}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/expressions.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:47,&quot;column&quot;:7,&quot;offset&quot;:1081},&quot;end&quot;:{&quot;line&quot;:47,&quot;column&quot;:17,&quot;offset&quot;:1092}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/expressions.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:49,&quot;column&quot;:13,&quot;offset&quot;:1121},&quot;end&quot;:{&quot;line&quot;:49,&quot;column&quot;:22,&quot;offset&quot;:1131}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/expressions.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:50,&quot;column&quot;:14,&quot;offset&quot;:1146},&quot;end&quot;:{&quot;line&quot;:50,&quot;column&quot;:24,&quot;offset&quot;:1157}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/expressions.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:54,&quot;column&quot;:7,&quot;offset&quot;:1176},&quot;end&quot;:{&quot;line&quot;:54,&quot;column&quot;:18,&quot;offset&quot;:1188}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/expressions.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:54,&quot;column&quot;:23,&quot;offset&quot;:1192},&quot;end&quot;:{&quot;line&quot;:54,&quot;column&quot;:34,&quot;offset&quot;:1204}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/expressions.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:54,&quot;column&quot;:23,&quot;offset&quot;:1192},&quot;end&quot;:{&quot;line&quot;:54,&quot;column&quot;:40,&quot;offset&quot;:1210}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/expressions.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:55,&quot;column&quot;:13,&quot;offset&quot;:1237},&quot;end&quot;:{&quot;line&quot;:55,&quot;column&quot;:16,&quot;offset&quot;:1241}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/expressions.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:55,&quot;column&quot;:19,&quot;offset&quot;:1243},&quot;end&quot;:{&quot;line&quot;:55,&quot;column&quot;:25,&quot;offset&quot;:1250}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/expressions.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:55,&quot;column&quot;:31,&quot;offset&quot;:1255},&quot;end&quot;:{&quot;line&quot;:55,&quot;column&quot;:42,&quot;offset&quot;:1267}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/expressions.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:55,&quot;column&quot;:31,&quot;offset&quot;:1255},&quot;end&quot;:{&quot;line&quot;:55,&quot;column&quot;:50,&quot;offset&quot;:1275}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/expressions.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:57,&quot;column&quot;:7,&quot;offset&quot;:1304},&quot;end&quot;:{&quot;line&quot;:57,&quot;column&quot;:10,&quot;offset&quot;:1308}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/expressions.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:57,&quot;column&quot;:62,&quot;offset&quot;:1359},&quot;end&quot;:{&quot;line&quot;:57,&quot;column&quot;:65,&quot;offset&quot;:1363}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/expressions.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:57,&quot;column&quot;:71,&quot;offset&quot;:1368},&quot;end&quot;:{&quot;line&quot;:57,&quot;column&quot;:77,&quot;offset&quot;:1375}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/expressions.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:59,&quot;column&quot;:20,&quot;offset&quot;:1399},&quot;end&quot;:{&quot;line&quot;:59,&quot;column&quot;:30,&quot;offset&quot;:1410}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/expressions.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:62,&quot;column&quot;:14,&quot;offset&quot;:1449},&quot;end&quot;:{&quot;line&quot;:62,&quot;column&quot;:25,&quot;offset&quot;:1461}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/expressions.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:64,&quot;column&quot;:13,&quot;offset&quot;:1502},&quot;end&quot;:{&quot;line&quot;:64,&quot;column&quot;:24,&quot;offset&quot;:1514}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/expressions.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:64,&quot;column&quot;:13,&quot;offset&quot;:1502},&quot;end&quot;:{&quot;line&quot;:64,&quot;column&quot;:30,&quot;offset&quot;:1520}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/expressions.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:65,&quot;column&quot;:14,&quot;offset&quot;:1535},&quot;end&quot;:{&quot;line&quot;:65,&quot;column&quot;:25,&quot;offset&quot;:1547}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/expressions.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:70,&quot;column&quot;:11,&quot;offset&quot;:1581},&quot;end&quot;:{&quot;line&quot;:70,&quot;column&quot;:21,&quot;offset&quot;:1592}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/utils/expressions.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:71,&quot;column&quot;:12,&quot;offset&quot;:1605},&quot;end&quot;:{&quot;line&quot;:71,&quot;column&quot;:23,&quot;offset&quot;:1617}}]},&quot;percent&quot;:67}</pre></body></html>

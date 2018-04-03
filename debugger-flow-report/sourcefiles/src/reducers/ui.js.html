@@ -1,48 +1,88 @@
 <!DOCTYPE html>
-<html><head><meta charset="utf-8"/><link rel="stylesheet" href="../../../assets/semantic.min.css"/><link rel="stylesheet" href="../../../assets/codemirror.css"/><link rel="stylesheet" href="../../../assets/flow-highlight-source.css"/><link rel="stylesheet" href="../../../assets/flow-coverage-report.css"/><link rel="stylesheet" href="../../../assets/codemirror-simplescrollbars-addon.css"/><script src="../../../assets/jquery-3.1.0.min.js"></script><script src="../../../assets/semantic.min.js"></script><script src="../../../assets/semantic-tablesort.js"></script><script src="../../../assets/codemirror.js"></script><script src="../../../assets/codemirror-javascript-mode.js"></script><script src="../../../assets/codemirror-annotatescrollbar-addon.js"></script><script src="../../../assets/codemirror-simplescrollbars-addon.js"></script><script src="../../../assets/flow-highlight-source.js"></script><script src="../../../assets/index.js"></script><style>
-.ui .CodeMirror {
-  border: 1px solid rgba(34,36,38,.15);
-  height: auto;
-}
-</style></head><body><div class="ui grid container"><div class="row"><div class="twelve wide column"><h2 class="ui header"><a href="../../../index.html" id="link-to-summary">Flow Coverage Report</a></h2></div></div><div class="row"><table class="ui small celled unstackable table"><thead><tr><th class="sorted ascending">Filename</th><th>Percent</th><th>Total</th><th>Covered</th><th>Uncovered</th></tr></thead><tbody><tr class="positive"><td class="">src/reducers/ui.js</td><td><span>88 %</span></td><td> 95 </td><td> 84 </td><td> 11 </td></tr></tbody></table></div><div class="row ui one column centered grid"><div class="column" style="text-align:left;"><div class="row"><div class="ui form"><div class="fields"><div class="sixteen wide inline field"><select class="ui search dropdown uncovered-locations"><option value="">Uncovered Locations</option><option value="10">Start: 10,9 - End: 10,13</option><option value="25">Start: 25,24 - End: 25,28</option><option value="25">Start: 25,24 - End: 25,48</option><option value="26">Start: 26,22 - End: 26,26</option><option value="26">Start: 26,22 - End: 26,44</option><option value="41">Start: 41,9 - End: 41,13</option><option value="45">Start: 45,7 - End: 45,11</option><option value="60">Start: 60,10 - End: 60,33</option><option value="64">Start: 64,10 - End: 64,36</option><option value="70">Start: 70,12 - End: 70,46</option><option value="73">Start: 73,10 - End: 73,42</option></select></div><div class="four wide inline field"><select class="ui search dropdown syntax-highlighting"><option value="es">ES6/ES7</option><option value="js">JavaScript</option><option value="no">None</option></select></div></div></div></div><textarea id="file-content" readonly="">// @flow
+<html><head><meta charset="utf-8"/><link rel="stylesheet" href="../../../assets/semantic.min.css"/><link rel="stylesheet" href="../../../assets/codemirror.css"/><link rel="stylesheet" href="../../../assets/flow-highlight-source.css"/><link rel="stylesheet" href="../../../assets/flow-coverage-report.css"/><link rel="stylesheet" href="../../../assets/codemirror-simplescrollbars-addon.css"/><script src="../../../assets/jquery-3.1.0.min.js"></script><script src="../../../assets/semantic.min.js"></script><script src="../../../assets/semantic-tablesort.js"></script><script src="../../../assets/codemirror.js"></script><script src="../../../assets/codemirror-javascript-mode.js"></script><script src="../../../assets/codemirror-annotatescrollbar-addon.js"></script><script src="../../../assets/codemirror-simplescrollbars-addon.js"></script><script src="../../../assets/flow-highlight-source.js"></script></head><body><div class="ui grid container"><div class="row"><h1 class="twelve wide column">Flow Coverage Report - src/reducers/ui.js</h1><div class="four wide column" style="height:32px;"><a href="../../../index.html" id="link-to-summary">Go back to all files summary.</a></div></div><div class="row"><table class="ui small celled unstackable table"><thead><tr><th class="sorted ascending">Filename</th><th>Percent</th><th>Total</th><th>Covered</th><th>Uncovered</th></tr></thead><tbody><tr class="positive"><td class="">src/reducers/ui.js</td><td> 89 %</td><td> 219 </td><td> 195 </td><td> 24 </td></tr></tbody></table></div><div class="row green" style="padding:0;height:12px;"></div><div class="row ui one column centered grid"><div class="column" style="text-align:left;"><div class="row"><div class="ui form"><div class="fields"><div class="sixteen wide inline field"><select class="ui search dropdown uncovered-locations"><option value="">Uncovered Locations</option><option value="48">Start: 48,27 - End: 48,31</option><option value="48">Start: 48,27 - End: 48,52</option><option value="49">Start: 49,26 - End: 49,30</option><option value="49">Start: 49,26 - End: 49,50</option><option value="50">Start: 50,24 - End: 50,28</option><option value="50">Start: 50,24 - End: 50,46</option><option value="51">Start: 51,26 - End: 51,30</option><option value="51">Start: 51,26 - End: 51,50</option><option value="68">Start: 68,7 - End: 68,11</option><option value="86">Start: 86,9 - End: 86,13</option><option value="90">Start: 90,7 - End: 90,11</option><option value="115">Start: 115,7 - End: 115,11</option><option value="122">Start: 122,11 - End: 122,35</option><option value="141">Start: 141,10 - End: 141,47</option><option value="145">Start: 145,10 - End: 145,37</option><option value="149">Start: 149,10 - End: 149,36</option><option value="153">Start: 153,10 - End: 153,44</option><option value="157">Start: 157,10 - End: 157,36</option><option value="165">Start: 165,12 - End: 165,46</option><option value="168">Start: 168,10 - End: 168,42</option><option value="172">Start: 172,10 - End: 172,45</option><option value="176">Start: 176,10 - End: 176,45</option><option value="180">Start: 180,10 - End: 180,45</option><option value="184">Start: 184,10 - End: 184,36</option></select></div><div class="four wide inline field"><select class="ui search dropdown syntax-highlighting"><option value="es">ES6/ES7</option><option value="js">JavaScript</option><option value="no">None</option></select></div></div></div></div><textarea id="file-content" readonly="">/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at &lt;http://mozilla.org/MPL/2.0/&gt;. */
+
+// @flow
 
 /**
  * UI reducer
  * @module reducers/ui
  */
 
-const constants = require(&quot;../constants&quot;);
-const makeRecord = require(&quot;../utils/makeRecord&quot;);
-const { prefs } = require(&quot;../utils/prefs&quot;);
+import makeRecord from &quot;../utils/makeRecord&quot;;
+import { prefs } from &quot;../utils/prefs&quot;;
 
 import type { Action, panelPositionType } from &quot;../actions/types&quot;;
 import type { Record } from &quot;../utils/makeRecord&quot;;
 
+export type ActiveSearchType = &quot;project&quot; | &quot;file&quot;;
+
+export type OrientationType = &quot;horizontal&quot; | &quot;vertical&quot;;
+
+export type SelectedPrimaryPaneTabType = &quot;sources&quot; | &quot;outline&quot;;
+
 export type UIState = {
-  searchOn: boolean,
+  selectedPrimaryPaneTab: SelectedPrimaryPaneTabType,
+  activeSearch: ?ActiveSearchType,
+  contextMenu: any,
   shownSource: string,
   startPanelCollapsed: boolean,
   endPanelCollapsed: boolean,
+  frameworkGroupingOn: boolean,
+  projectDirectoryRoot: string,
+  orientation: OrientationType,
+  highlightedLineRange?: {
+    start?: number,
+    end?: number,
+    sourceId?: number
+  },
+  conditionalPanelLine: null | number
 };
 
-const State = makeRecord(({
-  searchOn: false,
-  shownSource: &quot;&quot;,
-  startPanelCollapsed: prefs.startPanelCollapsed,
-  endPanelCollapsed: prefs.endPanelCollapsed
-} : UIState));
+export const createUIState = makeRecord(
+  ({
+    selectedPrimaryPaneTab: &quot;sources&quot;,
+    activeSearch: null,
+    contextMenu: {},
+    shownSource: &quot;&quot;,
+    projectDirectoryRoot: prefs.projectDirectoryRoot,
+    startPanelCollapsed: prefs.startPanelCollapsed,
+    endPanelCollapsed: prefs.endPanelCollapsed,
+    frameworkGroupingOn: prefs.frameworkGroupingOn,
+    highlightedLineRange: undefined,
+    conditionalPanelLine: null,
+    orientation: &quot;horizontal&quot;
+  }: UIState)
+);
 
-function update(state = State(), action: Action): Record&lt;UIState&gt; {
+function update(
+  state: Record&lt;UIState&gt; = createUIState(),
+  action: Action
+): Record&lt;UIState&gt; {
   switch (action.type) {
-    case constants.SET_FILE_SEARCH: {
-      return state.set(&quot;searchOn&quot;, action.searchOn);
+    case &quot;TOGGLE_ACTIVE_SEARCH&quot;: {
+      return state.set(&quot;activeSearch&quot;, action.value);
     }
 
-    case constants.SHOW_SOURCE: {
+    case &quot;TOGGLE_FRAMEWORK_GROUPING&quot;: {
+      prefs.frameworkGroupingOn = action.value;
+      return state.set(&quot;frameworkGroupingOn&quot;, action.value);
+    }
+
+    case &quot;SET_CONTEXT_MENU&quot;: {
+      return state.set(&quot;contextMenu&quot;, action.contextMenu);
+    }
+
+    case &quot;SET_ORIENTATION&quot;: {
+      return state.set(&quot;orientation&quot;, action.orientation);
+    }
+
+    case &quot;SHOW_SOURCE&quot;: {
       return state.set(&quot;shownSource&quot;, action.sourceUrl);
     }
 
-    case constants.TOGGLE_PANE: {
+    case &quot;TOGGLE_PANE&quot;: {
       if (action.position == &quot;start&quot;) {
         prefs.startPanelCollapsed = action.paneCollapsed;
         return state.set(&quot;startPanelCollapsed&quot;, action.paneCollapsed);
@@ -50,6 +90,40 @@ function update(state = State(), action: Action): Record&lt;UIState&gt; {
 
       prefs.endPanelCollapsed = action.paneCollapsed;
       return state.set(&quot;endPanelCollapsed&quot;, action.paneCollapsed);
+    }
+
+    case &quot;HIGHLIGHT_LINES&quot;:
+      const { start, end, sourceId } = action.location;
+      let lineRange = {};
+
+      if (start &amp;&amp; end &amp;&amp; sourceId) {
+        lineRange = { start, end, sourceId };
+      }
+
+      return state.set(&quot;highlightedLineRange&quot;, lineRange);
+
+    case &quot;CLOSE_QUICK_OPEN&quot;:
+    case &quot;CLEAR_HIGHLIGHT_LINES&quot;:
+      return state.set(&quot;highlightedLineRange&quot;, {});
+
+    case &quot;OPEN_CONDITIONAL_PANEL&quot;:
+      return state.set(&quot;conditionalPanelLine&quot;, action.line);
+
+    case &quot;CLOSE_CONDITIONAL_PANEL&quot;:
+      return state.set(&quot;conditionalPanelLine&quot;, null);
+
+    case &quot;SET_PROJECT_DIRECTORY_ROOT&quot;:
+      prefs.projectDirectoryRoot = action.url;
+      return state.set(&quot;projectDirectoryRoot&quot;, action.url);
+
+    case &quot;SET_PRIMARY_PANE_TAB&quot;:
+      return state.set(&quot;selectedPrimaryPaneTab&quot;, action.tabName);
+
+    case &quot;CLOSE_PROJECT_SEARCH&quot;: {
+      if (state.get(&quot;activeSearch&quot;) === &quot;project&quot;) {
+        return state.set(&quot;activeSearch&quot;, null);
+      }
+      return state;
     }
 
     default: {
@@ -62,16 +136,32 @@ function update(state = State(), action: Action): Record&lt;UIState&gt; {
 // https://github.com/devtools-html/debugger.html/blob/master/src/reducers/sources.js#L179-L185
 type OuterState = { ui: Record&lt;UIState&gt; };
 
-function getFileSearchState(state: OuterState): boolean {
-  return state.ui.get(&quot;searchOn&quot;);
+export function getSelectedPrimaryPaneTab(
+  state: OuterState
+): SelectedPrimaryPaneTabType {
+  return state.ui.get(&quot;selectedPrimaryPaneTab&quot;);
 }
 
-function getShownSource(state: OuterState): boolean {
+export function getActiveSearch(state: OuterState): ActiveSearchType {
+  return state.ui.get(&quot;activeSearch&quot;);
+}
+
+export function getContextMenu(state: OuterState): any {
+  return state.ui.get(&quot;contextMenu&quot;);
+}
+
+export function getFrameworkGroupingState(state: OuterState): boolean {
+  return state.ui.get(&quot;frameworkGroupingOn&quot;);
+}
+
+export function getShownSource(state: OuterState): boolean {
   return state.ui.get(&quot;shownSource&quot;);
 }
 
-function getPaneCollapse(
-  state: OuterState, position: panelPositionType): boolean {
+export function getPaneCollapse(
+  state: OuterState,
+  position: panelPositionType
+): boolean {
   if (position == &quot;start&quot;) {
     return state.ui.get(&quot;startPanelCollapsed&quot;);
   }
@@ -79,11 +169,21 @@ function getPaneCollapse(
   return state.ui.get(&quot;endPanelCollapsed&quot;);
 }
 
-module.exports = {
-  State,
-  update,
-  getFileSearchState,
-  getShownSource,
-  getPaneCollapse
-};
-</textarea></div></div><div class="row centered"><footer>Flow Coverage Report generated by<a href="https://flowtype.org"> flow </a>and<a href="https://github.com/rpl/flow-coverage-report"> flow-coverage-report </a>at Tue Feb 21 2017 17:31:46 GMT-0500 (EST)</footer></div></div><pre id="file-coverage-data" style="display:none;">{&quot;expressions&quot;:{&quot;covered_count&quot;:84,&quot;uncovered_count&quot;:11,&quot;uncovered_locs&quot;:[{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ui.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:10,&quot;column&quot;:9,&quot;offset&quot;:158},&quot;end&quot;:{&quot;line&quot;:10,&quot;column&quot;:13,&quot;offset&quot;:163}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ui.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:25,&quot;column&quot;:24,&quot;offset&quot;:538},&quot;end&quot;:{&quot;line&quot;:25,&quot;column&quot;:28,&quot;offset&quot;:543}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ui.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:25,&quot;column&quot;:24,&quot;offset&quot;:538},&quot;end&quot;:{&quot;line&quot;:25,&quot;column&quot;:48,&quot;offset&quot;:563}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ui.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:26,&quot;column&quot;:22,&quot;offset&quot;:586},&quot;end&quot;:{&quot;line&quot;:26,&quot;column&quot;:26,&quot;offset&quot;:591}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ui.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:26,&quot;column&quot;:22,&quot;offset&quot;:586},&quot;end&quot;:{&quot;line&quot;:26,&quot;column&quot;:44,&quot;offset&quot;:609}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ui.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:41,&quot;column&quot;:9,&quot;offset&quot;:997},&quot;end&quot;:{&quot;line&quot;:41,&quot;column&quot;:13,&quot;offset&quot;:1002}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ui.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:45,&quot;column&quot;:7,&quot;offset&quot;:1133},&quot;end&quot;:{&quot;line&quot;:45,&quot;column&quot;:11,&quot;offset&quot;:1138}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ui.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:60,&quot;column&quot;:10,&quot;offset&quot;:1563},&quot;end&quot;:{&quot;line&quot;:60,&quot;column&quot;:33,&quot;offset&quot;:1587}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ui.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:64,&quot;column&quot;:10,&quot;offset&quot;:1655},&quot;end&quot;:{&quot;line&quot;:64,&quot;column&quot;:36,&quot;offset&quot;:1682}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ui.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:70,&quot;column&quot;:12,&quot;offset&quot;:1814},&quot;end&quot;:{&quot;line&quot;:70,&quot;column&quot;:46,&quot;offset&quot;:1849}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ui.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:73,&quot;column&quot;:10,&quot;offset&quot;:1865},&quot;end&quot;:{&quot;line&quot;:73,&quot;column&quot;:42,&quot;offset&quot;:1898}}]},&quot;filename&quot;:&quot;src/reducers/ui.js&quot;,&quot;percent&quot;:88}</pre></body></html>
+export function getHighlightedLineRange(state: OuterState) {
+  return state.ui.get(&quot;highlightedLineRange&quot;);
+}
+
+export function getConditionalPanelLine(state: OuterState): null | number {
+  return state.ui.get(&quot;conditionalPanelLine&quot;);
+}
+
+export function getProjectDirectoryRoot(state: OuterState): string {
+  return state.ui.get(&quot;projectDirectoryRoot&quot;);
+}
+
+export function getOrientation(state: OuterState): boolean {
+  return state.ui.get(&quot;orientation&quot;);
+}
+
+export default update;
+</textarea></div></div><div class="row centered"><footer>Flow Coverage Report generated by<a href="https://flowtype.org"> flow </a>and<a href="https://github.com/rpl/flow-coverage-report"> flow-coverage-report </a>at Tue Apr 03 2018 15:58:53 GMT-0400 (EDT)</footer></div></div><pre id="file-coverage-data" style="display:none;">{&quot;expressions&quot;:{&quot;covered_count&quot;:195,&quot;uncovered_count&quot;:24,&quot;uncovered_locs&quot;:[{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ui.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:48,&quot;column&quot;:27,&quot;offset&quot;:1270},&quot;end&quot;:{&quot;line&quot;:48,&quot;column&quot;:31,&quot;offset&quot;:1275}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ui.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:48,&quot;column&quot;:27,&quot;offset&quot;:1270},&quot;end&quot;:{&quot;line&quot;:48,&quot;column&quot;:52,&quot;offset&quot;:1296}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ui.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:49,&quot;column&quot;:26,&quot;offset&quot;:1323},&quot;end&quot;:{&quot;line&quot;:49,&quot;column&quot;:30,&quot;offset&quot;:1328}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ui.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:49,&quot;column&quot;:26,&quot;offset&quot;:1323},&quot;end&quot;:{&quot;line&quot;:49,&quot;column&quot;:50,&quot;offset&quot;:1348}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ui.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:50,&quot;column&quot;:24,&quot;offset&quot;:1373},&quot;end&quot;:{&quot;line&quot;:50,&quot;column&quot;:28,&quot;offset&quot;:1378}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ui.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:50,&quot;column&quot;:24,&quot;offset&quot;:1373},&quot;end&quot;:{&quot;line&quot;:50,&quot;column&quot;:46,&quot;offset&quot;:1396}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ui.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:51,&quot;column&quot;:26,&quot;offset&quot;:1423},&quot;end&quot;:{&quot;line&quot;:51,&quot;column&quot;:30,&quot;offset&quot;:1428}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ui.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:51,&quot;column&quot;:26,&quot;offset&quot;:1423},&quot;end&quot;:{&quot;line&quot;:51,&quot;column&quot;:50,&quot;offset&quot;:1448}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ui.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:68,&quot;column&quot;:7,&quot;offset&quot;:1833},&quot;end&quot;:{&quot;line&quot;:68,&quot;column&quot;:11,&quot;offset&quot;:1838}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ui.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:86,&quot;column&quot;:9,&quot;offset&quot;:2300},&quot;end&quot;:{&quot;line&quot;:86,&quot;column&quot;:13,&quot;offset&quot;:2305}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ui.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:90,&quot;column&quot;:7,&quot;offset&quot;:2436},&quot;end&quot;:{&quot;line&quot;:90,&quot;column&quot;:11,&quot;offset&quot;:2441}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ui.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:115,&quot;column&quot;:7,&quot;offset&quot;:3171},&quot;end&quot;:{&quot;line&quot;:115,&quot;column&quot;:11,&quot;offset&quot;:3176}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ui.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:122,&quot;column&quot;:11,&quot;offset&quot;:3418},&quot;end&quot;:{&quot;line&quot;:122,&quot;column&quot;:35,&quot;offset&quot;:3443}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ui.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:141,&quot;column&quot;:10,&quot;offset&quot;:3889},&quot;end&quot;:{&quot;line&quot;:141,&quot;column&quot;:47,&quot;offset&quot;:3927}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ui.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:145,&quot;column&quot;:10,&quot;offset&quot;:4012},&quot;end&quot;:{&quot;line&quot;:145,&quot;column&quot;:37,&quot;offset&quot;:4040}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ui.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:149,&quot;column&quot;:10,&quot;offset&quot;:4111},&quot;end&quot;:{&quot;line&quot;:149,&quot;column&quot;:36,&quot;offset&quot;:4138}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ui.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:153,&quot;column&quot;:10,&quot;offset&quot;:4224},&quot;end&quot;:{&quot;line&quot;:153,&quot;column&quot;:44,&quot;offset&quot;:4259}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ui.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:157,&quot;column&quot;:10,&quot;offset&quot;:4334},&quot;end&quot;:{&quot;line&quot;:157,&quot;column&quot;:36,&quot;offset&quot;:4361}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ui.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:165,&quot;column&quot;:12,&quot;offset&quot;:4503},&quot;end&quot;:{&quot;line&quot;:165,&quot;column&quot;:46,&quot;offset&quot;:4538}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ui.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:168,&quot;column&quot;:10,&quot;offset&quot;:4554},&quot;end&quot;:{&quot;line&quot;:168,&quot;column&quot;:42,&quot;offset&quot;:4587}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ui.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:172,&quot;column&quot;:10,&quot;offset&quot;:4662},&quot;end&quot;:{&quot;line&quot;:172,&quot;column&quot;:45,&quot;offset&quot;:4698}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ui.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:176,&quot;column&quot;:10,&quot;offset&quot;:4788},&quot;end&quot;:{&quot;line&quot;:176,&quot;column&quot;:45,&quot;offset&quot;:4824}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ui.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:180,&quot;column&quot;:10,&quot;offset&quot;:4907},&quot;end&quot;:{&quot;line&quot;:180,&quot;column&quot;:45,&quot;offset&quot;:4943}},{&quot;source&quot;:&quot;/Users/jlaster/src/mozilla/debugger.html/src/reducers/ui.js&quot;,&quot;type&quot;:&quot;SourceFile&quot;,&quot;start&quot;:{&quot;line&quot;:184,&quot;column&quot;:10,&quot;offset&quot;:5018},&quot;end&quot;:{&quot;line&quot;:184,&quot;column&quot;:36,&quot;offset&quot;:5045}}]},&quot;percent&quot;:89}</pre></body></html>

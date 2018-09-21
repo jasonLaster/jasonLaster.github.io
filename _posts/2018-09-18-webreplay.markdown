@@ -1,4 +1,10 @@
-### Record and Replay: An overview for web developers like me
+---
+layout: post
+title:  "Web Replay - An overview for web developers like me"
+date:   2018-09-21
+categories: DevTools JS
+---
+
 
 Brian Hackett recently published this brilliant [patch][patch], which prompted me to think a bit more about Web Replay’s architecture. Yesterday, I had the opportunity to talk with him. Here are some of my notes. If you're interested in learning more, [MDN] has an in-depth overview.
 
@@ -9,6 +15,8 @@ Web Replay records Firefox’s system calls while the browser is running. Later,
 
 Web Replay's strategy is similar to an end-to-end testing framework, which records user interactions and network calls and later replays the session. The major difference is the layer of abstraction (JS/OS). The test might be able to re-run consistenly, but it would be impossible to use it to step backwards in the debugger or jump back to an arbitrary point. This and many more things are now possible with Web Replay.
 
+
+<video src="rr-big.mp4" ></video>
 
 ### Interface Boundary
 
